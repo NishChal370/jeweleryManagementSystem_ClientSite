@@ -119,12 +119,6 @@ function Dashboard() {
                         </div>
 
 
-
-                        
-
-
-
-
                         {/* <!-- Recent Sales --> */}
 
 
@@ -298,17 +292,11 @@ function Dashboard() {
                             </div>
                         </div>
 
-
-
-
-
-
                     </div>
                 </div>
 
 
-
-                {/* <!-- Right side columns --> */}
+            {/* <!-- Right side columns --> */}
             <div class="col-lg-3">
                 <div class="card recent-sales">
                     <div class="card-body">
@@ -354,28 +342,7 @@ function Dashboard() {
 
                 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                
             </div>
-
-
-
-
-
 
             </div>
             
