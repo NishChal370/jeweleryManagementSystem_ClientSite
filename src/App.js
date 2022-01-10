@@ -1,11 +1,15 @@
-import './App.css';
+
+import {Header, SideNav} from './Components/index'
 
 function App() {
   return (
-    <div className="App">
-      
-    </div>
+    <>
+      <Header/>
+      <SideNav/>
+    </>
+
   );
 }
 
 export default App;
+
