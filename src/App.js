@@ -1,16 +1,17 @@
-import './Assets/css/style.css'
-import {Header, SideNav} from './Components/index'
+import { BrowserRouter as Router } from 'react-router-dom';
 
-import Main from './Components/Main/Main';
+import './Assets/css/style.css'
+
+import {Header, SideNav, Main} from './Components/index'
+
 
 function App() {
   return (
-    <>
+    <Router>
       <Header/>
       <SideNav/>
       <Main/>
-    </>
-
+    </Router>  
   );
 }
 

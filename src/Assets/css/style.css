@@ -5,18 +5,22 @@
 * License: https://bootstrapmade.com/license/
 */
 
+/* For date picker */
+@import url("https://cdn.syncfusion.com/ej2/material.css");
+
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+
 :root {
   scroll-behavior: smooth;
-  
+
 }
 
 body {
   font-family: "Open Sans", sans-serif;
   background: #f6f9ff;
-  color: #444444;  
+  color: #444444;
   background-color: rgb(246, 249, 255) !important;
 }
 
@@ -41,7 +45,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 60px;
   padding: 20px 30px;
   transition: all 0.3s;
-  
+
 }
 @media (max-width: 1199px) {
   #main {
@@ -95,6 +99,10 @@ h1, h2, h3, h4, h5, h6 {
 /*--------------------------------------------------------------
 # Override some default Bootstrap stylings
 --------------------------------------------------------------*/
+
+.curser--on-hover:hover{
+  cursor: pointer;
+}
 /* Dropdown menus */
 .dropdown-menu {
   border-radius: 4px;
@@ -222,6 +230,11 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 5px;
   box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
   overflow: hidden;
+}
+.card .nav li button{
+  color: #012970;
+  /* font-weight: 500; */
+  font-family: "Poppins", sans-serif;
 }
 
 .card-header, .card-footer {
@@ -365,7 +378,7 @@ h1, h2, h3, h4, h5, h6 {
   color: #012970;
   font-weight: bolder;
   font-family: "Nunito", sans-serif;
-  
+
 }
 
 
@@ -457,10 +470,10 @@ h1, h2, h3, h4, h5, h6 {
   color: #012970;
 }
 .header-nav .nav-profile img {
-  max-height: 36px;
+  max-height: 50px;
 }
 .header-nav .nav-profile span {
-  font-size: 20px;
+  font-size: 14px;
   font-weight: 600;
 }
 .header-nav .badge-number {
@@ -817,20 +830,20 @@ h1, h2, h3, h4, h5, h6 {
   margin-left: 95px;
 }
 
-/* Recent Sales */
-.dashboard .recent-sales {
+/* orders */
+.dashboard .orders {
   font-size: 14px;
 }
-.dashboard .recent-sales .table thead {
+.dashboard .orders .table thead{
   background: #f6f6fe;
 }
-.dashboard .recent-sales .table thead th {
+.dashboard .orders .table thead th {
   border: 0;
 }
-.dashboard .recent-sales .dataTable-top {
+.dashboard .orders .dataTable-top {
   padding: 0 0 10px 0;
 }
-.dashboard .recent-sales .dataTable-bottom {
+.dashboard .orders .dataTable-bottom {
   padding: 10px 0 0 0;
 }
 
@@ -850,6 +863,94 @@ h1, h2, h3, h4, h5, h6 {
 .dashboard .top-selling img {
   border-radius: 5px;
   max-width: 60px;
+}
+
+/*--------------------------------------------------------------
+RATE
+--------------------------------------------------------------*/
+
+/* Dashboard Rates */
+.rate div input{
+  font-family: "Poppins", sans-serif;
+}
+/* .rate-datepicker{
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+} */
+.rate-table{
+  margin: 0rem 1rem 2rem 1rem;
+  font-size: 0.9rem;
+}
+.rate-date{
+  color: #012970;
+  background: #e6e6fa;
+  font-family: "Poppins", sans-serif;
+}
+.rate-date tr th{
+  padding-right: 2.5rem;
+}
+.rate-table tbody tr th{
+  padding-left: 2rem;
+}
+
+.rate-table tbody tr:nth-child(even){
+  background-color: #f2f2fcd8;
+}
+.rate-table td{
+  text-align: end;
+  padding-right: 2.5rem;
+}
+
+.background--color{
+  border: none;
+  box-shadow: none;
+  background-color: rgb(246, 249, 255) !important;
+}
+
+.rate--overview{
+  gap: 2rem;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+@media (max-width: 1199px) {
+  .rate--overview {
+    grid-template-columns: 1fr 1fr ;
+  }
+}
+
+@media (max-width: 425px) {
+  .rate--overview {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Rate Panel */
+.rate-panel{
+  padding: 0px;
+}
+
+.rate-panel main{
+  margin: 4rem 2rem;
+}
+.rate-table .tr{
+  gap: 2;
+  display: flex;
+  padding: 0.5rem;
+  justify-content: space-around;
+}
+.rate-table .tr h5{
+  color: #4154f1;
+  font-weight: bold;
+  margin-bottom: 0rem;
+}
+.rate-table .tr p{
+  font-size: large;
+  margin-bottom: 0rem;
+}
+
+.rate-table .tr:nth-child(odd){
+  background-color: #f2f2fcd8;
 }
 
 /*--------------------------------------------------------------

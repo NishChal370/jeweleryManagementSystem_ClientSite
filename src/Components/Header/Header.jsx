@@ -1,14 +1,35 @@
-import React from 'react'
+import axios from 'axios';
+
+import { useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+
 import { ShopLogo, ProfileImage } from '../../Assets/img/index'
 
 function Header() {
+    const history = useHistory();  
+    const[todaysRate, settodaysRate] = useState();  
+
+    const fetchRate=()=>{
+        axios.get('http://127.0.0.1:8000/api/rates/')
+        .then(function (response) {
+            // handle success
+            settodaysRate(response.data[response.data.length-1])
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+    }
+
+    useEffect(() => {
+        fetchRate()
+    },[])
 
     return (
         <header id="header" className="header fixed-top d-flex align-items-center">
-
             <div className="d-flex align-items-center justify-content-between">
 
-                <div className="logo d-flex align-items-center">
+                <div className="logo d-flex align-items-center curser--on-hover" onClick={()=>{history.push('/')}}>
                     <img src={ShopLogo} alt="shop-logo"/>
                     <span className="d-none d-lg-block">Gitanjali Jewellers</span>
                 </div>
@@ -19,16 +40,17 @@ function Header() {
 
             <nav className="header-nav ms-auto d-flex">
 
-                <ul className='nav-rate-board d-flex'>
+                <ul className='nav-rate-board d-flex curser--on-hover' onClick={()=>{history.push('/rate')}}>
                     <li className='align-items-center'>
                         <p>Hallmark:</p>
                         <p>Tajabi:</p>
                         <p>Silver:</p>
                     </li>
+                    
                     <li className='align-items-center ms-4'>
-                        <p>Rs. 90000/tola</p>
-                        <p>Rs. 90000/tola</p>
-                        <p>Rs. 90000/tola</p>
+                        <p>Rs. {(todaysRate === undefined)? "Null": todaysRate.hallmarkRate} /tola</p>
+                        <p>Rs. {(todaysRate === undefined)? "Null": todaysRate.tajabiRate} /tola</p>
+                        <p>Rs. {(todaysRate === undefined)? "Null": todaysRate.silverRate} /tola</p>
                     </li>
                 </ul>
 
@@ -42,11 +64,11 @@ function Header() {
 
                         {/*  Profile Dropdown Items */}
                         <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                            
                             <li className="dropdown-header">
                                 <h6>Kevin Anderson</h6>
                                 <span>Shop Owner</span>
                             </li>
+
                             <li>
                                 <hr className="dropdown-divider"/>
                             </li>
@@ -71,14 +93,11 @@ function Header() {
                                     }
                                 )
                             }
-
                         </ul>
-
                     </li>
                 </ul>
 
             </nav>
-
         </header>
     )
 }
