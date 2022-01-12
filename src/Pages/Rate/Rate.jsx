@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom';
-
+import ChangeRate from './ChangeRate';
+import '../../Assets/css/style.css'
 import RateOverview from './RateOverview';
 
 function Rate() {
@@ -13,7 +14,7 @@ function Rate() {
                 <ul className="nav nav-tabs "  id="myTab" role="tablist">
                     <li className="nav-item "  role="presentation">                                                                                                                   {/*   onClick={()=>history.push('/rate/')} */}
                         <button name='overView' className="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true" 
-                            onClick={()=>history.push('/rate/')} 
+                            onClick={()=>history.push('/rate')} 
                         > 
                             Overview
                         </button>
@@ -31,15 +32,16 @@ function Rate() {
 
                 {/* BODY */}
                 <main>
-                    <div className="tab-content pt-2" id="myTabContent">
+                    <div className="tab-content" id="myTabContent">
                         <Switch>                                  
                             <Route path="/rate/change-rate">
                                 <div className="tab-pane fade active show" id="change-rate" role="tabpanel" aria-labelledby="change-rate-tab">
-                                    <h1>HELOOOOOOOOOOOOOOOOOOOOOOOOO</h1>
+                                    {/* <h1>HELOOOOOOOOOOOOOOOOOOOOOOOOO</h1> */}
+                                    <ChangeRate/>
                                 </div>
                             </Route>
 
-                            <Route path="/rate/">
+                            <Route path="/rate">
                                 <div className="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
                                     <RateOverview/>
                                 </div>

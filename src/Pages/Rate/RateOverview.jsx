@@ -43,40 +43,41 @@ function RateOverview() {
 
 
     return (
-        // <div className="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
         <>
             <span className='d-flex justify-content-end'>
-                <div className='rate-datepicker'>                                                                                                                                                      {/*  onChange={(e)=>{alert(e.target.value)}} */}
-                    <DatePickerComponent format="MMM dd, yyyy" style={{fontFamily:'Poppins sans-serif', fontSize:'1.4rem', width:'10rem', paddingTop:'0.3rem', textAlign:'center'}} onChange={searchRate}></DatePickerComponent>
+                <div className='rate-datepicker'>                                                                                                                                                    
+                    <DatePickerComponent 
+                        format="MMM dd, yyyy" 
+                        style={{fontFamily:'Poppins sans-serif', fontSize:'1.4rem', width:'10rem', paddingTop:'0.3rem', textAlign:'center'}} 
+                        onChange={searchRate}
+                    ></DatePickerComponent>
                 </div>
             </span>
-            
+
             <div className=' rate--overview'>
                 {
                 (rates !== undefined)
                     ? (rates.map(
-                        (rate, index)=>{
-                            
+                        (rate, index)=>{ 
                             return(
                                 <div className="card" key={index+'rateoverview'}>
                                     <div className="card-body">
                                         <h5 className="card-title">Date :  {new Date(rate.date).toDateString()}</h5>
 
                                         <div className='rate-table'>
-                                            <span className="tr">
-                                                <h5>Hallmark</h5>
-                                                <p>Rs. {rate.hallmarkRate}/tola</p>
-                                            </span>
 
-                                            <span className="tr">
-                                                <h5>Tajabi</h5>
-                                                <p>Rs. {rate.tajabiRate}/tola</p>
-                                            </span>
+                                            {
+                                                Object.keys(rate).map((key,index) => {
+                                                    return  (['hallmarkRate', 'tajabiRate', 'silverRate'].includes(key))
+                                                                ? ( <span className="tr" key={index+'rate'}>
+                                                                        <h5 className='rate--title'>{key.charAt(0).toUpperCase() + key.slice(1, key.indexOf('R'))}</h5>
+                                                                        <p>Rs. {rate[key]}/tola</p>
+                                                                    </span>
+                                                                  )
+                                                                :""
+                                                })
+                                            }
 
-                                            <span className="tr">
-                                                <h5>Silver</h5>
-                                                <p>Rs. {rate.silverRate}/tola</p>
-                                            </span>
                                         </div>
                                         
                                     </div>
@@ -87,7 +88,6 @@ function RateOverview() {
                     : "Not Found"
                 }
             </div>
-        {/* </div> */}
         </>
     )
 }

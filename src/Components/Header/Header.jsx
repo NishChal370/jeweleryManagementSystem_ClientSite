@@ -20,7 +20,9 @@ function Header() {
             console.log(error);
         })
     }
-
+    const b = ()=>{
+        document.getElementsByClassName('search-bar').toggle('search-bar-show');
+    }
     useEffect(() => {
         fetchRate()
     },[])
@@ -34,20 +36,21 @@ function Header() {
                     <span className="d-none d-lg-block">Gitanjali Jewellers</span>
                 </div>
 
-                <i className="bi bi-list toggle-sidebar-btn" data-bs-toggle="sidebar" data-bs-target="#ssidebar" aria-controls="ssidebar"></i>
+                {/* <i className="bi bi-list toggle-sidebar-btn" data-bs-toggle="sidebar" data-bs-target="#ssidebar" aria-controls="ssidebar"></i> */}
+                <i className="bi bi-list toggle-sidebar-btn"  onClick={b}></i>
             </div>
 
 
             <nav className="header-nav ms-auto d-flex">
 
-                <ul className='nav-rate-board d-flex curser--on-hover' onClick={()=>{history.push('/rate')}}>
+                <ul className='nav-rate-board d-flex curser--on-hover mt-1' onClick={()=>{history.push('/rate')}}>
                     <li className='align-items-center'>
                         <p>Hallmark:</p>
                         <p>Tajabi:</p>
                         <p>Silver:</p>
                     </li>
-                    
-                    <li className='align-items-center ms-4'>
+
+                    <li className='align-items-center ms-4 '>
                         <p>Rs. {(todaysRate === undefined)? "Null": todaysRate.hallmarkRate} /tola</p>
                         <p>Rs. {(todaysRate === undefined)? "Null": todaysRate.tajabiRate} /tola</p>
                         <p>Rs. {(todaysRate === undefined)? "Null": todaysRate.silverRate} /tola</p>

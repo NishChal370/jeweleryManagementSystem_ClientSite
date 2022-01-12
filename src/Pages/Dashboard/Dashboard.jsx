@@ -2,7 +2,6 @@ import axios from 'axios';
 
 import { useHistory } from 'react-router-dom';
 import React, {useState, useEffect} from 'react'
-
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
 
 function Dashboard() {

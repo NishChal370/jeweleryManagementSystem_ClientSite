@@ -230,6 +230,7 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 5px;
   box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
   overflow: hidden;
+  
 }
 .card .nav li button{
   color: #012970;
@@ -929,9 +930,8 @@ RATE
 .rate-panel{
   padding: 0px;
 }
-
 .rate-panel main{
-  margin: 4rem 2rem;
+  margin: 1rem 2rem;
 }
 .rate-table .tr{
   gap: 2;
@@ -941,14 +941,18 @@ RATE
 }
 .rate-table .tr h5{
   color: #4154f1;
+}
+.rate--title{
+  /* color: #4154f1; */
+  color: #012970;
   font-weight: bold;
-  margin-bottom: 0rem;
+  padding: 0px;
+  font-family: "Nunito", sans-serif;
 }
 .rate-table .tr p{
   font-size: large;
   margin-bottom: 0rem;
 }
-
 .rate-table .tr:nth-child(odd){
   background-color: #f2f2fcd8;
 }
