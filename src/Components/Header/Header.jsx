@@ -5,28 +5,41 @@ import React, { useEffect, useState } from 'react'
 
 import { ShopLogo, ProfileImage } from '../../Assets/img/index'
 import { AXIOS, URL_GET_ALL_RATES } from '../../API/Constant';
+import { useSelector, useDispatch } from 'react-redux';
+import { setLatestRate } from '../../Redux/Action';
 
 function Header() {
+
     const history = useHistory();  
-    const[todaysRate, settodaysRate] = useState();  
+    const[todaysRate, setTodaysRate] = useState();  
+
+    const dispatch = useDispatch();
+    const latestRate = useSelector(state => state.latestRateReducer.data);
 
     const fetchRate=()=>{
         // axios.get('http://127.0.0.1:8000/api/rates/')
         AXIOS.get(URL_GET_ALL_RATES)
             .then(function (response) {
                 // handle success
-                settodaysRate(response.data[response.data.length-1])
+                // setTodaysRate(response.data[response.data.length-1]);
+                dispatch(setLatestRate(response.data[response.data.length-1]));
             })
             .catch(function (error) {
                 // handle error
                 console.log(error);
             })
 
-}
+    };
 
     useEffect(() => {
-        fetchRate()
-    },[])
+        fetchRate();  
+    },[]);
+
+    useEffect(() => {
+        console.log("ME");
+        console.log(latestRate);
+        setTodaysRate(latestRate);
+    }, [latestRate]);
 
     return (
         <header id="header" className="header fixed-top d-flex align-items-center">

@@ -46,7 +46,7 @@ function ChangeRate() {
             })
             .catch(function (error) {
                 // handle error
-                alert('Not Found');
+                alert('INVALID REQUEST !!!');
             })
     };
 
@@ -69,6 +69,7 @@ function ChangeRate() {
                                         value={currentRate[rateTitle]}
                                         onChange={inputChangeHandler}
                                     />
+                                    
                                     <div className="invalid-tooltip">
                                         Invalid Price.
                                     </div>
