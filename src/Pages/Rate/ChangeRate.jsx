@@ -1,15 +1,18 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 
 import { AXIOS, URL_SET_RATE } from '../../API/Constant';
 
 import { ShowInvalidnMessage } from '../../Assets/js/validation';
+import { setLatestRate } from '../../Redux/Action';
 
 let rate = {
     'hallmarkRate': 0,
     'tajabiRate': 0,
     'silverRate': 0,
 }
+
 let initalRate = {
     'hallmarkRate': 0,
     'tajabiRate': 0,
@@ -17,18 +20,23 @@ let initalRate = {
 }
 
 function ChangeRate() {
+    const dispatch = useDispatch();
+    const latestRate = useSelector(state => state.latestRateReducer.data);
+
     const [currentRate, setCurrentRate] = useState(rate);
 
     const inputChangeHandler=(e)=>{
         if(isFinite(e.target.value)){
             currentRate[e.target.name] = e.target.value;
+            
             setCurrentRate({...currentRate});
         } 
     };
 
     const submitHandler=(e)=>{
         e.preventDefault();
-        setRate();
+
+        setCurrentRateHandler();
         
     };
 
@@ -36,13 +44,15 @@ function ChangeRate() {
         setCurrentRate({...initalRate});
     }
 
-    const setRate=()=>{
+    //set current rate to DB
+    const setCurrentRateHandler=()=>{
         // axios.post(`http://127.0.0.1:8000/api/rate-set/`, currentRate)
         AXIOS.post(URL_SET_RATE, currentRate)
             .then(function (response) {
                 // handle success;  
-                alert(" POST SET rate fnction from change rate Saved")
-                console.log(response)
+                alert(" POST SET rate fnction from change rate Saved");
+
+                dispatch(setLatestRate(response.data));
             })
             .catch(function (error) {
                 // handle error
@@ -51,7 +61,25 @@ function ChangeRate() {
     };
 
     useEffect(() => {
-        ShowInvalidnMessage();;
+        if(latestRate !== undefined){
+            Object.keys(latestRate).map((rateTitle,index) => {
+
+                 // get only HallmarkRate, TajabiRate and SilverRate from latestRate
+                if ( currentRate.hasOwnProperty(rateTitle) ){
+                    currentRate[rateTitle] = latestRate[rateTitle];
+
+                    setCurrentRate({...currentRate});
+                }
+    
+            });
+
+            initalRate = currentRate;
+        }
+        
+    }, [latestRate]);
+
+    useEffect(() => {
+        ShowInvalidnMessage();
     }, []);
 
     return (
@@ -69,7 +97,7 @@ function ChangeRate() {
                                         value={currentRate[rateTitle]}
                                         onChange={inputChangeHandler}
                                     />
-                                    
+
                                     <div className="invalid-tooltip">
                                         Invalid Price.
                                     </div>
