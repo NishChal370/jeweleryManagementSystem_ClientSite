@@ -1,12 +1,13 @@
-import axios from 'axios';
 
 import { useHistory } from 'react-router-dom';
 import React, { useEffect, useState } from 'react'
 
-import { ShopLogo, ProfileImage } from '../../Assets/img/index'
-import { AXIOS, URL_GET_ALL_RATES } from '../../API/Constant';
 import { useSelector, useDispatch } from 'react-redux';
+
 import { setLatestRate } from '../../Redux/Action';
+import { AXIOS, URL_GET_ALL_RATES } from '../../API/Constant';
+import { ShopLogo, ProfileImage } from '../../Assets/img/index'
+
 
 function Header() {
 
@@ -17,11 +18,10 @@ function Header() {
     const latestRate = useSelector(state => state.latestRateReducer.data);
 
     const fetchRate=()=>{
-        // axios.get('http://127.0.0.1:8000/api/rates/')
+
         AXIOS.get(URL_GET_ALL_RATES)
             .then(function (response) {
                 // handle success
-                // setTodaysRate(response.data[response.data.length-1]);
                 dispatch(setLatestRate(response.data[response.data.length-1]));
             })
             .catch(function (error) {
@@ -36,8 +36,6 @@ function Header() {
     },[]);
 
     useEffect(() => {
-        console.log("ME");
-        console.log(latestRate);
         setTodaysRate(latestRate);
     }, [latestRate]);
 

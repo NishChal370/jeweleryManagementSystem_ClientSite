@@ -1,7 +1,9 @@
 
 import { useHistory } from 'react-router-dom';
 import React, {useState, useEffect} from 'react'
+
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
+
 import { AXIOS, URL_GET_ALL_RATES } from '../../API/Constant';
 
 function Dashboard() {
@@ -9,7 +11,7 @@ function Dashboard() {
     const [rates, setRates]= useState();
 
     const fetchRates=()=>{
-        // AXIOS.get('http://127.0.0.1:8000/api/rates/')
+        
         AXIOS.get(URL_GET_ALL_RATES)
             .then(function (response) {
                 // handle success

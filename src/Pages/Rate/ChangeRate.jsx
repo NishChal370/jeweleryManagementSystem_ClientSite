@@ -1,11 +1,11 @@
-import axios from 'axios';
+
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AXIOS, URL_SET_RATE } from '../../API/Constant';
 
-import { ShowInvalidnMessage } from '../../Assets/js/validation';
 import { setLatestRate } from '../../Redux/Action';
+import { ShowInvalidnMessage } from '../../Assets/js/validation';
 
 let rate = {
     'hallmarkRate': 0,
@@ -28,7 +28,7 @@ function ChangeRate() {
     const inputChangeHandler=(e)=>{
         if(isFinite(e.target.value)){
             currentRate[e.target.name] = e.target.value;
-            
+
             setCurrentRate({...currentRate});
         } 
     };
@@ -46,7 +46,7 @@ function ChangeRate() {
 
     //set current rate to DB
     const setCurrentRateHandler=()=>{
-        // axios.post(`http://127.0.0.1:8000/api/rate-set/`, currentRate)
+        
         AXIOS.post(URL_SET_RATE, currentRate)
             .then(function (response) {
                 // handle success;  
