@@ -1,23 +1,24 @@
-import axios from 'axios';
 
 import { useHistory } from 'react-router-dom';
 import React, {useState, useEffect} from 'react'
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
+import { AXIOS, URL_GET_ALL_RATES } from '../../API/Constant';
 
 function Dashboard() {
     const history = useHistory();
     const [rates, setRates]= useState();
 
     const fetchRates=()=>{
-        axios.get('http://127.0.0.1:8000/api/rates/')
-        .then(function (response) {
-            // handle success
-            setRates(response.data.reverse())
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        })
+        // AXIOS.get('http://127.0.0.1:8000/api/rates/')
+        AXIOS.get(URL_GET_ALL_RATES)
+            .then(function (response) {
+                // handle success
+                setRates(response.data.reverse().slice(0,3))
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
     }
 
     useEffect(() => {

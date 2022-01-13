@@ -4,25 +4,26 @@ import { useHistory } from 'react-router-dom';
 import React, { useEffect, useState } from 'react'
 
 import { ShopLogo, ProfileImage } from '../../Assets/img/index'
+import { AXIOS, URL_GET_ALL_RATES } from '../../API/Constant';
 
 function Header() {
     const history = useHistory();  
     const[todaysRate, settodaysRate] = useState();  
 
     const fetchRate=()=>{
-        axios.get('http://127.0.0.1:8000/api/rates/')
-        .then(function (response) {
-            // handle success
-            settodaysRate(response.data[response.data.length-1])
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        })
-    }
-    const b = ()=>{
-        document.getElementsByClassName('search-bar').toggle('search-bar-show');
-    }
+        // axios.get('http://127.0.0.1:8000/api/rates/')
+        AXIOS.get(URL_GET_ALL_RATES)
+            .then(function (response) {
+                // handle success
+                settodaysRate(response.data[response.data.length-1])
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+
+}
+
     useEffect(() => {
         fetchRate()
     },[])
@@ -37,7 +38,7 @@ function Header() {
                 </div>
 
                 {/* <i className="bi bi-list toggle-sidebar-btn" data-bs-toggle="sidebar" data-bs-target="#ssidebar" aria-controls="ssidebar"></i> */}
-                <i className="bi bi-list toggle-sidebar-btn"  onClick={b}></i>
+                <i className="bi bi-list toggle-sidebar-btn"></i>
             </div>
 
 

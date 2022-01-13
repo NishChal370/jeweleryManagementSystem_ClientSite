@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { set } from '../../API/UserServer';
+
+import { AXIOS, URL_SET_RATE } from '../../API/Constant';
+
 import { ShowInvalidnMessage } from '../../Assets/js/validation';
 
 let rate = {
@@ -35,10 +37,11 @@ function ChangeRate() {
     }
 
     const setRate=()=>{
-        axios.post(`http://127.0.0.1:8000/api/rate-set/`, currentRate)
+        // axios.post(`http://127.0.0.1:8000/api/rate-set/`, currentRate)
+        AXIOS.post(URL_SET_RATE, currentRate)
             .then(function (response) {
                 // handle success;  
-                alert("Saved")
+                alert(" POST SET rate fnction from change rate Saved")
                 console.log(response)
             })
             .catch(function (error) {
@@ -48,11 +51,7 @@ function ChangeRate() {
     };
 
     useEffect(() => {
-        ShowInvalidnMessage();
-        let a = set();
-        console.log("---**----");
-        console.log(a);
-        console.log("----**---");
+        ShowInvalidnMessage();;
     }, []);
 
     return (
@@ -62,12 +61,12 @@ function ChangeRate() {
                 <form className='mt-5 ms-5 fs-3 needs-validation' onSubmit={submitHandler} noValidate>
 
                     {
-                        Object.keys(currentRate).map((key,index) => 
+                        Object.keys(currentRate).map((rateTitle,index) => 
                             <div className="row mb-3" key={index+'rateInput'}>
-                                <label className="col-sm-2 col-form-label rate--title">{key.charAt(0).toUpperCase() + key.slice(1, key.indexOf('R'))}</label>
+                                <label className="col-sm-2 col-form-label rate--title">{rateTitle.charAt(0).toUpperCase() + rateTitle.slice(1, rateTitle.indexOf('R'))}</label>
                                 <div className="col-sm-10 position-relative">
-                                    <input type="text" name= {key} className="form-control w-50 " id="inputText" required
-                                        value={currentRate[key]}
+                                    <input type="text" name= {rateTitle} className="form-control w-50 " id="inputText" required
+                                        value={currentRate[rateTitle]}
                                         onChange={inputChangeHandler}
                                     />
                                     <div className="invalid-tooltip">
