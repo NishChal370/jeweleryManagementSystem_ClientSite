@@ -696,6 +696,122 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /*--------------------------------------------------------------
+# Generate Bill
+--------------------------------------------------------------*/
+.generate-bill{
+  color: black;
+}
+.bill--order label{
+  width: 1rem;
+} 
+.bill--order input{
+  outline: 0;
+  height: 2rem;
+  font-size: 14px;
+  border-width: 0 0 2px;
+  border-color: #012a7050;
+}
+.bill--order input:focus{
+  outline: 0;
+}
+
+.generate-bill .form-label{
+  width: 9rem !important;
+}
+.generate-bill form div{
+  padding-bottom: 0.5rem !important;
+}
+
+.scrollable--table{
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.scrollable--table tbody{
+display:block;
+width: 100%;
+overflow: auto;
+height: 10rem;
+}
+.scrollable--table thead tr {
+ display: block;
+}
+.scrollable--table th, .scrollable--table td {
+padding: 5px;
+text-align: left;
+width: 200px;
+}
+
+/* .generate-bill-product-detail{
+  gap: 1rem;
+} */
+.generate-bill-product-detail .card .card-body div{
+  width: 90%;
+}
+.generate-bill-product-detail .card {
+  background: #fff;
+  box-shadow: none;
+}
+.generate-bill-product-detail .card:nth-child(1){
+  width: 80%;
+  padding-top: 2rem;
+}
+.generate-bill-product-detail .card:nth-child(2){
+  width: 40%;
+  border: 2px solid #012a7050;
+}
+.generate-bill-product-detail input{
+  width: 69%;
+}
+.bill-totals--card{
+  padding-top: 0.5rem;
+}
+.bill-totals--card h5{
+  font-weight: 900;
+}
+.bill-totals--card p, .bill-totals--card h5{
+  display: flex;
+  justify-content: space-between;
+}
+.generate-bill--button{
+  gap: 2rem;
+  display: flex;
+  width: fit-content;
+  margin-left: 55%;
+  /* justify-content: space-evenly; */
+}
+.generate-bill--button button{
+  width: 5rem;
+}
+@media (max-width: 1440px) {
+  .generate-bill-product-detail input{
+    width: 50%;
+  }
+  .generate-bill--button{
+    margin-left: 32%;
+    
+  }
+}
+@media (max-width: 1024px) {
+  .left-inputs div, .right-inputs div{
+    flex-direction: column;
+  }
+  .generate-bill-product-detail input{
+    width: 100%;
+  }
+  .generate-bill--button{
+    margin-left: 26%;
+  }
+}
+@media (max-width: 768px) {
+  .generate-bill--button{
+    gap: 1rem;
+    margin-left: 0%;
+  }
+}
+
+/*--------------------------------------------------------------
 # Dashboard
 --------------------------------------------------------------*/
 /* Filter dropdown */

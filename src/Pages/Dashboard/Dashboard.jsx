@@ -11,7 +11,7 @@ function Dashboard() {
     const [rates, setRates]= useState();
 
     const fetchRates=()=>{
-        
+
         AXIOS.get(URL_GET_ALL_RATES)
             .then(function (response) {
                 // handle success
@@ -36,10 +36,10 @@ function Dashboard() {
                     <div className="row">
 
                         {
-                            [{title:'Bill', icon: 'bi-cart'}, {title:'Order', icon: 'bi-currency-dollar'}, {title:'Staff', icon: 'bi-people-fill'}].map(
+                            [{title:'Bill', icon: 'bi-cart', link:'/bill'}, {title:'Order', icon: 'bi-currency-dollar', link:'/'}, {title:'Staff', icon: 'bi-people-fill', link:'/'}].map(
                                 (item, index)=>{
                                    return (
-                                    <div className="col-xxl-4 col-md-6" key={index+"BDS"}>
+                                    <div className="col-xxl-4 col-md-6 curser--on-hover" key={index+"BDS"}   onClick={()=> history.push(item.link)}>
                                         <div className="card info-card sales-card">
 
                                             <div className="filter">

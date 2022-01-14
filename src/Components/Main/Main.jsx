@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Dashboard, Rate } from '../../Pages/index'
+import { Bill, Dashboard, Rate } from '../../Pages/index'
 
 import { Switch, Route, useHistory } from 'react-router-dom'
 
@@ -29,7 +29,8 @@ function Main() {
 
                 <nav>
                     <ol className="breadcrumb">
-                        <li className="breadcrumb-item curser--on-hover" onClick={()=>history.push('/')}>
+                        <li className="breadcrumb-item curser--on-hover d-flex" onClick={()=>history.push('/')}>
+                        <i className="bi bi-house-door px-1"></i>
                             <p>Home</p>
                         </li>
                         
@@ -41,6 +42,10 @@ function Main() {
             </div>
             
             <Switch>
+                <Route path="/bill">
+                    <Bill/>
+                </Route>
+
                 <Route path="/rate">
                     <Rate/>
                 </Route>

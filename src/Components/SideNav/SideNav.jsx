@@ -33,8 +33,8 @@ function SideNav() {
                     </a>
                 </li>
 
-                <li className="nav-item  curser--on-hover"  name='bill' onClick={()=>history.push('/rate')}>
-                    <a className={`nav-link ${(currentLocation !== 'rate')? 'collapsed': ""}`}>
+                <li className="nav-item  curser--on-hover"  name='bill' onClick={()=>history.push('/bill')}>
+                    <a className={`nav-link ${(currentLocation !== 'bill')? 'collapsed': ""}`}>
                         <i><IoReceiptOutline/></i>
                         <span>Bill</span>
                     </a>
