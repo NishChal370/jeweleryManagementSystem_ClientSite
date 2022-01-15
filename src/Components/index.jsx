@@ -1,5 +1,6 @@
 import Main from "./Main/Main";
 import Header from "./Header/Header";
 import SideNav from "./SideNav/SideNav";
+import InputField from "./Bill/InputField";
 
-export {Header, SideNav, Main}
+export {Header, SideNav, Main, InputField}

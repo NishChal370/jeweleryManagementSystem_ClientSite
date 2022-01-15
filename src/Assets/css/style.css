@@ -230,7 +230,7 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 5px;
   box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
   overflow: hidden;
-  
+
 }
 .card .nav li button{
   color: #012970;
@@ -699,11 +699,15 @@ h1, h2, h3, h4, h5, h6 {
 # Generate Bill
 --------------------------------------------------------------*/
 .generate-bill{
-  color: black;
+  color: #012970;
+  font-weight: 500;
+}
+table{
+  color: #012970 !important;
 }
 .bill--order label{
   width: 1rem;
-} 
+}
 .bill--order input{
   outline: 0;
   height: 2rem;
@@ -722,30 +726,43 @@ h1, h2, h3, h4, h5, h6 {
   padding-bottom: 0.5rem !important;
 }
 
-.scrollable--table{
+.scroll--table{
+  height: 300px;
+  overflow: auto;
+  border-bottom: 1px rgba(141, 141, 141, 0.596) solid;
+}
+.scroll--table table {
   width: 100%;
+  display: flex;
+  flex-flow: column;
+  text-align: center;
+}
+.scroll--table thead {
+  top: 0;
+  flex: 0 0 auto;
+  position: sticky;
+  background-color: rgba(212, 212, 212, 0.596);
+}
+.scroll--table tbody {
+  flex: 1 1 auto;
+  display: block;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.scroll--table tr {
+  width: 100%;
+  display: table;
   table-layout: fixed;
-  border-collapse: collapse;
+  border-bottom: 0.5px rgba(141, 141, 141, 0.596) solid;
+}
+.scroll--table tr:nth-child(even){
+  background-color: rgba(231, 231, 231, 0.781);
+}
+.scroll--table thead th:nth-child(1), tbody th:nth-child(1){
+  width: 2rem;
 }
 
-.scrollable--table tbody{
-display:block;
-width: 100%;
-overflow: auto;
-height: 10rem;
-}
-.scrollable--table thead tr {
- display: block;
-}
-.scrollable--table th, .scrollable--table td {
-padding: 5px;
-text-align: left;
-width: 200px;
-}
 
-/* .generate-bill-product-detail{
-  gap: 1rem;
-} */
 .generate-bill-product-detail .card .card-body div{
   width: 90%;
 }
@@ -762,7 +779,7 @@ width: 200px;
   border: 2px solid #012a7050;
 }
 .generate-bill-product-detail input{
-  width: 69%;
+  width: 100%;
 }
 .bill-totals--card{
   padding-top: 0.5rem;
@@ -778,24 +795,37 @@ width: 200px;
   gap: 2rem;
   display: flex;
   width: fit-content;
-  margin-left: 55%;
-  /* justify-content: space-evenly; */
+  margin-left: 42%;
 }
 .generate-bill--button button{
   width: 5rem;
 }
+.bill-totals--card span input{
+  text-align: right;
+  width: 90px;
+  border: none;
+  border-bottom: 1px solid black;
+  font-size: 1rem;
+}
+.bill-totals--card span input:focus{
+  outline: none;
+  border: none;
+  border-bottom: 1px solid black;
+}
+
 @media (max-width: 1440px) {
   .generate-bill-product-detail input{
     width: 50%;
   }
   .generate-bill--button{
     margin-left: 32%;
-    
+
   }
 }
 @media (max-width: 1024px) {
-  .left-inputs div, .right-inputs div{
+  .aside-inputs div{
     flex-direction: column;
+
   }
   .generate-bill-product-detail input{
     width: 100%;
@@ -811,6 +841,19 @@ width: 200px;
   }
 }
 
+
+/* Scroll able off in number type input */
+/* Chrome, Safari, Edge, Opera */
+.bill-totals--card span input::-webkit-outer-spin-button,
+.bill-totals--card span input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.bill-totals--card span input[type=number] {
+  -moz-appearance: textfield;
+}
 /*--------------------------------------------------------------
 # Dashboard
 --------------------------------------------------------------*/

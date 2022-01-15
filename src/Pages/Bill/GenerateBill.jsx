@@ -1,6 +1,177 @@
-import React from 'react'
+import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react'
+
+import { calculateFinalWeightAndAmount, calculateGrandTotalAmount, calculatePerProductAmount, calculateRatePerLal, calculateRemaingAmount } from '../../Assets/js/billCalculation';
+
+import { InputField } from '../../Components';
+
+const initialCustomer = {
+    name: '',
+    address: '',
+    phone: '',
+    email: '',
+};
+
+const initialBill = {
+    orderId: '',
+    date: '',
+    rate: '',
+    customerProductWeight: 0.0,
+    customerProductAmount: '',
+    totalAmount: '',
+    discount: '',
+    grandTotalAmount: '',
+    advanceAmount: '',
+    payedAmount: '',
+    remainingAmount: '',
+    status: '',
+};
+
+const initialBillProduct = {
+    lossWeight: 0.0,
+    totalWeight: 0.0,
+    rate: '',
+    makingCharge: 0.0,
+    totalAmountPerProduct: 0.0,
+};
+
+const initialProduct =  {
+    productName: '',
+    netWeight: 0.0,
+    size: 0.0,
+    gemsName: '',
+    gemsPrice: 0.0,
+};
 
 function GenerateBill() {
+    const latestRate = useSelector(state => state.latestRateReducer.data);
+
+    const [bill, setBill] = useState({...initialBill});
+    const [product, setProduct] = useState({...initialProduct});
+    const [customer, setCustomer] = useState({...initialCustomer});
+    const [billProduct, setBillProduct] = useState({...initialBillProduct});
+    
+    /**store all the billProduct  */
+    const [billProductList, setBillProductList] = useState([]);
+
+    const [finalWeight, setFinalWeight] = useState(0);
+    const [grandTotalWeight, setGrandTotalWeight] = useState(0);
+
+
+    const inputHandler=(e)=>{
+        let value = e.target.value;
+        let inputName = e.target.name;
+
+        if(product.hasOwnProperty(inputName)){
+            product[inputName] = value;
+
+            setProduct({...product});
+        }
+        else if(billProduct.hasOwnProperty(inputName)){
+            billProduct[inputName] = value;
+
+            setBillProduct({...billProduct});
+        }
+        else if(customer.hasOwnProperty(inputName)){
+            customer[inputName] = value;
+
+            setCustomer({...customer});
+        }
+        else if(bill.hasOwnProperty(inputName)){
+            bill[inputName] = value;
+
+            if( inputName === 'customerProductWeight'){
+                setGrandTotalWeight(finalWeight-bill['customerProductWeight']);
+
+                bill['customerProductAmount'] = value * (calculateRatePerLal(latestRate.tajabiRate));
+            }
+
+            bill.grandTotalAmount = calculateGrandTotalAmount(bill);
+
+            bill.remainingAmount = calculateRemaingAmount(bill);
+
+            setBill({...bill});
+        }
+
+    };
+
+
+    const saveButtonHandler=()=>{
+        console.log("SAVE BUTTON CLICK");
+
+        bill.billProduct = billProductList;
+
+        bill.rate = latestRate.hallmarkRate;
+        customer.bills = [bill];
+
+        console.log(customer);
+    };
+
+
+    const addButtonHandler=()=>{
+        console.log("ADD BUTTON CLICK");
+
+        billProduct.product = product;
+        billProduct.rate = latestRate.hallmarkRate;
+
+        calculatePerProductAmount(billProduct, latestRate);
+
+        setBillProduct({...billProduct});
+
+        setBillProductList([...billProductList, billProduct]);
+
+        clearFields();
+    }
+
+
+    const clearFields = ()=>{
+        setBill({...initialBill});
+        setProduct({...initialProduct});
+        setBillProduct({...initialBillProduct});
+    }
+
+    const buttonClickHandler=(e)=>{
+        e.preventDefault();
+
+        let buttonName = e.target.name;
+
+        if(buttonName === 'Save'){
+            saveButtonHandler();
+        }
+        else if (buttonName === 'Add'){
+            addButtonHandler();   
+        }
+
+    };
+
+    const convertIntoTwoDArray =(object)=>{
+        let twoDArray = [];
+        for(let i=0; i<Object.keys(object).length-2; i++){
+            twoDArray.push(
+               [ Object.keys(object)[i], Object.keys(object)[i+2]]
+            )
+        }
+
+        return twoDArray;
+    };
+
+    
+
+    /**used when user add product in Bill */
+    useEffect(() => {
+        let{finalWeight, finalAmount} = calculateFinalWeightAndAmount(billProductList);
+
+        setFinalWeight(finalWeight);
+
+        bill['totalAmount'] = finalAmount;
+
+        bill.grandTotalAmount = calculateGrandTotalAmount(bill);
+
+        setBill({...bill});
+
+    }, [billProductList]);
+
+
     return (
         <div className="card generate-bill">
             <div className="card-body fs-5">
@@ -8,7 +179,6 @@ function GenerateBill() {
                     Bill No: 
                     <span className='fs-5 ps-2'>234</span> 
                 </h5>
-
 
                 <form className="row g-4 pt-3 needs-validation" noValidate>
                     <section className='row mb-2'>
@@ -18,223 +188,157 @@ function GenerateBill() {
                         </div>
                     </section>
 
-                    <section className='row  justify-content-between'>
-                        <div className="col-md-5 position-relative  d-flex">
-                            <label htmlFor="validationTooltip01" className="form-label">First name</label>
-                            <input type="text" className="form-control" id="validationTooltip01" value="John" required/>
-                            <div className="valid-tooltip">
-                                Looks good!
-                            </div>
-                        </div>
 
-                        <div className="col-md-5 position-relative d-flex">
-                            <label htmlFor="validationTooltip02" className="form-label">Phone</label>
-                            <input type="text" className="form-control" id="validationTooltip02" value="Doe" required/>
-                            <div className="valid-tooltip">
-                                Looks good!
-                            </div>
-                        </div>
-                    </section>
-                    
-                    <section className='row  justify-content-between'>
-                        <div className="col-md-5 position-relative d-flex">
-                            <label htmlFor="validationTooltip01" className="form-label">Address</label>
-                            <input type="text" className="form-control" id="validationTooltip01" value="John" required/>
-                            <div className="valid-tooltip">
-                                Looks good!
-                            </div>
-                        </div>
+                    {   /***converted into 2D array to  make two element in a row */
+                        convertIntoTwoDArray(customer).map((row,index)=>{
+                            return(
+                                <section className='row  justify-content-between' key={`custDetailRow${index}`}>
+                                {
+                                    row.map((key,index)=>{
+                                        return(                                           
+                                            <InputField key={`custDetailInput${index}`}
+                                                name ={key}
+                                                value={customer[key]}
+                                                changehandler={(e)=>inputHandler(e)}
+                                                type={(key==='email') ? "email" : (key==='phone')? "number":"text"}
+                                            />
+                                        )
+                                    })
+                                }
+                                </section>
+                            )
+                        })
+                    }
 
-                        <div className="col-md-5 position-relative d-flex">
-                            <label htmlFor="validationTooltip02" className="form-label">Email</label>
-                            <input type="text" className="form-control" id="validationTooltip02" value="Doe" required/>
-                            <div className="valid-tooltip">
-                                Looks good!
-                            </div>
-                        </div>
-                    </section>
-
-                    <table className="table table-striped scrollable--table fs-0">
+                    <div className='scroll--table'>
+                    <table>
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Product name</th>
-                                <th scope="col">Net Weight</th>
-                                <th scope="col">loss Weight</th>
-                                <th scope="col">Total Weight</th>
-                                <th scope="col">M. Charge</th>
-                                <th scope="col">Gems Name</th>
-                                <th scope="col">Gems Price</th>
-                                <th scope="col">Total Amount</th>
+                                {
+                                    ['#', 'Product name', 'Net Weight', 'loss Weight', 'Total Weight', 'M. Charge', 'Gems Name', 'Gems Price', 'Total Amount', 'Action'].map((title,index)=>{
+                                        return <th key={`${index}GBTH`}>{title}</th>
+                                    })
+                                }
                             </tr>
                         </thead>
 
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Brandon Jacob</td>
-                                <td>31</td>
-                                <td>21</td>
-                                <td>28</td>
-                                <td>28</td>
-                                <td>ganesh</td>
-                                <td>28</td>
-                                <td>28</td>
-                            </tr>
-
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Brandon Jacob</td>
-                                <td>31</td>
-                                <td>21</td>
-                                <td>28</td>
-                                <td>28</td>
-                                <td>ganesh</td>
-                                <td>28</td>
-                                <td>28</td>
-                            </tr>
-                                                        
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Brandon Jacob</td>
-                                <td>31</td>
-                                <td>21</td>
-                                <td>28</td>
-                                <td>28</td>
-                                <td>ganesh</td>
-                                <td>28</td>
-                                <td>28</td>
-                            </tr> 
-                                                       
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Brandon Jacob</td>
-                                <td>31</td>
-                                <td>21</td>
-                                <td>28</td>
-                                <td>28</td>
-                                <td>ganesh</td>
-                                <td>28</td>
-                                <td>28</td>
-                            </tr>
-                            
+                            {
+                                billProductList.map((billProduct, index)=>{
+                                    return(
+                                        <>
+                                        <tr>
+                                            <th scope="row" key={`${index}GBTR`}>{index+1}</th>
+                                            <td>{billProduct.product.productName}</td>
+                                            <td>{billProduct.product.netWeight}</td>
+                                            <td>{billProduct.lossWeight}</td>
+                                            <td>{billProduct.totalWeight}</td>
+                                            <td>{billProduct.makingCharge}</td>
+                                            <td>{billProduct.product.gemsName}</td>
+                                            <td>{billProduct.product.gemsPrice}</td>
+                                            <td>{billProduct.totalAmountPerProduct}</td>
+                                            <td>
+                                                <i class="ri-edit-2-fill"></i>
+                                                <i class="ri-delete-bin-7-fill"></i>
+                                            </td>
+                                        </tr>
+                                        </>
+                                        
+                                    )
+                                })
+                            }                           
                         </tbody>
                     </table>   
-
+                    </div>
 
                     <section className='d-flex generate-bill-product-detail'>
                         <div className="card">
-                            <div className='card-body col  justify-content-around d-flex'>
-                                <div className='left-inputs'>
-                                    <div className="col-md-5 position-relative  d-flex pe-0">
-                                        <label htmlFor="validationTooltip01" className="form-label">Product name</label>
-                                        <input type="text" className="form-control" id="validationTooltip01" value="John" required/>
-                                        <div className="valid-tooltip">
-                                            Looks good!
-                                        </div>
-                                    </div>
-
-                                    <div className="col-md-5 position-relative d-flex">
-                                        <label htmlFor="validationTooltip02" className="form-label">Quantity</label>
-                                        <input type="text" className="form-control" id="validationTooltip02" value="Doe" required/>
-                                        <div className="valid-tooltip">
-                                            Looks good!
-                                        </div>
-                                    </div>
-
-                                    <div className="col-md-5 position-relative d-flex">
-                                        <label htmlFor="validationTooltip02" className="form-label">Net Weight</label>
-                                        <input type="text" className="form-control" id="validationTooltip02" value="Doe" required/>
-                                        <div className="valid-tooltip">
-                                            Looks good!
-                                        </div>
-                                    </div>
+                            <div className='card-body col  justify-content-around d-flex product--input-card'>
+                            {
+                                [['productName', 'quantity', 'netWeight', 'lossWeight'], ['makingCharge', 'gemsName', 'gemsPrice']].map((row, index)=>{
                                     
-
-                                    <div className="col-md-5 position-relative d-flex">
-                                        <label htmlFor="validationTooltip02" className="form-label">Loss Weight</label>
-                                        <input type="text" className="form-control" id="validationTooltip02" value="Doe" required/>
-                                        <div className="valid-tooltip">
-                                            Looks good!
+                                    return(
+                                        <div className='aside-inputs' key={index+'bP'}>
+                                        {
+                                            row.map((input, index)=>{
+                                                return(
+                                                    <InputField key={index+'bPR'}
+                                                        min= {1}
+                                                        name={ input }
+                                                        changehandler={(e)=>inputHandler(e)}
+                                                        type={(input === 'quantity')? "number": "text"}
+                                                        value={(billProduct.hasOwnProperty(input)) ? billProduct[input] : product[input]}  
+                                                    />
+                                                )
+                                            })
+                                        }
                                         </div>
-                                    </div>
-
-                                    <div className="col-md-5 position-relative d-flex">
-                                        <label htmlFor="validationTooltip02" className="form-label">Given Weight</label>
-                                        <input type="text" className="form-control" id="validationTooltip02" value="Doe" required/>
-                                        <div className="valid-tooltip">
-                                            Looks good!
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                                
-                                <div className='right-inputs'>
-                                    <div className="col-md-5 position-relative  d-flex">
-                                        <label htmlFor="validationTooltip01" className="form-label">Making Charge</label>
-                                        <input type="text" className="form-control" id="validationTooltip01" value="John" required/>
-                                        <div className="valid-tooltip">
-                                            Looks good!
-                                        </div>
-                                    </div>
-
-                                    <div className="col-md-5 position-relative d-flex">
-                                        <label htmlFor="validationTooltip02" className="form-label">Gems Name</label>
-                                        <input type="text" className="form-control" id="validationTooltip02" value="Doe" required/>
-                                        <div className="valid-tooltip">
-                                            Looks good!
-                                        </div>
-                                    </div>
-
-                                    <div className="col-md-5 position-relative d-flex">
-                                        <label htmlFor="validationTooltip02" className="form-label">Gems Price</label>
-                                        <input type="text" className="form-control" id="validationTooltip02" value="Doe" required/>
-                                        <div className="valid-tooltip">
-                                            Looks good!
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                    );
+                                })
+                            }
+                            </div> 
 
                             <div className='generate-bill--button'>
-                                <div className="col">
-                                    <button className="btn btn-primary" type="submit">Save</button>
-                                </div>
-
-                                <div className="col">
-                                    <button className="btn btn-primary" type="submit">Drafts</button>
-                                </div>
-
-                                <div className="col">
-                                    <button className="btn btn-primary" type="submit">Clear</button>
-                                </div>
-                                <div className="col">
-                                    <button className="btn btn-primary" type="submit">Add</button>
-                                </div>
+                            {
+                                [{name:'Save', type:'primary'}, {name:'Draft', type:'secondary'}, {name:'Clear', type:'warning'}, {name:'Reset', type:'danger'}, {name:'Add', type:'dark'}].map((button, index)=>{
+                                    return(
+                                        <div className="col" key={`${index}GBB`}>
+                                            <button className={`btn btn-${button.type}`} 
+                                                name={button.name}
+                                                onClick={buttonClickHandler}
+                                                type={(button.name === 'Save' || button.name === 'Draft')
+                                                    ? "submit" 
+                                                    : (button.name === 'Clear')
+                                                        ? "reset" : "submit"
+                                                }
+                                            >
+                                                {button.name}
+                                            </button>
+                                        </div>
+                                        
+                                    )
+                                })
+                            }
                             </div>
-                            
                         </div>
+
                         <div className="card bill-totals--card">
                             <div className="card-body">
                                 <span>
-                                    <p>Final Weight : <span>123423</span></p>
-                                    <p>Customer P.Weight : <span>123423</span></p>
+                                    <p>Final Weight : <span>{finalWeight}</span></p>
+                                    <p>Customer P.Weight : <span> <input type="number" name='customerProductWeight' value={bill.customerProductWeight} onChange={inputHandler}/></span></p>
                                 </span>
                                 <hr />
+
                                 <span>
-                                    <h5>Grand Weight : <span>123423</span></h5>
-                                    <h5>Total Amount : <span>123423</span></h5>
-                                    <p>Advance payment : <span>123423</span></p>
-                                    <p>Payment : <span>123423</span></p>
+                                    <h5>Grand Weight : <span>{(isNaN(grandTotalWeight))? 0.0 :  grandTotalWeight}</span></h5>
                                 </span>
                                 <hr />
+
                                 <span>
-                                    <p>Remaining Amount : <span>123423</span></p>
+                                    <p>Final P.Amount : <span>{bill.totalAmount}</span></p>
+                                    <p>Customer P.Amount : <span>{(isNaN(bill.customerProductAmount)) ? 0.0 :  bill.customerProductAmount}</span></p>
+                                    <p>Discount : <span> <input type="number" name='discount' value={bill.discount} onChange={inputHandler}/></span></p>
+                                </span>
+                                <hr />
+
+                                <span>
+                                    <h5>Grand Total Amount : <span>{bill.grandTotalAmount}</span></h5>
+                                </span>
+                                <hr />
+
+                                <span>
+                                    <p>Advance payment : <span> <input type="number" name='advanceAmount' value={bill.advanceAmount} onChange={inputHandler}/></span></p>
+                                    <p>Payment : <span> <input type="number" name='payedAmount' value={bill.payedAmount} onChange={inputHandler}/></span></p>
+                                </span>
+                                <hr />
+
+                                <span>
+                                    <p>Remaining Amount : <span>{bill.remainingAmount}</span></p>
                                 </span>
 
                             </div>
-                        </div>
-                        
+                        </div>     
                     </section>
                 </form>
 
@@ -245,33 +349,3 @@ function GenerateBill() {
 }
 
 export default GenerateBill
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
- *                     <div className="col-md-4 position-relative">
-                        <label for="validationTooltipUsername" className="form-label">Username</label>
-                        <div className="input-group has-validation">
-                            <span className="input-group-text" id="validationTooltipUsernamePrepend">@</span>
-                            <input type="text" className="form-control" id="validationTooltipUsername" aria-describedby="validationTooltipUsernamePrepend" required/>
-                            <div className="invalid-tooltip">
-                                Please choose a unique and valid username.
-                            </div>
-                        </div>
-                    </div>
- */
