@@ -844,14 +844,16 @@ table{
 
 /* Scroll able off in number type input */
 /* Chrome, Safari, Edge, Opera */
-.bill-totals--card span input::-webkit-outer-spin-button,
-.bill-totals--card span input::-webkit-inner-spin-button {
+.number-textfield-enable-scrollspan input::-webkit-outer-spin-button,
+.number-textfield-enable-scroll span input::-webkit-inner-spin-button,
+.number-textfield-enable-scroll input::-webkit-inner-spin-button{
   -webkit-appearance: none;
   margin: 0;
 }
 
 /* Firefox */
-.bill-totals--card span input[type=number] {
+.number-textfield-enable-scroll span input[type=number],
+.number-textfield-enable-scroll input[type=number]{
   -moz-appearance: textfield;
 }
 /*--------------------------------------------------------------

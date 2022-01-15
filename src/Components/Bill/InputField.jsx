@@ -2,7 +2,7 @@ import React from 'react'
 
 function InputField({name, type, changehandler, value, min, flex}) {
     return (
-        <div className={`col-md-5 position-relative   pe-0 ${flex}`}>
+        <div className={`col-md-5 position-relative number-textfield-enable-scroll   pe-0 ${flex}`}>
             <label htmlFor="validationTooltip01" className="form-label">
                 { ( name.charAt(0).toUpperCase()+name.slice(1) ).replace(/([a-z])([A-Z])/g, '$1 $2') }
             </label>

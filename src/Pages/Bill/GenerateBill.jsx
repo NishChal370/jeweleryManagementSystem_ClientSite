@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 import { calculateFinalWeightAndAmount, calculateGrandTotalAmount, calculatePerProductAmount, calculateRatePerLal, calculateRemaingAmount } from '../../Assets/js/billCalculation';
 
-import { InputField } from '../../Components';
+import { InputField, TotalCard } from '../../Components';
 
 const initialCustomer = {
     name: '',
@@ -56,6 +56,8 @@ function GenerateBill() {
 
     const [finalWeight, setFinalWeight] = useState(0);
     const [grandTotalWeight, setGrandTotalWeight] = useState(0);
+    
+    const [editingBillProductIndex, setEditingBillProductIndex] = useState();
 
 
     const inputHandler=(e)=>{
@@ -118,8 +120,19 @@ function GenerateBill() {
 
         setBillProduct({...billProduct});
 
-        setBillProductList([...billProductList, billProduct]);
+        if(editingBillProductIndex === undefined){
+            setBillProductList([...billProductList, billProduct]);
+        }
+        else{
 
+            billProductList.splice(editingBillProductIndex, 1, billProduct);
+
+            setBillProductList([...billProductList]);
+            
+            setEditingBillProductIndex(undefined);
+        }
+        
+        
         clearFields();
     }
 
@@ -141,6 +154,9 @@ function GenerateBill() {
         else if (buttonName === 'Add'){
             addButtonHandler();   
         }
+        else if(buttonName === 'Draft'){
+            setBillProductList([...billProductList]);
+        }
 
     };
 
@@ -155,7 +171,21 @@ function GenerateBill() {
         return twoDArray;
     };
 
-    
+
+    const deleteAddedProduct=(index)=>{
+        billProductList.splice(index);
+
+        setBillProductList([...billProductList]);
+    }
+
+    const editAddedProduct=(index, billProduct)=>{
+        let{product} = billProduct;
+
+        setEditingBillProductIndex(index);
+
+        setProduct(product);
+        setBillProduct(billProduct);
+    }
 
     /**used when user add product in Bill */
     useEffect(() => {
@@ -168,12 +198,12 @@ function GenerateBill() {
         bill.grandTotalAmount = calculateGrandTotalAmount(bill);
 
         setBill({...bill});
-
     }, [billProductList]);
 
 
     return (
         <div className="card generate-bill">
+
             <div className="card-body fs-5">
                 <h5 className="card-title fs-5 ps-1">
                     Bill No: 
@@ -214,39 +244,39 @@ function GenerateBill() {
                     <table>
                         <thead>
                             <tr>
-                                {
-                                    ['#', 'Product name', 'Net Weight', 'loss Weight', 'Total Weight', 'M. Charge', 'Gems Name', 'Gems Price', 'Total Amount', 'Action'].map((title,index)=>{
-                                        return <th key={`${index}GBTH`}>{title}</th>
-                                    })
-                                }
+                            {
+                                ['#', 'Product name', 'Net Weight', 'loss Weight', 'Total Weight', 'M. Charge', 'Gems Name', 'Gems Price', 'Total Amount', 'Action'].map((title,index)=>{
+                                    return <th key={`${index}GBTH`}>{title}</th>
+                                })
+                            }
                             </tr>
                         </thead>
 
                         <tbody>
-                            {
-                                billProductList.map((billProduct, index)=>{
-                                    return(
-                                        <>
-                                        <tr>
-                                            <th scope="row" key={`${index}GBTR`}>{index+1}</th>
-                                            <td>{billProduct.product.productName}</td>
-                                            <td>{billProduct.product.netWeight}</td>
-                                            <td>{billProduct.lossWeight}</td>
-                                            <td>{billProduct.totalWeight}</td>
-                                            <td>{billProduct.makingCharge}</td>
-                                            <td>{billProduct.product.gemsName}</td>
-                                            <td>{billProduct.product.gemsPrice}</td>
-                                            <td>{billProduct.totalAmountPerProduct}</td>
-                                            <td>
-                                                <i class="ri-edit-2-fill"></i>
-                                                <i class="ri-delete-bin-7-fill"></i>
-                                            </td>
-                                        </tr>
-                                        </>
-                                        
-                                    )
-                                })
-                            }                           
+                        {
+                            billProductList.map((billProduct, index)=>{
+                                return(
+                                    <>
+                                    <tr>
+                                        <th scope="row" key={`${index}GBTR`}>{index+1}</th>
+                                        <td>{billProduct.product.productName}</td>
+                                        <td>{billProduct.product.netWeight}</td>
+                                        <td>{billProduct.lossWeight}</td>
+                                        <td>{billProduct.totalWeight}</td>
+                                        <td>{billProduct.makingCharge}</td>
+                                        <td>{billProduct.product.gemsName}</td>
+                                        <td>{billProduct.product.gemsPrice}</td>
+                                        <td>{billProduct.totalAmountPerProduct}</td>
+                                        <td>
+                                            <i class="ri-edit-2-fill curser--on-hover" onClick={()=> editAddedProduct(index, billProduct)}></i> &emsp;
+                                            <i class="ri-delete-bin-7-fill curser--on-hover"  onClick={()=>deleteAddedProduct(index)}></i>
+                                        </td>
+                                    </tr>
+                                    </>
+                                    
+                                )
+                            })
+                        }                           
                         </tbody>
                     </table>   
                     </div>
@@ -302,43 +332,13 @@ function GenerateBill() {
                             </div>
                         </div>
 
-                        <div className="card bill-totals--card">
-                            <div className="card-body">
-                                <span>
-                                    <p>Final Weight : <span>{finalWeight}</span></p>
-                                    <p>Customer P.Weight : <span> <input type="number" name='customerProductWeight' value={bill.customerProductWeight} onChange={inputHandler}/></span></p>
-                                </span>
-                                <hr />
-
-                                <span>
-                                    <h5>Grand Weight : <span>{(isNaN(grandTotalWeight))? 0.0 :  grandTotalWeight}</span></h5>
-                                </span>
-                                <hr />
-
-                                <span>
-                                    <p>Final P.Amount : <span>{bill.totalAmount}</span></p>
-                                    <p>Customer P.Amount : <span>{(isNaN(bill.customerProductAmount)) ? 0.0 :  bill.customerProductAmount}</span></p>
-                                    <p>Discount : <span> <input type="number" name='discount' value={bill.discount} onChange={inputHandler}/></span></p>
-                                </span>
-                                <hr />
-
-                                <span>
-                                    <h5>Grand Total Amount : <span>{bill.grandTotalAmount}</span></h5>
-                                </span>
-                                <hr />
-
-                                <span>
-                                    <p>Advance payment : <span> <input type="number" name='advanceAmount' value={bill.advanceAmount} onChange={inputHandler}/></span></p>
-                                    <p>Payment : <span> <input type="number" name='payedAmount' value={bill.payedAmount} onChange={inputHandler}/></span></p>
-                                </span>
-                                <hr />
-
-                                <span>
-                                    <p>Remaining Amount : <span>{bill.remainingAmount}</span></p>
-                                </span>
-
-                            </div>
-                        </div>     
+                        <TotalCard 
+                            bill={bill} 
+                            finalWeight={finalWeight} 
+                            grandTotalWeight={grandTotalWeight} 
+                            inputHandler={inputHandler}
+                        />
+                           
                     </section>
                 </form>
 
