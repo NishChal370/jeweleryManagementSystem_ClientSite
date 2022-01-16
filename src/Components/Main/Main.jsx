@@ -5,7 +5,8 @@ import { Bill, Dashboard, Rate } from '../../Pages/index'
 import { Switch, Route, useHistory } from 'react-router-dom'
 
 
-function Main() {
+function Main({isSideBarDisplayed}) {
+
     const history = useHistory();
     const [nowlocation, setNowLocation] = useState('Dashboard');
 
@@ -13,6 +14,7 @@ function Main() {
         setNowLocation((location.pathname.replaceAll('/', '').charAt(0).toUpperCase()+location.pathname.slice(2)).replaceAll('/', ' / '));
     }
     
+
     useEffect(() => {
         history.listen(location=>{
             setNavigation(location);
@@ -21,8 +23,9 @@ function Main() {
         setNavigation(history.location);
     }, [])
 
+    
     return (
-        <main id="main" className="main">
+        <main id="main" className="main" style={{marginLeft: (!isSideBarDisplayed)? '0px': '300px'}}>
             
             <div className="pagetitle">
                 <h1>{(nowlocation === '') ? 'Dashboard' : nowlocation.split("/", 2)[0]}</h1>

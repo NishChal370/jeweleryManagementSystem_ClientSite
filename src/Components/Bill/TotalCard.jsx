@@ -1,10 +1,13 @@
 import React from 'react'
 
+
 function TotalCard({bill, finalWeight,  grandTotalWeight, inputHandler}) {
+
     let {customerProductWeight, customerProductAmount, discount, grandTotalAmount, advanceAmount, payedAmount, remainingAmount, totalAmount} = bill;
 
+
     return (
-        <div className="card bill-totals--card number-textfield-enable-scroll">
+        <div className="card bill-totals--card scroll-off">
             <div className="card-body">
                 <span>
                     <p>Final Weight : <span>{finalWeight}</span></p>
@@ -43,5 +46,6 @@ function TotalCard({bill, finalWeight,  grandTotalWeight, inputHandler}) {
         </div>  
     )
 }
+
 
 export default TotalCard

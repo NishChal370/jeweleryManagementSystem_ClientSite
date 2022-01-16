@@ -1,11 +1,12 @@
-
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AXIOS, URL_SET_RATE } from '../../API/Constant';
 
 import { setLatestRate } from '../../Redux/Action';
-import { ShowInvalidnMessage } from '../../Assets/js/validation';
+import { VerifyInputs } from '../../Assets/js/validation';
+
+import Swal from 'sweetalert2';
 
 let rate = {
     'hallmarkRate': 0,
@@ -19,11 +20,21 @@ let initalRate = {
     'silverRate': 0,
 }
 
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: false,
+});
+
 function ChangeRate() {
     const dispatch = useDispatch();
+
     const latestRate = useSelector(state => state.latestRateReducer.data);
 
     const [currentRate, setCurrentRate] = useState(rate);
+
 
     const inputChangeHandler=(e)=>{
         if(isFinite(e.target.value)){
@@ -50,16 +61,37 @@ function ChangeRate() {
         AXIOS.post(URL_SET_RATE, currentRate)
             .then(function (response) {
                 // handle success;  
-                alert(" POST SET rate fnction from change rate Saved");
+                Swal.fire({
+                    title: 'Do you want to save the changes?',
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'Save',
+                    denyButtonText: `Don't save`,
 
-                dispatch(setLatestRate(response.data));
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        Swal.fire('Saved!', '', 'success')
+
+                        dispatch(setLatestRate(response.data));
+                    } else if (result.isDenied) {
+
+                        Swal.fire('Changes are not saved', '', 'info')
+                    }
+                });
+
+                
             })
             .catch(function (error) {
                 // handle error
-                alert('INVALID REQUEST !!!');
+                Toast.fire({
+                    icon: 'error',
+                    title: error,
+                });
             })
     };
 
+    
     useEffect(() => {
         if(latestRate !== undefined){
             Object.keys(latestRate).map((rateTitle,index) => {
@@ -79,15 +111,14 @@ function ChangeRate() {
     }, [latestRate]);
 
     useEffect(() => {
-        ShowInvalidnMessage();
+        VerifyInputs();
     }, []);
 
+
     return (
-        <>
         <div className="card">
             <div className="card-body">
                 <form className='mt-5 ms-5 fs-3 needs-validation' onSubmit={submitHandler} noValidate>
-
                     {
                         Object.keys(currentRate).map((rateTitle,index) => 
                             <div className="row mb-3" key={index+'rateInput'}>
@@ -122,8 +153,8 @@ function ChangeRate() {
             
             </div>
         </div>
-        </>
     )
 }
+
 
 export default ChangeRate

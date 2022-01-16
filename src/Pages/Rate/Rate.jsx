@@ -7,9 +7,11 @@ import RateOverview from './RateOverview';
 import '../../Assets/css/style.css'
 
 function Rate() {
+
     const history = useHistory();
     const [currentLocation, setCurrentLocation] = useState();
 
+    
     useEffect(() => {
         let tempLocation = history.location.pathname.split('/');
         tempLocation = tempLocation[tempLocation.length-1];
@@ -22,6 +24,7 @@ function Rate() {
 
         setCurrentLocation(tempLocation);
     }, []);
+
 
     return (
         <div className="card background--color">

@@ -1,7 +1,6 @@
-/*Validate chagne rate input */
-const ShowInvalidnMessage = () =>{
+/**Validate inputs */
+const VerifyInputs = () =>{
     'use strict'
-
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     var forms = document.querySelectorAll('.needs-validation')
 
@@ -9,15 +8,33 @@ const ShowInvalidnMessage = () =>{
     Array.prototype.slice.call(forms)
         .forEach(function (form) {
             form.addEventListener('submit', function (eventt) {
-                if (!form.checkValidity()) {
-                    eventt.preventDefault()
-                    eventt.stopPropagation()
-                }
                 
-                form.classList.add('was-validated')
-            }, false)
-        })
+                if (!form.checkValidity()) {
 
+                    eventt.preventDefault();
+                  
+                    eventt.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+
+        })
 }
 
-export  {ShowInvalidnMessage}
+
+/**Reset validation for new data */
+const removeResetValidation=()=>{
+    'use strict'
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByTagName("form");
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+            form.classList.remove('was-validated');
+
+        })
+}
+
+
+export  {VerifyInputs, removeResetValidation}

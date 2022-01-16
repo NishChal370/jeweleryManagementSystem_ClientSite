@@ -7,9 +7,12 @@ import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
 import { AXIOS, URL_GET_ALL_RATES } from '../../API/Constant';
 
 function Dashboard() {
+
     const history = useHistory();
+
     const [rates, setRates]= useState();
 
+    
     const fetchRates=()=>{
 
         AXIOS.get(URL_GET_ALL_RATES)
@@ -22,6 +25,7 @@ function Dashboard() {
                 console.log(error);
             })
     }
+
 
     useEffect(() => {
         fetchRates();
@@ -198,5 +202,6 @@ function Dashboard() {
         </section>
     )
 }
+
 
 export default Dashboard

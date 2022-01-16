@@ -1,23 +1,41 @@
 import React from 'react'
 
 function InputField({name, type, changehandler, value, min, flex}) {
+
+
     return (
-        <div className={`col-md-5 position-relative number-textfield-enable-scroll   pe-0 ${flex}`}>
-            <label htmlFor="validationTooltip01" className="form-label">
+        <div className={`col-md-5 position-relative scroll-off   pe-0 ${flex}`}>
+            <label htmlFor="" className="form-label">
                 { ( name.charAt(0).toUpperCase()+name.slice(1) ).replace(/([a-z])([A-Z])/g, '$1 $2') }
             </label>
-            <input className="form-control" id="validationTooltip01" required
-                min={min}
-                type={type}
-                name={name}
-                value={value} 
-                onChange={(e)=>changehandler(e)}   
-            />
-            <div className="valid-tooltip">
-                Looks good!
+
+            {
+                ['email', 'phone', 'gemsName', 'gemsPrice'].includes(name)
+                    ?(
+                        <input className="form-control" id="validationTooltip01" 
+                            min={min}
+                            type={type}
+                            name={name}
+                            value={value} 
+                            onChange={(e)=>changehandler(e)}   
+                        />
+                    )
+                    : (
+                        <input className="form-control" id="validationTooltip01" required
+                            min={min}
+                            type={type}
+                            name={name}
+                            value={value} 
+                            onChange={(e)=>changehandler(e)}   
+                        />
+                    )
+            }
+            <div className="invalid-tooltip">
+                Empty!
             </div>
         </div>
     )
 }
+
 
 export default InputField

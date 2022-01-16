@@ -4,12 +4,23 @@ import React, { useEffect, useState } from 'react'
 
 import { useSelector, useDispatch } from 'react-redux';
 
+import Swal from 'sweetalert2';
+
 import { setLatestRate } from '../../Redux/Action';
 import { AXIOS, URL_GET_ALL_RATES } from '../../API/Constant';
-import { ShopLogo, ProfileImage } from '../../Assets/img/index'
+import { ShopLogo, ProfileImage } from '../../Assets/img/index';
 
 
-function Header() {
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: false,
+});
+
+
+function Header({isDisplayed, showSideBarHandler}) {
 
     const history = useHistory();  
     const[todaysRate, setTodaysRate] = useState();  
@@ -17,6 +28,7 @@ function Header() {
     const dispatch = useDispatch();
     const latestRate = useSelector(state => state.latestRateReducer.data);
 
+    
     const fetchRate=()=>{
 
         AXIOS.get(URL_GET_ALL_RATES)
@@ -26,11 +38,18 @@ function Header() {
             })
             .catch(function (error) {
                 // handle error
+                Toast.fire({
+                    icon: 'error',
+                    title: error
+                });
+
+                dispatch(setLatestRate({rateId: undefined, date: undefined, hallmarkRate: 0, tajabiRate: 0 , silverRate: 0}));
                 console.log(error);
             })
 
     };
 
+    
     useEffect(() => {
         fetchRate();  
     },[]);
@@ -38,6 +57,7 @@ function Header() {
     useEffect(() => {
         setTodaysRate(latestRate);
     }, [latestRate]);
+
 
     return (
         <header id="header" className="header fixed-top d-flex align-items-center">
@@ -48,10 +68,8 @@ function Header() {
                     <span className="d-none d-lg-block">Gitanjali Jewellers</span>
                 </div>
 
-                {/* <i className="bi bi-list toggle-sidebar-btn" data-bs-toggle="sidebar" data-bs-target="#ssidebar" aria-controls="ssidebar"></i> */}
-                <i className="bi bi-list toggle-sidebar-btn"></i>
+                <i className="bi bi-list toggle-sidebar-btn" onClick={()=>(isDisplayed)? showSideBarHandler(false): showSideBarHandler(true)}></i>
             </div>
-
 
             <nav className="header-nav ms-auto d-flex">
 

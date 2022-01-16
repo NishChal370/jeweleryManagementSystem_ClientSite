@@ -565,7 +565,7 @@ h1, h2, h3, h4, h5, h6 {
 .sidebar {
   position: fixed;
   top: 60px;
-  left: 0;
+  left: 0px;
   bottom: 0;
   width: 300px;
   z-index: 996;
@@ -581,6 +581,7 @@ h1, h2, h3, h4, h5, h6 {
   .sidebar {
     left: -300px;
   }
+  
 }
 .sidebar::-webkit-scrollbar {
   width: 5px;
@@ -590,7 +591,9 @@ h1, h2, h3, h4, h5, h6 {
 .sidebar::-webkit-scrollbar-thumb {
   background-color: #aab7cf;
 }
-
+/**
+this will make the main panel full width
+**/
 @media (min-width: 1200px) {
   #main, #footer {
     margin-left: 300px;
@@ -736,6 +739,7 @@ table{
   display: flex;
   flex-flow: column;
   text-align: center;
+  /* height: 300px; */
 }
 .scroll--table thead {
   top: 0;
@@ -761,19 +765,44 @@ table{
 .scroll--table thead th:nth-child(1), tbody th:nth-child(1){
   width: 2rem;
 }
-
+.add-btn{
+  z-index: 1;
+  font-size: 2rem;
+  position:sticky;
+  height: 0px;
+  margin-top: -1.7rem;
+  margin-left: -0.8rem;
+  border: none;
+  width: fit-content;
+  transition: font-size 1s;
+  transition: margin-left 1s;
+  background-color: rgba(255, 255, 255, 0);
+}
+.add-btn:hover{
+  color: rgb(219, 22, 22);
+  border: none;
+  cursor: pointer;
+  margin-left: -0.6rem;
+  font-size: 2.3rem;
+  
+}
 
 .generate-bill-product-detail .card .card-body div{
   width: 90%;
 }
 .generate-bill-product-detail .card {
   background: #fff;
+  gap: 4rem;
   box-shadow: none;
+
 }
+/*product--input-card*/
 .generate-bill-product-detail .card:nth-child(1){
   width: 80%;
-  padding-top: 2rem;
+  top: 2rem;
+  height: 90%;
 }
+
 .generate-bill-product-detail .card:nth-child(2){
   width: 40%;
   border: 2px solid #012a7050;
@@ -793,9 +822,10 @@ table{
 }
 .generate-bill--button{
   gap: 2rem;
+  position:sticky;
   display: flex;
   width: fit-content;
-  margin-left: 42%;
+  margin-left: 52%;
 }
 .generate-bill--button button{
   width: 5rem;
@@ -844,16 +874,16 @@ table{
 
 /* Scroll able off in number type input */
 /* Chrome, Safari, Edge, Opera */
-.number-textfield-enable-scrollspan input::-webkit-outer-spin-button,
-.number-textfield-enable-scroll span input::-webkit-inner-spin-button,
-.number-textfield-enable-scroll input::-webkit-inner-spin-button{
+.scroll-off span input::-webkit-outer-spin-button,
+.scroll-off span input::-webkit-inner-spin-button,
+.scroll-off input::-webkit-inner-spin-button{
   -webkit-appearance: none;
   margin: 0;
 }
 
 /* Firefox */
-.number-textfield-enable-scroll span input[type=number],
-.number-textfield-enable-scroll input[type=number]{
+.scroll-off span input[type=number],
+.scroll-off input[type=number]{
   -moz-appearance: textfield;
 }
 /*--------------------------------------------------------------

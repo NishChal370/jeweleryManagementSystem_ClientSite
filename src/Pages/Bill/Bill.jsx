@@ -5,14 +5,18 @@ import { NavLink, Route, Switch, useHistory } from 'react-router-dom';
 import SearchBill from './SearchBill';
 import GenerateBill from './GenerateBill';
 
-import { ShowInvalidnMessage } from '../../Assets/js/validation';
+import { VerifyInputs } from '../../Assets/js/validation';
+
 
 function Bill() {
+
     const location = useHistory().location.pathname;
 
+    
     useEffect(() => {
-        ShowInvalidnMessage();
+        VerifyInputs();
     }, []);
+
 
     return (
         <div>
@@ -22,7 +26,7 @@ function Bill() {
                         to="/bill" 
                         style={{color: (location === '/bill') ? '#899bbd' : ''}}
                     >
-                        Add
+                        Generate
                     </NavLink>
                     &#160; / &#160;
                     <NavLink 
@@ -46,5 +50,6 @@ function Bill() {
         </div>
     )
 }
+
 
 export default Bill

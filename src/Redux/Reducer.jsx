@@ -23,4 +23,5 @@ const latestRateReducer=(state=initialState.latestRate , action)=>{
 
 const rootReducer =  combineReducers({latestRateReducer})
 
+
 export default rootReducer;
