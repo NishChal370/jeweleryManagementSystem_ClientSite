@@ -7,45 +7,7 @@ import { calculateFinalWeightAndAmount, calculateGrandTotalAmount, calculatePerP
 
 import { InputField, TotalCard } from '../../Components';
 import { removeResetValidation, VerifyInputs } from '../../Assets/js/validation';
-
-
-const initialCustomer = {
-    name: '',
-    address: '',
-    phone: '',
-    email: '',
-};
-
-const initialBill = {
-    orderId: '',
-    date: '',
-    rate: '',
-    customerProductWeight: 0.0,
-    customerProductAmount: '',
-    totalAmount: '',
-    discount: '',
-    grandTotalAmount: '',
-    advanceAmount: '',
-    payedAmount: '',
-    remainingAmount: '',
-    status: '',
-};
-
-const initialBillProduct = {
-    lossWeight: '',
-    totalWeight: '',
-    rate: '',
-    makingCharge: '',
-    totalAmountPerProduct: 0.0,
-};
-
-const initialProduct =  {
-    productName: '',
-    netWeight: '',
-    size: 0.0,
-    gemsName: '',
-    gemsPrice: '',
-};
+import { INITIAL_BILL, INITIAL_BILL_PRODUCT, INITIAL_BILL_PRODUCT_LIST, INITIAL_CUSTOMER, INITIAL_PRODUCT  } from '../../Components/Bill/Constant';
 
 
 const Toast = Swal.mixin({
@@ -61,13 +23,15 @@ function GenerateBill() {
 
     const latestRate = useSelector(state => state.latestRateReducer.data);
 
-    const [bill, setBill] = useState({...initialBill});
-    const [product, setProduct] = useState({...initialProduct});
-    const [customer, setCustomer] = useState({...initialCustomer});
-    const [billProduct, setBillProduct] = useState({...initialBillProduct});
+    const [billType, setBillType] = useState('gold');
+
+    const [bill, setBill] = useState({...INITIAL_BILL});
+    const [product, setProduct] = useState({...INITIAL_PRODUCT});
+    const [customer, setCustomer] = useState({...INITIAL_CUSTOMER});
+    const [billProduct, setBillProduct] = useState({...INITIAL_BILL_PRODUCT});
 
     /**store all the billProduct  */
-    const [billProductList, setBillProductList] = useState([]);
+    const [billProductList, setBillProductList] = useState(INITIAL_BILL_PRODUCT_LIST);
 
     const [finalWeight, setFinalWeight] = useState(0);
     const [grandTotalWeight, setGrandTotalWeight] = useState(0);
@@ -100,7 +64,9 @@ function GenerateBill() {
             if( inputName === 'customerProductWeight'){
                 setGrandTotalWeight(finalWeight-bill['customerProductWeight']);
 
-                bill['customerProductAmount'] = value * (calculateRatePerLal(latestRate.tajabiRate));
+                let rate = (billType === 'gold')? latestRate.tajabiRate : latestRate.silverRate;
+
+                bill['customerProductAmount'] = value * (calculateRatePerLal(rate));
             }
 
             bill.grandTotalAmount = calculateGrandTotalAmount(bill);
@@ -125,9 +91,12 @@ function GenerateBill() {
 
     const addButtonHandler=()=>{
         billProduct.product = product;
-        billProduct.rate = latestRate.hallmarkRate;
 
-        calculatePerProductAmount(billProduct, latestRate);
+        let rate = (billType === 'gold')? latestRate.hallmarkRate : latestRate.silverRate;
+
+        billProduct.rate = rate;
+
+        calculatePerProductAmount(billProduct, rate);
 
         setBillProduct({...billProduct});
 
@@ -154,9 +123,34 @@ function GenerateBill() {
     }
 
     const clearFields = ()=>{
-        setBill({...initialBill});
-        setProduct({...initialProduct});
-        setBillProduct({...initialBillProduct});
+        setBill({...INITIAL_BILL});
+        setProduct({...INITIAL_PRODUCT});
+        setBillProduct({...INITIAL_BILL_PRODUCT});
+    }
+
+    const clearButtonHandler=()=>{
+
+        product.gemsName = '';
+        product.netWeight = '';
+        product.gemsPrice = '';
+        product.productName = '';
+
+        billProduct.lossWeight = '';
+        billProduct.makingCharge = '';
+        
+        setProduct({...product});
+        setBillProduct({...billProduct});
+    }
+
+    const resetHandler=()=>{
+        setBillType('gold');
+
+        setBill(INITIAL_BILL);
+        setProduct(INITIAL_PRODUCT);
+        setCustomer(INITIAL_CUSTOMER);
+        setBillProduct(INITIAL_BILL_PRODUCT);
+        setBillProductList(INITIAL_BILL_PRODUCT_LIST);
+        
     }
 
     const buttonClickHandler=(e)=>{
@@ -168,7 +162,7 @@ function GenerateBill() {
 
             saveButtonHandler();
         }
-        else if (buttonName === 'Add' || e.type == 'submit'){
+        else if (buttonName === 'Add' || e.type === 'submit'){
 
             VerifyInputs();
 
@@ -177,6 +171,14 @@ function GenerateBill() {
         else if(buttonName === 'Draft'){
 
             setBillProductList([...billProductList]);
+        }
+        else if(buttonName === 'Clear'){
+
+            clearButtonHandler();
+        }
+        else if(buttonName === 'Reset'){
+
+            resetHandler();
         }
 
     };
@@ -251,10 +253,19 @@ function GenerateBill() {
     return (
         <div className="card generate-bill">
             <div className="card-body fs-5">
-                <h5 className="card-title fs-5 ps-1">
-                    Bill No:
-                    <span className='fs-5 ps-2'>234</span>
-                </h5>
+                <span className='d-flex mx-auto justify-content-between'>
+                    <h5 className="card-title fs-5 ps-1">
+                        Bill No:
+                        <span className='fs-5 ps-2'>234</span>
+                    </h5>
+
+                    <select name="rate" id="rate" class="dropdown-toggle rate-choose-btn" disabled={(billProductList.length<=0)? false: true} value={billType} defaultValue={billType} onChange={(e)=>setBillType(e.target.value)} >
+                        <option value="gold">Gold</option>
+                        <option value="silver">Silver</option>
+                    </select>
+                </span>
+                
+
 
                 <form className="row g-4 pt-3 needs-validation" noValidate onSubmit={buttonClickHandler}>
                     <section className='row mb-2'>
@@ -329,7 +340,7 @@ function GenerateBill() {
 
                     <button className="ri-add-circle-fill add-btn" name='Add' ></button>
 
-                    <section className='d-flex generate-bill-product-detail'>
+                    <section className='generate-bill-product-detail'>
                         <div className="card">
                             <div className='card-body col  justify-content-around d-flex product--input-card'>
                             {
@@ -358,25 +369,21 @@ function GenerateBill() {
 
                             <div className='generate-bill--button'>
                             {
-                                [{name:'Save', color:'#4caf50'}, {name:'Draft', color:'gray'}, {name:'Clear', color:'#ffc107'}, {name:'Reset', color:'#f44336'}].map((button, index)=>{
+                                [{name:'Save', color:'#4caf50', icon:'folder'}, {name:'Draft', color:'gray', icon:'folder-plus'}, {name:'Clear', color:'#ffc107', icon:'exclamation-triangle'}, {name:'Reset', color:'#f44336', icon:'exclamation-octagon'}].map((button, index)=>{
                                     return(
-                                        <div className="col" key={`${index}GBB`}>
-                                            {
-                                                <button className={`btn `}
-                                                    name={button.name}
-                                                    onClick={buttonClickHandler}
-                                                    style={{backgroundColor:button.color, color:'white'}}
-                                                    type={(button.name === 'Save' || button.name === 'Draft')
-                                                        ? 'submit'
-                                                        : (button.name === 'Clear')
-                                                            ? 'reset' : 'submit'
-                                                }
-                                                >
-                                                    {button.name}
-                                                </button>
-                                            }
-                                        </div>
-
+                                        <button className={`btn d-flex gap-1`}
+                                            name={button.name}
+                                            onClick={buttonClickHandler}
+                                            style={{backgroundColor:button.color, color:'white'}}
+                                            type={(button.name === 'Save' || button.name === 'Draft')
+                                                ? 'submit'
+                                                : (button.name === 'Clear')
+                                                    ? 'reset' : 'submit'
+                                        }
+                                        >
+                                            <i class={`bi bi-${button.icon}`}></i>
+                                            {button.name}
+                                        </button>
                                     )
                                 })
                             }

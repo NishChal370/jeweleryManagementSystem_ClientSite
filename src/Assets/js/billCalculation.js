@@ -1,6 +1,6 @@
 
-const calculatePerProductAmount = (billProduct,latestRate)=>{
-    let {hallmarkRate} = latestRate;
+const calculatePerProductAmount = (billProduct,rate)=>{
+    // let {hallmarkRate} = latestRate;
     let { product, lossWeight, makingCharge, totalWeight } = billProduct;
     let{ netWeight, gemsPrice } = product;
 
@@ -9,7 +9,7 @@ const calculatePerProductAmount = (billProduct,latestRate)=>{
     totalWeight = billProduct.totalWeight;
 
     gemsPrice = (gemsPrice == '')? 0: gemsPrice;
-    billProduct.totalAmountPerProduct = (parseFloat(totalWeight) * parseFloat(calculateRatePerLal(hallmarkRate))) + parseFloat(makingCharge) + parseFloat(gemsPrice);
+    billProduct.totalAmountPerProduct = (parseFloat(totalWeight) * parseFloat(calculateRatePerLal(rate))) + parseFloat(makingCharge) + parseFloat(gemsPrice);
 
     return billProduct;
 }

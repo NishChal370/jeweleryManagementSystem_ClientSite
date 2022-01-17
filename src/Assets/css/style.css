@@ -786,7 +786,25 @@ table{
   font-size: 2.3rem;
   
 }
-
+.generate-bill .rate-choose-btn{
+  height: fit-content;
+  margin-top: 1rem;
+  margin-right: 1rem;
+  width: 8rem;
+  font-weight: bolder;
+  font-size: 1.2rem;
+  border: 2px solid black;
+  border-radius: 6px;
+  color: #8b6105;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+}
+.generate-bill .rate-choose-btn:hover{
+  cursor: pointer;
+}
+.generate-bill-product-detail{
+  display: flex;
+}
 .generate-bill-product-detail .card .card-body div{
   width: 90%;
 }
@@ -798,14 +816,20 @@ table{
 }
 /*product--input-card*/
 .generate-bill-product-detail .card:nth-child(1){
-  width: 80%;
+  width: 100%;
   top: 2rem;
+  flex: 2;
   height: 90%;
+  
+  /* background-color: #18d26e; */
+  /* flex-grow: 4; */
 }
 
 .generate-bill-product-detail .card:nth-child(2){
-  width: 40%;
+  width: 100%;
+  flex: 1;
   border: 2px solid #012a7050;
+  /* background-color: #3e4f6f; */
 }
 .generate-bill-product-detail input{
   width: 100%;
@@ -821,14 +845,26 @@ table{
   justify-content: space-between;
 }
 .generate-bill--button{
-  gap: 2rem;
-  position:sticky;
   display: flex;
-  width: fit-content;
-  margin-left: 52%;
+  justify-content: end;
+
+  gap: 2rem;
+  margin-right: 4rem;
+  /* position:sticky; */
+  /* display: flex; */
+  /* width: fit-content; */
+  /* justify-content: flex-start; */
+  /* margin-left: 46%; */
+}
+.generate-bill--button .col{
+  /* width: 2rem !important;
+  padding: 0px !important; */
+  
+  background-color: #18d26e;
 }
 .generate-bill--button button{
-  width: 5rem;
+  /* width: fit-content;
+  align-items: flex-end; */
 }
 .bill-totals--card span input{
   text-align: right;
@@ -845,30 +881,26 @@ table{
 
 @media (max-width: 1440px) {
   .generate-bill-product-detail input{
-    width: 50%;
-  }
-  .generate-bill--button{
-    margin-left: 32%;
-
+    width: 100%;
   }
 }
 @media (max-width: 1024px) {
-  .aside-inputs div{
-    flex-direction: column;
-
+  .generate-bill{
+    height: 120vh;
+  }
+  
+  .generate-bill-product-detail{
+    display: inline;
+  }
+  .generate-bill-product-detail .card:nth-child(1) .card-body{
+    height: 1rem;
   }
   .generate-bill-product-detail input{
     width: 100%;
   }
-  .generate-bill--button{
-    margin-left: 26%;
-  }
+
 }
 @media (max-width: 768px) {
-  .generate-bill--button{
-    gap: 1rem;
-    margin-left: 0%;
-  }
 }
 
 
