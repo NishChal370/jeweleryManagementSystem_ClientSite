@@ -1,10 +1,8 @@
 
 import { useHistory } from 'react-router-dom';
 import React, {useState, useEffect} from 'react'
-
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
-
-import { AXIOS, URL_GET_ALL_RATES } from '../../API/Constant';
+import { Fetch_All_Rates } from '../../API/UserServer';
 
 function Dashboard() {
 
@@ -15,7 +13,7 @@ function Dashboard() {
     
     const fetchRates=()=>{
 
-        AXIOS.get(URL_GET_ALL_RATES)
+        Fetch_All_Rates()
             .then(function (response) {
                 // handle success
                 setRates(response.data.reverse().slice(0,3))

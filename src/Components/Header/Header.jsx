@@ -1,13 +1,9 @@
-
+import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom';
 import React, { useEffect, useState } from 'react'
-
-import { useSelector, useDispatch } from 'react-redux';
-
-import Swal from 'sweetalert2';
-
 import { setLatestRate } from '../../Redux/Action';
-import { AXIOS, URL_GET_ALL_RATES } from '../../API/Constant';
+import { useSelector, useDispatch } from 'react-redux';
+import { Fetch_All_Rates } from '../../API/UserServer';
 import { ShopLogo, ProfileImage } from '../../Assets/img/index';
 
 
@@ -31,7 +27,7 @@ function Header({isDisplayed, showSideBarHandler}) {
     
     const fetchRate=()=>{
 
-        AXIOS.get(URL_GET_ALL_RATES)
+        Fetch_All_Rates()
             .then(function (response) {
                 // handle success
                 dispatch(setLatestRate(response.data[response.data.length-1]));

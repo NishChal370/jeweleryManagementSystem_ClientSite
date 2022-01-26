@@ -25,7 +25,7 @@ const VerifyInputs = () =>{
 /**Reset validation for new data */
 const removeResetValidation=()=>{
     'use strict'
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    
     var forms = document.getElementsByTagName("form");
 
     // Loop over them and prevent submission

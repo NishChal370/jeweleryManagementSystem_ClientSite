@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-
-import { AXIOS, URL_SET_RATE } from '../../API/Constant';
-
+import Swal from 'sweetalert2';
+import { Post_Rate } from '../../API/UserServer';
 import { setLatestRate } from '../../Redux/Action';
 import { VerifyInputs } from '../../Assets/js/validation';
 
-import Swal from 'sweetalert2';
 
 let rate = {
     'hallmarkRate': 0,
@@ -58,7 +56,7 @@ function ChangeRate() {
     //set current rate to DB
     const setCurrentRateHandler=()=>{
         
-        AXIOS.post(URL_SET_RATE, currentRate)
+        Post_Rate(currentRate)
             .then(function (response) {
                 // handle success;  
                 Swal.fire({

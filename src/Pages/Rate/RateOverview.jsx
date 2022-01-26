@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react'
-
 import Swal from 'sweetalert2';
-
 import { format } from 'date-fns';
-
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
-
-import { AXIOS, URL_GET_ALL_RATES, URL_GET_RATE_BY_DATE } from '../../API/Constant';
+import { Fetch_All_Rates, Fetch_Rate_By_Date } from '../../API/UserServer';
 
 
 const Toast = Swal.mixin({
@@ -24,7 +20,7 @@ function RateOverview() {
 
 
     const fetchRates=()=>{
-        AXIOS.get(URL_GET_ALL_RATES)
+        Fetch_All_Rates()
             .then(function (response) {
                 // handle success
                 setRates(response.data.reverse())
@@ -43,7 +39,7 @@ function RateOverview() {
     const fetchGetRate=(e)=>{
         let date = format(e.target.value, 'yyyy-MM-dd');
 
-        AXIOS.get(URL_GET_RATE_BY_DATE+date)
+        Fetch_Rate_By_Date(date)
             .then(function (response) {
                 // handle success; 
 

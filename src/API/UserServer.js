@@ -1,93 +1,21 @@
-// import axios from "axios";
-// import { AXIOS, URL_GET_ALL_RATES } from "./Constant";
-
-// export const set=async ()=>{
-//     try {
-//          const response = await axios.get(`http://127.0.0.1:8000/api/rates/`)
-//                     .then(function (res) {
-//                         // handle success
-//                         console.log("INside usrl")
-//                         console.log(res);
-//                         return res;
-//                     })
-//                     .catch(function (error) {
-//                         // handle error
-//                         console.log(error);
-//                     });
-         
-//          console.log("--------------------");
-//          console.log(response);
-//          console.log("--------------------");
-//          return response;
-//      } catch (error) {
-//          // handle error
-//          alert('Not Found');
-//      }
-//  };
-
-// // export const set=async ()=>{
-// //     try {
-// //          const response = await AXIOS.get(URL_GET_ALL_RATES);
-// //             // handle success; 
-// //             console.log(response) 
-// //             return response.data;
-// //      } catch (error) {
-// //          // handle error
-// //          alert('Not Found');
-// //      }
-// //  };
-
-// // export const set =async ()=>{
-// //     try {
-// //         await axios.get('http://127.0.0.1:8000/api/rates/')
-// //         .then(function (response) {
-// //             // handle success
-// //             console.log("INside usrl")
-// //             console.log(response);
-// //             return response;
-// //         })
-// //         .catch(function (error) {
-// //             // handle error
-// //             console.log(error);
-// //         });
-        
-// //     } catch (error) {
-// //         // handle error
-// //         alert('Not Found');
-// //     }
-    
-// // }
+import { AXIOS, URL_GET_ALL_RATES, URL_GET_RATE_BY_DATE, URL_SET_RATE } from "./Constant"
 
 
+export const Fetch_Rate_By_Date = async (date)=>{
+    return await AXIOS.get(URL_GET_RATE_BY_DATE+date);
+}
 
-// /**
-//  * 
-//  * export const set=async ()=>{
-//    try {
-//         // const response = await AXIOS.get(URL_GET_ALL_RATES);
-//         // // handle success;  
-//         // console.log("--------------------");
-//         // console.log(response);
-//         // console.log("--------------------");
-//         const da = await AXIOS.get(URL_GET_ALL_RATES)
-//             .then((response) => response.json())
-//             .then(data => {
-//                 console.log("---------INSIDE-----------");
-//                 console.log(data);
-//                 console.log("---------INSIDE-----------");
-            
-//                 return data['retrieve-agent']
-//             })
 
-//         // // handle success;  
-//         console.log("--------------------");
-//         console.log(da);
-//         console.log("--------------------");
-//         return da;
-//     } catch (error) {
-//         // handle error
-//         alert('Not Found');
-//     }
-// };
+export const Fetch_All_Rates = async ()=>{
+    return await AXIOS.get(URL_GET_ALL_RATES);
+}
 
-//  */
+
+export const Post_Rate = async (currentRate)=>{
+    return await AXIOS.post(URL_SET_RATE, currentRate);
+}
+
+// tried to create sepreeate file for axios and this works
+// export const fetchTry = async ()=>{
+//     return await axios.get(`http://127.0.0.1:8000/api/rates/`)
+// }

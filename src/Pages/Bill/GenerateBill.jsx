@@ -1,13 +1,10 @@
+import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
-
-import Swal from 'sweetalert2';
-
-import { calculateFinalWeightAndAmount, calculateGrandTotalAmount, calculatePerProductAmount, calculateRatePerLal, calculateRemaingAmount } from '../../Assets/js/billCalculation';
-
 import { InputField, TotalCard } from '../../Components';
 import { removeResetValidation, VerifyInputs } from '../../Assets/js/validation';
 import { INITIAL_BILL, INITIAL_BILL_PRODUCT, INITIAL_BILL_PRODUCT_LIST, INITIAL_CUSTOMER, INITIAL_PRODUCT  } from '../../Components/Bill/Constant';
+import { calculateFinalWeightAndAmount, calculateGrandTotalAmount, calculatePerProductAmount, calculateRatePerLal, calculateRemaingAmount } from '../../Assets/js/billCalculation';
 
 
 const Toast = Swal.mixin({
@@ -87,6 +84,7 @@ function GenerateBill() {
         customer.bills = [bill];
 
         console.log(customer);
+        
     };
 
     const addButtonHandler=()=>{
@@ -150,7 +148,6 @@ function GenerateBill() {
         setCustomer(INITIAL_CUSTOMER);
         setBillProduct(INITIAL_BILL_PRODUCT);
         setBillProductList(INITIAL_BILL_PRODUCT_LIST);
-        
     }
 
     const buttonClickHandler=(e)=>{
@@ -251,7 +248,7 @@ function GenerateBill() {
 
 
     return (
-        <div className="card generate-bill">
+        <div className="card generate-bill" id='generate-bill'>
             <div className="card-body fs-5">
                 <span className='d-flex mx-auto justify-content-between'>
                     <h5 className="card-title fs-5 ps-1">
@@ -259,7 +256,7 @@ function GenerateBill() {
                         <span className='fs-5 ps-2'>234</span>
                     </h5>
 
-                    <select name="rate" id="rate" class="dropdown-toggle rate-choose-btn" disabled={(billProductList.length<=0)? false: true} value={billType} defaultValue={billType} onChange={(e)=>setBillType(e.target.value)} >
+                    <select name="rate" id="rate" className="dropdown-toggle rate-choose-btn" disabled={(billProductList.length<=0)? false: true} value={billType} onChange={(e)=>setBillType(e.target.value)} >
                         <option value="gold">Gold</option>
                         <option value="silver">Silver</option>
                     </select>
@@ -312,9 +309,8 @@ function GenerateBill() {
                         {
                             billProductList.map((billProduct, index)=>{
                                 return(
-                                    <>
-                                    <tr>
-                                        <th scope="row" key={`${index}GBTR`}>{index+1}</th>
+                                    <tr  key={`${index}GBTR`}>
+                                        <th scope="row">{index+1}</th>
                                         <td>{billProduct.product.productName}</td>
                                         <td>{billProduct.product.netWeight}</td>
                                         <td>{billProduct.lossWeight}</td>
@@ -328,8 +324,6 @@ function GenerateBill() {
                                             <i className="ri-delete-bin-7-fill curser--on-hover text-danger"  onClick={()=>deleteAddedProduct(index)}></i>
                                         </td>
                                     </tr>
-                                    </>
-
                                 )
                             })
                         }
@@ -371,7 +365,7 @@ function GenerateBill() {
                             {
                                 [{name:'Save', color:'#4caf50', icon:'folder'}, {name:'Draft', color:'gray', icon:'folder-plus'}, {name:'Clear', color:'#ffc107', icon:'exclamation-triangle'}, {name:'Reset', color:'#f44336', icon:'exclamation-octagon'}].map((button, index)=>{
                                     return(
-                                        <button className={`btn d-flex gap-1`}
+                                        <button className={`btn d-flex gap-1`} key={`${index}GBBG`}
                                             name={button.name}
                                             onClick={buttonClickHandler}
                                             style={{backgroundColor:button.color, color:'white'}}
@@ -381,7 +375,7 @@ function GenerateBill() {
                                                     ? 'reset' : 'submit'
                                         }
                                         >
-                                            <i class={`bi bi-${button.icon}`}></i>
+                                            <i className={`bi bi-${button.icon}`}></i>
                                             {button.name}
                                         </button>
                                     )

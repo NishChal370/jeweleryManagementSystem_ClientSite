@@ -862,10 +862,6 @@ table{
   
   background-color: #18d26e;
 }
-.generate-bill--button button{
-  /* width: fit-content;
-  align-items: flex-end; */
-}
 .bill-totals--card span input{
   text-align: right;
   width: 90px;
