@@ -1,6 +1,6 @@
 import React from 'react'
 
-function InputField({name, type, changehandler, value, min, flex}) {
+function InputField({name, type, changehandler, value, min, flex, isReadonly}) {
 
 
     return (
@@ -18,6 +18,7 @@ function InputField({name, type, changehandler, value, min, flex}) {
                             name={name}
                             value={value} 
                             onChange={(e)=>changehandler(e)}   
+                            readOnly={isReadonly}
                         />
                     )
                     : (
@@ -26,7 +27,8 @@ function InputField({name, type, changehandler, value, min, flex}) {
                             type={type}
                             name={name}
                             value={value} 
-                            onChange={(e)=>changehandler(e)}   
+                            onChange={(e)=>changehandler(e)} 
+                            readOnly={isReadonly}  
                         />
                     )
             }

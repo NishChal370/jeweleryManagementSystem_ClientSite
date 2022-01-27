@@ -1,0 +1,141 @@
+.display--flex{
+    display: flex;
+    gap: 0.6rem;
+}
+
+.font--bold>p{
+    font-weight: 600;
+}
+
+
+#top-design{
+    width: 9rem ;
+    height: 5rem;
+    z-index: 1;
+    position:sticky;
+    left: 100%;
+    background-color: #009AEE;
+    border-radius: 0rem 0rem 0rem 2rem;
+}
+
+#footer-design{
+    z-index: 1;
+    width: 15rem;
+    margin: 0rem;
+    padding: 0rem;
+    height: 8rem;
+    background-color: #009AEE;
+    border-radius: 0rem 2rem 0rem 0rem;
+}
+#footer-design-2{
+    z-index: 1;
+    position: absolute;
+    top: 94%;
+    width: 26rem;
+    height: 5rem;
+    background-color: #063e5c;
+    border-radius: 0rem 2rem 0rem 0rem;
+}
+/* #footer-design>span :nth-child(2){
+    z-index: 1;
+    width: 11rem ;
+    height: 4rem;
+    background-color: #009AEE;
+    border-radius: 0rem 2rem 0rem 0rem;
+} */
+/* fullbody */
+#print-me{
+    color: #012970 !important;
+}
+
+#print-me >header *, #print-me >main *{
+    font-family: "Poppins", sans-serif !important;
+    margin: 0rem;
+}
+
+#print-me > header{
+    display: flex;
+}
+
+#print-me > header > img{
+    width: 5rem;
+}
+
+/* logo side shopname and address */
+#print-me > header > span{
+    padding-top: 1.2rem;
+}
+
+#print-me > header, #print-me > main, #print-me>footer{
+    margin: 0rem 6rem !important;
+}
+
+#print-me > main > .customer-info{
+    padding-top: 2rem;
+    display: flex;
+    margin-bottom: 4rem;
+    justify-content: space-between;
+}
+
+#print-me > main > .customer-info > section{
+    width: 30%;
+}
+
+#print-me > main > .customer-info > section >h5{
+    font-weight: 600;
+}
+#print-me > main > .customer-info > section>hr{
+    margin-bottom: 1rem !important;
+    background-color: #009AEE;
+    height: 0.2rem;
+}
+
+#print-me > main > .customer-info > aside{
+    width: 20%;
+}
+
+#print-me > main > .customer-info > aside>h5{
+    font-weight: 900;
+    font-size: 2rem !important;
+}
+
+#print-me> main> div:nth-child(3){
+    display: flex;
+    justify-content: space-between;
+    /* background-color: red; */
+}
+
+#print-me> main> div:nth-child(3) > div{
+    margin-top: 2rem;
+    width: 40%;
+}
+#print-me> main> div:nth-child(3) >aside{
+    padding-top: 2rem;
+    width: 40%;
+}
+#print-me> main> div:nth-child(3) >aside>.signiture{
+    margin-top: 4rem;
+    display: flex;
+    justify-content: flex-end;
+}
+#print-me> main> div:nth-child(3) >aside >.signiture>span>hr{
+    height: 0.2rem;
+
+}
+
+#print-me>footer{
+    padding: 4rem 5rem 2rem 5rem;
+    display: flex;
+    justify-content: space-between;
+    /* background-color: greenyellow; */
+}
+#print-me>footer>section{
+    display: flex;
+    gap: 1rem;
+}
+#print-me>footer>section>div>p{
+    margin-bottom: 0rem;
+}
+#print-me>footer img{
+    width: 4rem;
+}

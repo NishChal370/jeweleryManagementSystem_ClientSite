@@ -19,3 +19,24 @@ export const Post_Rate = async (currentRate)=>{
 // export const fetchTry = async ()=>{
 //     return await axios.get(`http://127.0.0.1:8000/api/rates/`)
 // }
+
+// export const getTry= async()=>{
+//     console.log("ME ");
+//     return await AXIOS.get(URL_GET_ALL_RATES)
+//             .then((result)=>{
+//                 Toast.fire({
+//                     icon: 'sucess',
+//                     title: "Saved"
+//                 });
+                
+//                 return result
+//             })
+//             .catch((error)=>{
+//                 Toast.fire({
+//                     icon: 'error',
+//                     title: error+" unable to save"
+//                 });
+
+//                 return "Error!!"
+//             });            
+// }

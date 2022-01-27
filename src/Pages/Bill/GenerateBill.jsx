@@ -1,11 +1,16 @@
 import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { InputField, TotalCard } from '../../Components';
 import { removeResetValidation, VerifyInputs } from '../../Assets/js/validation';
 import { INITIAL_BILL, INITIAL_BILL_PRODUCT, INITIAL_BILL_PRODUCT_LIST, INITIAL_CUSTOMER, INITIAL_PRODUCT  } from '../../Components/Bill/Constant';
 import { calculateFinalWeightAndAmount, calculateGrandTotalAmount, calculatePerProductAmount, calculateRatePerLal, calculateRemaingAmount } from '../../Assets/js/billCalculation';
-
+import ChangeRate from '../Rate/ChangeRate';
+import { Dashboard } from '..';
+import Print from '../../Components/print';
+import PrintMe from '../../Components/print';
+import Invoice from '../../Components/Invoice/Invoice';
+// import { getTry } from '../../API/UserServer';
 
 const Toast = Swal.mixin({
     toast: true,
@@ -76,15 +81,24 @@ function GenerateBill() {
     };
 
     const saveButtonHandler=()=>{
-        console.log("SAVE BUTTON CLICK");
+        var a = document.getElementById('print-me');
+
+        var win = window.open();
+        win.document.open();
+        win.document.write(a);
+        win.document.close();
+        win.print();
+        
+
+                /*console.log("SAVE BUTTON CLICK");
         alert("SAVED");
         bill.billProduct = billProductList;
 
         bill.rate = latestRate.hallmarkRate;
         customer.bills = [bill];
 
-        console.log(customer);
-        
+        console.log(customer);*/      
+
     };
 
     const addButtonHandler=()=>{
@@ -192,7 +206,7 @@ function GenerateBill() {
     };
 
 
-    const deleteAddedProduct=(index)=>{
+    const deleteAddedProductHandler=(index)=>{
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -217,7 +231,7 @@ function GenerateBill() {
         
     }
 
-    const editAddedProduct=(index, billProduct)=>{
+    const editAddedProductHandler=(index, billProduct)=>{
         let{product} = billProduct;
 
         setEditingBillProductIndex(index);
@@ -246,9 +260,15 @@ function GenerateBill() {
         setBill({...bill});
     }, [billProductList]);
 
+    /* verify inputs */
+    useEffect(()=>{
+        VerifyInputs();
+    },[]);
+
 
     return (
         <div className="card generate-bill" id='generate-bill'>
+            <Invoice isHidden={true}/>
             <div className="card-body fs-5">
                 <span className='d-flex mx-auto justify-content-between'>
                     <h5 className="card-title fs-5 ps-1">
@@ -283,6 +303,7 @@ function GenerateBill() {
                                                 name ={key}
                                                 value={customer[key]}
                                                 changehandler={(e)=>inputHandler(e)}
+                                                isReadonly = {false}
                                                 type={(key==='email') ? "email" : (key==='phone')? "number":"text"}
                                             />
                                         )
@@ -320,8 +341,8 @@ function GenerateBill() {
                                         <td>{billProduct.product.gemsPrice}</td>
                                         <td>{billProduct.totalAmountPerProduct}</td>
                                         <td>
-                                            <i className="ri-edit-2-fill curser--on-hover text-primary" onClick={()=> editAddedProduct(index, billProduct)}></i> &emsp;
-                                            <i className="ri-delete-bin-7-fill curser--on-hover text-danger"  onClick={()=>deleteAddedProduct(index)}></i>
+                                            <i className="ri-edit-2-fill curser--on-hover text-primary" onClick={()=> editAddedProductHandler(index, billProduct)}></i> &emsp;
+                                            <i className="ri-delete-bin-7-fill curser--on-hover text-danger"  onClick={()=>deleteAddedProductHandler(index)}></i>
                                         </td>
                                     </tr>
                                 )
