@@ -2,10 +2,11 @@ import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
 import React, { useEffect, useRef, useState } from 'react';
 import { useReactToPrint } from 'react-to-print';
-import { InputField, Invoice, TotalCard } from '../../Components';
+import { InputField, Invoice, ProductTable, TotalCard } from '../../Components';
 import { removeResetValidation, VerifyInputs } from '../../Assets/js/validation';
 import { INITIAL_BILL, INITIAL_BILL_PRODUCT, INITIAL_BILL_PRODUCT_LIST, INITIAL_CUSTOMER, INITIAL_PRODUCT  } from '../../Components/Bill/Constant';
 import { calculateFinalWeightAndAmount, calculateGrandTotalAmount, calculatePerProductAmount, calculateRatePerLal, calculateRemaingAmount } from '../../Assets/js/billCalculation';
+
 
 
 const Toast = Swal.mixin({
@@ -20,8 +21,6 @@ const Toast = Swal.mixin({
 function GenerateBill() {
     const componentRef = useRef();
     const latestRate = useSelector(state => state.latestRateReducer.data);
-
-    const [billType, setBillType] = useState('gold');
 
     const [bill, setBill] = useState({...INITIAL_BILL});
     const [product, setProduct] = useState({...INITIAL_PRODUCT});
@@ -56,10 +55,16 @@ function GenerateBill() {
         else if(bill.hasOwnProperty(inputName)){
             bill[inputName] = value;
 
+            if(inputName === 'billType'){
+                let rate = (bill['billType'] === 'gold')? latestRate.hallmarkRate : latestRate.silverRate;
+                bill['rate'] = rate;
+            }
+
             if( inputName === 'customerProductWeight'){
 
                 bill['grandTotalWeight'] = bill['finalWeight']-bill['customerProductWeight'];
-                let rate = (billType === 'gold')? latestRate.tajabiRate : latestRate.silverRate;
+
+                let rate = (bill['billType'] === 'gold')? latestRate.tajabiRate : latestRate.silverRate;
 
                 bill['customerProductAmount'] = value * (calculateRatePerLal(rate));
             }
@@ -73,40 +78,58 @@ function GenerateBill() {
 
     };
 
-    
+
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
-        documentTitle: "Invoice file"
+        documentTitle: "Invoice file",
+        onAfterPrint:()=>resetHandler(),
     });
 
-    const save = ()=>{
-        handlePrint()
-        console.log("SAVE BUTTON CLICK");
-        alert("SAVED");
+    const save = (saveAs)=>{
         bill.billProduct = billProductList;
-
-        bill.rate = latestRate.hallmarkRate;
+        (saveAs === 'Draft')&& (bill.status ='Draft')
         customer.bills = [bill];
-
         console.log(customer);
+
+        handlePrint();
     }
 
-    const saveButtonHandler=()=>{
-        // save()
-        (billProductList.length>0)
-        ? save()
-        :(
+    const saveButtonHandler=(saveAs)=>{
+
+        if(billProductList.length>0){
+            Swal.fire({
+                title: `Do you want to save the bill${(saveAs==='Draft')?(" as draft "):''}?`,
+                text:'Make sure you are confirm',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'Save',
+                denyButtonText: `Don't save`,
+
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    save(saveAs);
+
+                } else if (result.isDenied) {
+
+                    Swal.fire('Bill is not saved', '', 'info')
+                }
+            });
+
+        }
+        else{
             Toast.fire({
                 icon: 'error',
-                title: 'Bill is empty !!'
+                title: 'Bill is empty !!',
+                text: 'click add to add first'
             })
-        )
+        }
     };
 
     const addButtonHandler=()=>{
         billProduct.product = product;
 
-        let rate = (billType === 'gold')? latestRate.hallmarkRate : latestRate.silverRate;
+        let rate = (bill['billType'] === 'gold')? latestRate.hallmarkRate : latestRate.silverRate;
 
         billProduct.rate = rate;
 
@@ -137,43 +160,37 @@ function GenerateBill() {
     }
 
     const clearFields = ()=>{
-        setBill({...INITIAL_BILL});
         setProduct({...INITIAL_PRODUCT});
         setBillProduct({...INITIAL_BILL_PRODUCT});
     }
 
     const clearButtonHandler=()=>{
 
-        product.gemsName = '';
-        product.netWeight = '';
-        product.gemsPrice = '';
-        product.productName = '';
-
         billProduct.lossWeight = '';
         billProduct.makingCharge = '';
-        
-        setProduct({...product});
-        setBillProduct({...billProduct});
+
+        setProduct({...INITIAL_PRODUCT});
+        setBillProduct(billProduct);
     }
 
     const resetHandler=()=>{
-        setBillType('gold');
+        INITIAL_BILL['rate'] = latestRate.hallmarkRate;
 
-        setBill(INITIAL_BILL);
-        setProduct(INITIAL_PRODUCT);
-        setCustomer(INITIAL_CUSTOMER);
-        setBillProduct(INITIAL_BILL_PRODUCT);
-        setBillProductList(INITIAL_BILL_PRODUCT_LIST);
+        setBill({...INITIAL_BILL});
+        setProduct({...INITIAL_PRODUCT});
+        setCustomer({...INITIAL_CUSTOMER});
+        setBillProduct({...INITIAL_BILL_PRODUCT});
+        setBillProductList([...INITIAL_BILL_PRODUCT_LIST]);
     }
 
     const buttonClickHandler=(e)=>{
         e.preventDefault();
-        
+
         let buttonName = e.target.name;
 
         if(buttonName === 'Save'){
 
-            saveButtonHandler();
+            saveButtonHandler(buttonName);
         }
         else if (buttonName === 'Add' || e.type === 'submit'){
 
@@ -183,7 +200,7 @@ function GenerateBill() {
         }
         else if(buttonName === 'Draft'){
 
-            setBillProductList([...billProductList]);
+            saveButtonHandler(buttonName);
         }
         else if(buttonName === 'Clear'){
 
@@ -229,8 +246,8 @@ function GenerateBill() {
                 setBillProductList([...billProductList]);
             }
         });
-        
-        
+
+
     }
 
     const editAddedProductHandler=(index, billProduct)=>{
@@ -243,16 +260,14 @@ function GenerateBill() {
         setBillProduct(billProduct);
     }
 
-    
+
     /**used when user add product in Bill */
     useEffect(() => {
 
         let{finalWeight, finalAmount} = calculateFinalWeightAndAmount(billProductList);
 
-        // setFinalWeight(finalWeight);
         bill['finalWeight'] = finalWeight;
 
-        // setGrandTotalWeight(finalWeight-bill['customerProductWeight']);
         bill['grandTotalWeight'] = bill['finalWeight']-bill['customerProductWeight'];
 
         bill['totalAmount'] = finalAmount;
@@ -269,13 +284,20 @@ function GenerateBill() {
         VerifyInputs();
     },[]);
 
+    useEffect(()=>{
+        if(latestRate !== undefined){
+            bill['rate'] = latestRate.hallmarkRate;
+
+            setBill({...bill});
+        }
+    },[latestRate]);
 
     return (
         <div className="card generate-bill" id='generate-bill'>
             <div hidden>
-                <Invoice ref={componentRef} bill={bill} billProductList={billProductList} customer={customer} billType={billType}/>
+                <Invoice ref={componentRef} bill={bill} billProductList={billProductList} customer={customer}/>
             </div>
-            
+
             <div className="card-body fs-5">
                 <span className='d-flex mx-auto justify-content-between'>
                     <h5 className="card-title fs-5 ps-1">
@@ -283,12 +305,12 @@ function GenerateBill() {
                         <span className='fs-5 ps-2'>234</span>
                     </h5>
 
-                    <select name="rate" id="rate" className="dropdown-toggle rate-choose-btn" disabled={(billProductList.length<=0)? false: true} value={billType} onChange={(e)=>setBillType(e.target.value)} >
+                    <select name="billType" id="rate" className="dropdown-toggle rate-choose-btn" disabled={(billProductList.length<=0)? false: true} value={bill.billType} onChange={(e)=>inputHandler(e)} >
                         <option value="gold">Gold</option>
                         <option value="silver">Silver</option>
                     </select>
                 </span>
-                
+
 
 
                 <form className="row g-4 pt-3 needs-validation" noValidate onSubmit={buttonClickHandler}>
@@ -322,42 +344,12 @@ function GenerateBill() {
                     }
 
                     <div className='scroll--table bill-product-table'>
-                    <table>
-                        <thead>
-                            <tr>
-                            {
-                                ['#', 'Product name', 'Net Weight', 'loss Weight', 'Total Weight', 'M. Charge', 'Gems Name', 'Gems Price', 'Total Amount', 'Action'].map((title,index)=>{
-                                    return <th key={`${index}GBTH`}>{title}</th>
-                                })
-                            }
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                        {
-                            billProductList.map((billProduct, index)=>{
-                                return(
-                                    <tr  key={`${index}GBTR`}>
-                                        <th scope="row">{index+1}</th>
-                                        <td>{billProduct.product.productName}</td>
-                                        <td>{billProduct.product.netWeight}</td>
-                                        <td>{billProduct.lossWeight}</td>
-                                        <td>{billProduct.totalWeight}</td>
-                                        <td>{billProduct.makingCharge}</td>
-                                        <td>{billProduct.product.gemsName}</td>
-                                        <td>{billProduct.product.gemsPrice}</td>
-                                        <td>{billProduct.totalAmountPerProduct}</td>
-                                        <td>
-                                            <i className="ri-edit-2-fill curser--on-hover text-primary" onClick={()=> editAddedProductHandler(index, billProduct)}></i> &emsp;
-                                            <i className="ri-delete-bin-7-fill curser--on-hover text-danger"  onClick={()=>deleteAddedProductHandler(index)}></i>
-                                        </td>
-                                    </tr>
-                                )
-                            })
-                        }
-                        </tbody>
-
-                    </table>
+                        <ProductTable
+                            calledBy = 'bill'
+                            billProductList={billProductList}
+                            editAddedProductHandler={editAddedProductHandler}
+                            deleteAddedProductHandler={deleteAddedProductHandler}
+                        />
                     </div>
 
                     <button className="ri-add-circle-fill add-btn" name='Add' ></button>
@@ -414,8 +406,6 @@ function GenerateBill() {
 
                         <TotalCard
                             bill={bill}
-                            // finalWeight={finalWeight}
-                            // grandTotalWeight={grandTotalWeight}
                             inputHandler={inputHandler}
                         />
 

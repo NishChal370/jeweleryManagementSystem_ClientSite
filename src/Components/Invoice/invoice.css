@@ -37,6 +37,21 @@
     border-radius: 0rem 2rem 0rem 0rem;
 }
 
+.water-marker, .water-marker2{
+    z-index: 1;
+    position: absolute;
+    top :40%;
+    left: 20%;
+    font-size: 6rem;
+    width: fit-content;
+    transform: rotate(-20deg);
+    color: rgba(212, 212, 212, 0.24);
+}
+.water-marker2{
+    top :70%;
+    left: 6%;
+
+}
 /* fullbody */
 #print-me{
     color: #012970 !important;

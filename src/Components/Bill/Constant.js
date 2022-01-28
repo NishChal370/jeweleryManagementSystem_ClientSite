@@ -10,6 +10,7 @@ const INITIAL_BILL = {
     orderId: '',
     date: '',
     rate: '',
+    billType: 'gold',
     customerProductWeight: 0.0,
     customerProductAmount: '',
     finalWeight: 0.0,

@@ -61,6 +61,7 @@ function ChangeRate() {
                 // handle success;  
                 Swal.fire({
                     title: 'Do you want to save the changes?',
+                    text:'Make sure you are confirm',
                     showDenyButton: true,
                     showCancelButton: true,
                     confirmButtonText: 'Save',

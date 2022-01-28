@@ -2,7 +2,6 @@ import React from 'react'
 
 
 function TotalCard({bill, inputHandler}) {
-    // function TotalCard({bill, finalWeight,  grandTotalWeight, inputHandler}) {
 
     let {customerProductWeight, customerProductAmount, finalWeight, grandTotalWeight, discount, grandTotalAmount, advanceAmount, payedAmount, remainingAmount, totalAmount} = bill;
 
