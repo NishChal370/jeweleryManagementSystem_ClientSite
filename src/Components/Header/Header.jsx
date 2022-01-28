@@ -26,7 +26,6 @@ function Header({isDisplayed, showSideBarHandler}) {
 
     
     const fetchRate=()=>{
-
         Fetch_All_Rates()
             .then(function (response) {
                 // handle success

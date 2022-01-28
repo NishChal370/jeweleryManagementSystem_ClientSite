@@ -1,13 +1,12 @@
 import React from 'react';
 import { TotalCard } from '..';
-import { PancardIcon, PhoneIcon, ShopLogo } from '../../Assets/img';
-import { INITIAL_BILL } from '../Bill/Constant';
+import { InternetIcon, PancardIcon, PhoneIcon, ShopLogo } from '../../Assets/img';
 import './invoice.css';
 
-function Invoice({isHidden}) {
+const Invoice = React.forwardRef(({customer, bill, billProductList, billType}, ref) => {
 
   return (
-    <div id='print-me'  className= "card bill-pdf"  hidden={isHidden}>
+    <div id='print-me'  className= "card bill-pdf" ref={ref}>
         <span id='top-design'></span>
 
         <header>
@@ -23,7 +22,7 @@ function Invoice({isHidden}) {
             <div className='customer-info'>
                 <section>
                     <p>BILL TO:</p>
-                    <h5>CUSTOMER NAME</h5>
+                    <h5>{customer.name}</h5>
                     <hr />
                     <div className='display--flex'>
                         <header className='font--bold'>
@@ -33,9 +32,9 @@ function Invoice({isHidden}) {
                         </header>
 
                         <span>
-                            <address>:Customer address</address>
-                            <p>:97345384</p>
-                            <p>:dkgs@temp.com</p> 
+                            <address>:{customer.address}</address>
+                            <p>:{customer.phone}</p>
+                            <p>:{customer.email}</p> 
                         </span>
                     </div>
                 </section>
@@ -46,11 +45,13 @@ function Invoice({isHidden}) {
                         <header  className='font--bold'>
                             <p>Bill No</p>
                             <p>Date</p>
+                            <p>Type</p>
                         </header>
 
                         <span>
-                            <p>:234</p>
+                            <p>:{bill.billId}</p>
                             <p>:dsfsgsd</p>
+                            <p>:{billType}</p>
                         </span>
                     </span>
                 </aside>
@@ -62,14 +63,14 @@ function Invoice({isHidden}) {
                     <tr>
                     {
                         ['#', 'Product name', 'Net Weight', 'loss Weight', 'Total Weight', 'M. Charge', 'Gems Name', 'Gems Price', 'Total Amount'].map((title,index)=>{
-                            return <th key={`${index}GBTH`}>{title}</th>
+                            return <th key={`${index}IVTBL`}>{title}</th>
                         })
                     }
                     </tr>
                 </thead>
 
                 <tbody>
-                {/* {
+                {
                     billProductList.map((billProduct, index)=>{
                         return(
                             <tr  key={`${index}GBTR`}>
@@ -82,21 +83,17 @@ function Invoice({isHidden}) {
                                 <td>{billProduct.product.gemsName}</td>
                                 <td>{billProduct.product.gemsPrice}</td>
                                 <td>{billProduct.totalAmountPerProduct}</td>
-                                <td>
-                                    <i className="ri-edit-2-fill curser--on-hover text-primary" onClick={()=> editAddedProductHandler(index, billProduct)}></i> &emsp;
-                                    <i className="ri-delete-bin-7-fill curser--on-hover text-danger"  onClick={()=>deleteAddedProductHandler(index)}></i>
-                                </td>
                             </tr>
                         )
                     })
-                } */}
+                }
                 </tbody>
 
             </table>
             </div>
 
             <div>
-                <TotalCard bill={INITIAL_BILL}/>
+                <TotalCard bill={bill}/>
 
                 <aside>
                     <section className='condition-section'>
@@ -116,33 +113,29 @@ optio, eaque rerum! Provident similique accusantium nemo autem.</p>
                         </span>
                         
                     </section>
-                   
-
                 </aside>
             </div>
             
         </main>
         
         <footer>
-            <section>
-                <div>
-                    <img src={PhoneIcon} alt="phone-icon" />
-                </div>
-                <div>
-                    <p>01-4537473</p>
-                    <p>+977-9857363548</p>
-                </div>
-            </section>
-
-            <section>
-                <div>
-                    <img src={PancardIcon} alt="pancard-icon" />
-                </div>
-                <div>
-                    <p>PAN No:<br/> 9347534753845738</p>
-                </div>
-                
-            </section>
+            {
+                [{icon:PhoneIcon, item:['01-4537473', '+977-9857363548']}, {icon:InternetIcon, item:['facebook.com', 'website.com']}, {icon:PancardIcon, item:['PAN No:', '9347534753845738']}]
+                .map((value, index)=>{
+                    return(
+                        <section key={`footerlink${index}`}>
+                            <div>
+                                <img src={value.icon} alt={(value.icon).toString()} />
+                            </div>
+                            <div>
+                                {value.item.map((data,index)=>{
+                                    return  <p>{data}</p>
+                                })}
+                            </div>
+                        </section>
+                    )
+                })
+            }
         </footer>
         
         <span id='footer-design-2'></span>
@@ -150,6 +143,6 @@ optio, eaque rerum! Provident similique accusantium nemo autem.</p>
 
     </div>
     )
-}
+});
 
-export default Invoice;
+export default Invoice

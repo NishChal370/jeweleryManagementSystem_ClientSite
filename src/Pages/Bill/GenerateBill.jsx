@@ -1,16 +1,12 @@
 import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
 import React, { useEffect, useRef, useState } from 'react';
-import { InputField, TotalCard } from '../../Components';
+import { useReactToPrint } from 'react-to-print';
+import { InputField, Invoice, TotalCard } from '../../Components';
 import { removeResetValidation, VerifyInputs } from '../../Assets/js/validation';
 import { INITIAL_BILL, INITIAL_BILL_PRODUCT, INITIAL_BILL_PRODUCT_LIST, INITIAL_CUSTOMER, INITIAL_PRODUCT  } from '../../Components/Bill/Constant';
 import { calculateFinalWeightAndAmount, calculateGrandTotalAmount, calculatePerProductAmount, calculateRatePerLal, calculateRemaingAmount } from '../../Assets/js/billCalculation';
-import ChangeRate from '../Rate/ChangeRate';
-import { Dashboard } from '..';
-import Print from '../../Components/print';
-import PrintMe from '../../Components/print';
-import Invoice from '../../Components/Invoice/Invoice';
-// import { getTry } from '../../API/UserServer';
+
 
 const Toast = Swal.mixin({
     toast: true,
@@ -22,7 +18,7 @@ const Toast = Swal.mixin({
 
 
 function GenerateBill() {
-
+    const componentRef = useRef();
     const latestRate = useSelector(state => state.latestRateReducer.data);
 
     const [billType, setBillType] = useState('gold');
@@ -34,9 +30,6 @@ function GenerateBill() {
 
     /**store all the billProduct  */
     const [billProductList, setBillProductList] = useState(INITIAL_BILL_PRODUCT_LIST);
-
-    const [finalWeight, setFinalWeight] = useState(0);
-    const [grandTotalWeight, setGrandTotalWeight] = useState(0);
 
     const [editingBillProductIndex, setEditingBillProductIndex] = useState();
 
@@ -64,8 +57,8 @@ function GenerateBill() {
             bill[inputName] = value;
 
             if( inputName === 'customerProductWeight'){
-                setGrandTotalWeight(finalWeight-bill['customerProductWeight']);
 
+                bill['grandTotalWeight'] = bill['finalWeight']-bill['customerProductWeight'];
                 let rate = (billType === 'gold')? latestRate.tajabiRate : latestRate.silverRate;
 
                 bill['customerProductAmount'] = value * (calculateRatePerLal(rate));
@@ -80,25 +73,34 @@ function GenerateBill() {
 
     };
 
-    const saveButtonHandler=()=>{
-        var a = document.getElementById('print-me');
+    
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+        documentTitle: "Invoice file"
+    });
 
-        var win = window.open();
-        win.document.open();
-        win.document.write(a);
-        win.document.close();
-        win.print();
-        
-
-                /*console.log("SAVE BUTTON CLICK");
+    const save = ()=>{
+        handlePrint()
+        console.log("SAVE BUTTON CLICK");
         alert("SAVED");
         bill.billProduct = billProductList;
 
         bill.rate = latestRate.hallmarkRate;
         customer.bills = [bill];
 
-        console.log(customer);*/      
+        console.log(customer);
+    }
 
+    const saveButtonHandler=()=>{
+        // save()
+        (billProductList.length>0)
+        ? save()
+        :(
+            Toast.fire({
+                icon: 'error',
+                title: 'Bill is empty !!'
+            })
+        )
     };
 
     const addButtonHandler=()=>{
@@ -247,9 +249,11 @@ function GenerateBill() {
 
         let{finalWeight, finalAmount} = calculateFinalWeightAndAmount(billProductList);
 
-        setFinalWeight(finalWeight);
+        // setFinalWeight(finalWeight);
+        bill['finalWeight'] = finalWeight;
 
-        setGrandTotalWeight(finalWeight-bill['customerProductWeight']);
+        // setGrandTotalWeight(finalWeight-bill['customerProductWeight']);
+        bill['grandTotalWeight'] = bill['finalWeight']-bill['customerProductWeight'];
 
         bill['totalAmount'] = finalAmount;
 
@@ -268,7 +272,10 @@ function GenerateBill() {
 
     return (
         <div className="card generate-bill" id='generate-bill'>
-            <Invoice isHidden={true}/>
+            <div hidden>
+                <Invoice ref={componentRef} bill={bill} billProductList={billProductList} customer={customer} billType={billType}/>
+            </div>
+            
             <div className="card-body fs-5">
                 <span className='d-flex mx-auto justify-content-between'>
                     <h5 className="card-title fs-5 ps-1">
@@ -407,8 +414,8 @@ function GenerateBill() {
 
                         <TotalCard
                             bill={bill}
-                            finalWeight={finalWeight}
-                            grandTotalWeight={grandTotalWeight}
+                            // finalWeight={finalWeight}
+                            // grandTotalWeight={grandTotalWeight}
                             inputHandler={inputHandler}
                         />
 

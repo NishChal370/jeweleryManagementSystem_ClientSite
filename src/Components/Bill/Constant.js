@@ -6,11 +6,14 @@ const INITIAL_CUSTOMER = {
 };
 
 const INITIAL_BILL = {
+    billId:'',
     orderId: '',
     date: '',
     rate: '',
     customerProductWeight: 0.0,
     customerProductAmount: '',
+    finalWeight: 0.0,
+    grandTotalWeight: 0.0,
     totalAmount: '',
     discount: '',
     grandTotalAmount: '',
@@ -24,6 +27,7 @@ const INITIAL_BILL_PRODUCT = {
     lossWeight: '',
     totalWeight: '',
     rate: '',
+    quantity: 1,
     makingCharge: '',
     totalAmountPerProduct: 0.0,
 };

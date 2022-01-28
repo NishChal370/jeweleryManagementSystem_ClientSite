@@ -5,5 +5,9 @@ import SideNav from "./SideNav/SideNav";
 import TotalCard from "./Bill/TotalCard";
 import InputField from "./Bill/InputField";
 
-export {Header, SideNav, Main, 
-        InputField, TotalCard,}
+import Invoice from "./Invoice/Invoice";
+
+export {
+        Header, SideNav, Main, 
+        InputField, TotalCard, Invoice,
+}
