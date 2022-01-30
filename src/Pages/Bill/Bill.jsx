@@ -7,6 +7,7 @@ import GenerateBill from './GenerateBill';
 
 import { VerifyInputs } from '../../Assets/js/validation';
 
+import './bill.css'
 
 function Bill() {
 

@@ -100,6 +100,10 @@ h1, h2, h3, h4, h5, h6 {
 # Override some default Bootstrap stylings
 --------------------------------------------------------------*/
 
+input{
+  background-color:  rgba(255, 255, 255, 0.37);
+}
+
 .curser--on-hover:hover{
   cursor: pointer;
 }
@@ -223,6 +227,9 @@ h1, h2, h3, h4, h5, h6 {
   border-color: #d3d3d4;
 }
 
+/* input{
+  background: none !important;
+} */
 /* Card */
 .card {
   margin-bottom: 30px;
@@ -230,6 +237,7 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 5px;
   box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
   overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.37);
 
 }
 .card .nav li button{
@@ -239,8 +247,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .card-header, .card-footer {
-  border-color: #ebeef4;
-  background-color: #fff;
+  /* border-color: #ebeef4;
+  background-color: #fff; */
   color: #798eb3;
   padding: 15px;
 }
@@ -702,7 +710,7 @@ this will make the main panel full width
 # Generate Bill
 --------------------------------------------------------------*/
 .generate-bill{
-  color: #012970;
+  /* color: #012970; */
   font-weight: 500;
 }
 table{
@@ -809,7 +817,7 @@ table{
   width: 90%;
 }
 .generate-bill-product-detail .card {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.37);
   gap: 4rem;
   box-shadow: none;
 

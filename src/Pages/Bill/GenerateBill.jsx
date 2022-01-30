@@ -80,7 +80,7 @@ function GenerateBill() {
         documentTitle: "Invoice file",
         onAfterPrint:() => {
             resetHandler(); 
-            Swal.fire('Saved!', '', 'success')
+            Swal.fire('Saved!', '', 'success');
         },
     });
 

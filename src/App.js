@@ -9,7 +9,6 @@ function App() {
   const [showSideBar, setShowSideBar]= useState(true);
 
   const showSideBarHandler=(isDisplay)=>{
-    console.log(isDisplay);
     setShowSideBar(isDisplay);
   }
 

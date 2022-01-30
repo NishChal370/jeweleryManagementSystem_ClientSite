@@ -1,0 +1,118 @@
+.background--none{
+    /* uncomment leter */
+    background:none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+#search-card{
+    padding: 1rem 2rem;
+    font-family: "Poppins", sans-serif;
+}
+
+
+/*--------------------------------------------------------------
+# Search bill
+--------------------------------------------------------------*/
+
+.top-icons{
+    display: flex;
+    overflow: hidden;
+    padding: 0.5rem 2rem; 
+    border-radius: 0.6rem;
+    justify-content: flex-end;
+    box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+}
+
+.top-icons > span > .filter-btn{
+    gap: 1rem;
+    display: flex;
+    margin-bottom: 0.5rem;
+    justify-content: flex-end;
+}
+#search-card  p{
+    margin: 0rem;
+    padding: 0rem;
+}
+
+/* top filter search input */
+.top-icons>span>.show{ 
+    height: 2rem;
+    transition: height 0.4s ease-in-out, visibility 0.3s ease-in-out, margin-bottom 0.4s ease-in-out;
+}
+
+.top-icons>span>.hide{
+    height: 0rem;
+    visibility: collapse;
+    margin-bottom: 0rem !important; 
+    transition: height 0.4s ease-in-out, visibility 0.3s ease-in-out, margin-bottom 0.4s ease-in-out;      
+}
+.filter-btn> p:hover{
+    color: #012970;
+    cursor: pointer;
+}
+.search-input > input{
+    padding: 0rem !important;
+    margin-left: 1rem;
+}
+
+.search-input> button{
+    padding: 0.1rem 1rem !important;
+}
+
+.search-input> input, .search-input> button{
+    border-radius:0px !important;
+}
+.search-input:hover{
+    border: none !important;
+}
+.search-input:focus{
+    border: none !important;
+}
+.search-input{
+    display: flex;
+}
+.top-icons > span > .search-input> input, .top-icons > span > .search-input> button{
+    box-shadow: none;
+}
+
+
+.bill-table-card{
+    margin-top: 1.6rem;
+    border-radius: 5px;
+}
+
+.bill-table-card > table{
+    border-collapse: separate;
+  border-spacing: 0px 0.6rem;
+  text-align: center;
+}
+
+/* .bill-table-card > table > thead{
+    border-radius: 0.6rem;
+    box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+} */
+
+.bill-table-card > table > tbody> tr{
+    cursor: pointer;
+    /* color: red; */
+    transition: transform .2s;
+    box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+}
+/* .bill-table-card > table > tbody> tr> th, .bill-table-card > table > tbody> tr> td{
+    padding: 5px !important;
+} */
+
+.bill-table-card > table > tbody> tr:hover{
+    -ms-transform: scale(1.04); /* IE 9 */
+    -webkit-transform: scale(1.04); /* Safari 3-8 */
+    transform: scale(1.04); 
+}
+
+.bill-table-card > table thead th:nth-child(1),.bill-table-card > table tbody th:nth-child(1){
+    width: fit-content;
+}
+
+.hover--curser{
+    cursor: pointer;
+}
