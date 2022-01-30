@@ -55,7 +55,7 @@ function ChangeRate() {
 
     //set current rate to DB
     const setCurrentRateHandler=()=>{
-        
+
         Post_Rate(currentRate)
             .then(function (response) {
                 // handle success;  

@@ -1,6 +1,5 @@
 
 const calculatePerProductAmount = (billProduct,rate)=>{
-    // let {hallmarkRate} = latestRate;
     let { product, lossWeight, makingCharge, totalWeight } = billProduct;
     let{ netWeight, gemsPrice } = product;
 
@@ -8,7 +7,7 @@ const calculatePerProductAmount = (billProduct,rate)=>{
 
     totalWeight = billProduct.totalWeight;
 
-    gemsPrice = (gemsPrice == '')? 0: gemsPrice;
+    gemsPrice = (gemsPrice == null)? 0: gemsPrice;
     billProduct.totalAmountPerProduct = (parseFloat(totalWeight) * parseFloat(calculateRatePerLal(rate))) + parseFloat(makingCharge) + parseFloat(gemsPrice);
 
     return billProduct;
@@ -19,8 +18,8 @@ const calculateFinalWeightAndAmount = (billProductList)=>{
     let finalAmount = 0;
 
     billProductList.map((item)=>{
-        finalWeight += item.totalWeight;
-        finalAmount += item.totalAmountPerProduct;
+        finalWeight += (item.totalWeight == null)? 0 : item.totalWeight;
+        finalAmount += (item.totalAmountPerProduct == null)? 0 : item.totalAmountPerProduct;
     });
 
     return { "finalWeight": parseFloat(finalWeight), "finalAmount":parseFloat(finalAmount)};
@@ -31,10 +30,18 @@ const calculateRatePerLal=(rate)=>{
 }
 
 const calculateGrandTotalAmount=({totalAmount, customerProductAmount, discount})=>{
+    discount = (discount == null)? 0 : discount;
+    totalAmount = (totalAmount == null) ? 0 : totalAmount;
+    customerProductAmount = (customerProductAmount == null)? 0 : customerProductAmount;
+
     return (totalAmount-customerProductAmount)-discount;
 }
 
 const calculateRemaingAmount=({grandTotalAmount, payedAmount, advanceAmount})=>{
+    payedAmount = (payedAmount == null)? 0 : payedAmount;
+    advanceAmount = (advanceAmount == null)? 0 : advanceAmount;
+    grandTotalAmount = (grandTotalAmount == null)? 0 : grandTotalAmount;
+
     return (grandTotalAmount - payedAmount - advanceAmount);
 }
 

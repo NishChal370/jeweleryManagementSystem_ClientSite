@@ -16,7 +16,7 @@ function InputField({name, type, changehandler, value, min, flex, isReadonly}) {
                             min={min}
                             type={type}
                             name={name}
-                            value={value} 
+                            value={(value == null)? '': value} 
                             onChange={(e)=>changehandler(e)}   
                             readOnly={isReadonly}
                         />
@@ -26,7 +26,7 @@ function InputField({name, type, changehandler, value, min, flex, isReadonly}) {
                             min={min}
                             type={type}
                             name={name}
-                            value={value} 
+                            value={(value == null)? '': value} 
                             onChange={(e)=>changehandler(e)} 
                             readOnly={isReadonly}  
                         />

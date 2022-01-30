@@ -1,4 +1,4 @@
-import { AXIOS, URL_GET_ALL_RATES, URL_GET_RATE_BY_DATE, URL_SET_RATE } from "./Constant"
+import { AXIOS, URL_GET_ALL_RATES, URL_GET_RATE_BY_DATE, URL_POST_BILL, URL_SET_RATE } from "./Constant"
 
 
 export const Fetch_Rate_By_Date = async (date)=>{
@@ -13,6 +13,10 @@ export const Fetch_All_Rates = async ()=>{
 
 export const Post_Rate = async (currentRate)=>{
     return await AXIOS.post(URL_SET_RATE, currentRate);
+}
+
+export const Post_Bill = async(newBill)=>{
+    return await AXIOS.post(URL_POST_BILL, newBill);
 }
 
 // tried to create sepreeate file for axios and this works

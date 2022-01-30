@@ -1,47 +1,47 @@
-const INITIAL_CUSTOMER = {
+let INITIAL_CUSTOMER = {
     name: '',
     address: '',
-    phone: '',
+    phone: null,
     email: '',
 };
 
-const INITIAL_BILL = {
-    billId:'',
-    orderId: '',
-    date: '',
-    rate: '',
+let INITIAL_BILL = {
+    billId: null,
+    orderId: null,
+    date: null,
+    rate: null,
     billType: 'gold',
     customerProductWeight: 0.0,
-    customerProductAmount: '',
+    customerProductAmount: 0.0,
     finalWeight: 0.0,
     grandTotalWeight: 0.0,
     totalAmount: '',
-    discount: '',
-    grandTotalAmount: '',
-    advanceAmount: '',
-    payedAmount: '',
-    remainingAmount: '',
-    status: '',
+    discount: null,
+    grandTotalAmount: null,
+    advanceAmount: null,
+    payedAmount: null,
+    remainingAmount: null,
+    status: 'submitted',
 };
 
-const INITIAL_BILL_PRODUCT = {
-    lossWeight: '',
-    totalWeight: '',
-    rate: '',
+let INITIAL_BILL_PRODUCT = {
+    lossWeight: null,
+    totalWeight: null,
+    rate: null,
     quantity: 1,
-    makingCharge: '',
+    makingCharge: null,
     totalAmountPerProduct: 0.0,
 };
 
-const INITIAL_PRODUCT =  {
+let INITIAL_PRODUCT =  {
     productName: '',
-    netWeight: '',
+    netWeight: null,
     size: 0.0,
     gemsName: '',
-    gemsPrice: '',
+    gemsPrice: null,
 };
 
-const INITIAL_BILL_PRODUCT_LIST = [];
+let INITIAL_BILL_PRODUCT_LIST = [];
 
 
-export {INITIAL_CUSTOMER, INITIAL_BILL, INITIAL_BILL_PRODUCT, INITIAL_PRODUCT, INITIAL_BILL_PRODUCT_LIST}
+export {INITIAL_CUSTOMER, INITIAL_BILL, INITIAL_BILL_PRODUCT, INITIAL_PRODUCT, INITIAL_BILL_PRODUCT_LIST, }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ProductTable, TotalCard } from '..';
-import { InternetIcon, PancardIcon, PhoneIcon, ShopLogo } from '../../Assets/img';
+import { InternetIcon, PancardIcon, PhoneIcon, ShopLogo, SignitureSampleIcon } from '../../Assets/img';
 import './invoice.css';
 
 const date = new Date();
@@ -85,6 +85,7 @@ const Invoice = React.forwardRef(({customer, bill, billProductList}, ref) => {
 
                         <section className='signiture'>
                             <span>
+                                <img id='signiture-sample' src={SignitureSampleIcon} alt="owner-signiture" />
                                 <hr />
                                 <h5>Owner Name</h5>
                             </span>

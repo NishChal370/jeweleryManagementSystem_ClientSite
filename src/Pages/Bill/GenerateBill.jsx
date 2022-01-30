@@ -2,11 +2,11 @@ import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
 import React, { useEffect, useRef, useState } from 'react';
 import { useReactToPrint } from 'react-to-print';
+import { Post_Bill } from '../../API/UserServer';
 import { InputField, Invoice, ProductTable, TotalCard } from '../../Components';
 import { removeResetValidation, VerifyInputs } from '../../Assets/js/validation';
 import { INITIAL_BILL, INITIAL_BILL_PRODUCT, INITIAL_BILL_PRODUCT_LIST, INITIAL_CUSTOMER, INITIAL_PRODUCT  } from '../../Components/Bill/Constant';
 import { calculateFinalWeightAndAmount, calculateGrandTotalAmount, calculatePerProductAmount, calculateRatePerLal, calculateRemaingAmount } from '../../Assets/js/billCalculation';
-
 
 
 const Toast = Swal.mixin({
@@ -22,10 +22,10 @@ function GenerateBill() {
     const componentRef = useRef();
     const latestRate = useSelector(state => state.latestRateReducer.data);
 
-    const [bill, setBill] = useState({...INITIAL_BILL});
-    const [product, setProduct] = useState({...INITIAL_PRODUCT});
-    const [customer, setCustomer] = useState({...INITIAL_CUSTOMER});
-    const [billProduct, setBillProduct] = useState({...INITIAL_BILL_PRODUCT});
+    const [bill, setBill] = useState(INITIAL_BILL);
+    const [product, setProduct] = useState(INITIAL_PRODUCT);
+    const [customer, setCustomer] = useState(INITIAL_CUSTOMER);
+    const [billProduct, setBillProduct] = useState(INITIAL_BILL_PRODUCT);
 
     /**store all the billProduct  */
     const [billProductList, setBillProductList] = useState(INITIAL_BILL_PRODUCT_LIST);
@@ -38,19 +38,16 @@ function GenerateBill() {
         let inputName = e.target.name;
 
         if(product.hasOwnProperty(inputName)){
-            product[inputName] = value;
 
-            setProduct({...product});
+            setProduct((prevState) => ({ ...prevState, [inputName]: value }));
         }
         else if(billProduct.hasOwnProperty(inputName)){
-            billProduct[inputName] = value;
 
-            setBillProduct({...billProduct});
+            setBillProduct((prevState) => ({ ...prevState, [inputName]: value }));
         }
         else if(customer.hasOwnProperty(inputName)){
-            customer[inputName] = value;
 
-            setCustomer({...customer});
+            setCustomer((prevState) => ({ ...prevState, [inputName]: value }));
         }
         else if(bill.hasOwnProperty(inputName)){
             bill[inputName] = value;
@@ -78,20 +75,35 @@ function GenerateBill() {
 
     };
 
-
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
         documentTitle: "Invoice file",
-        onAfterPrint:()=>resetHandler(),
+        onAfterPrint:() => {
+            resetHandler(); 
+            Swal.fire('Saved!', '', 'success')
+        },
     });
+
+    const PostBill=(newBill)=>{
+        Post_Bill(newBill)
+            .then(function (response) {
+                // handle success
+                handlePrint();
+            })
+            .catch(function (error) {
+                // handle error
+                Swal.fire(error, 'error')
+            });
+    }
 
     const save = (saveAs)=>{
         bill.billProduct = billProductList;
-        (saveAs === 'Draft')&& (bill.status ='Draft')
-        customer.bills = [bill];
-        console.log(customer);
 
-        handlePrint();
+        (saveAs === 'Draft')&& (bill.status ='draft')
+
+        customer.bills = [bill];
+
+        PostBill(customer);
     }
 
     const saveButtonHandler=(saveAs)=>{
@@ -171,9 +183,11 @@ function GenerateBill() {
 
         setProduct({...INITIAL_PRODUCT});
         setBillProduct(billProduct);
+
+        removeResetValidation();
     }
 
-    const resetHandler=()=>{
+    const resetHandler=()=>{        
         INITIAL_BILL['rate'] = latestRate.hallmarkRate;
 
         setBill({...INITIAL_BILL});
@@ -181,6 +195,8 @@ function GenerateBill() {
         setCustomer({...INITIAL_CUSTOMER});
         setBillProduct({...INITIAL_BILL_PRODUCT});
         setBillProductList([...INITIAL_BILL_PRODUCT_LIST]);
+
+        removeResetValidation();
     }
 
     const buttonClickHandler=(e)=>{
@@ -260,11 +276,27 @@ function GenerateBill() {
         setBillProduct(billProduct);
     }
 
+    const getDate = () => {
+        var d = new Date(),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+    
+        if (month.length < 2) 
+            month = '0' + month;
+        if (day.length < 2) 
+            day = '0' + day;
+    
+        return [year, month, day].join('-');
+    }
+
 
     /**used when user add product in Bill */
     useEffect(() => {
 
         let{finalWeight, finalAmount} = calculateFinalWeightAndAmount(billProductList);
+
+        bill['date'] = getDate();
 
         bill['finalWeight'] = finalWeight;
 
@@ -371,6 +403,7 @@ function GenerateBill() {
                                                         changehandler={(e)=>inputHandler(e)}
                                                         type={(!['productName', 'gemsName'].includes(input))? "number": "text"}
                                                         value={(billProduct.hasOwnProperty(input)) ? billProduct[input] : product[input]}
+                                                        
                                                     />
                                                 )
                                             })

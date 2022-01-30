@@ -52,6 +52,11 @@
     left: 6%;
 
 }
+
+#signiture-sample{
+    width: 10rem;
+}
+
 /* fullbody */
 #print-me{
     color: #012970 !important;
