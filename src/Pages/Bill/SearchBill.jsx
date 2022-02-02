@@ -7,8 +7,9 @@ import { HiSearch } from 'react-icons/hi';
 import { BiFirstPage, BiLastPage} from 'react-icons/bi';
 import { FaSortAmountUpAlt, FaFilter } from 'react-icons/fa';
 import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
-import { Fetch_Bill_Summary } from '../../API/UserServer';
 import { Spinner } from '../../Components/index';
+import { Fetch_Bill_Summary } from '../../API/UserServer';
+
 
 
 
@@ -16,10 +17,11 @@ function SearchBill() {
     const history = useHistory();
     const location = useLocation();
     const [billSummary, setBillSummary] = useState();
+    const [showSearchInput, setShowSearchInput] = useState(false);
     const page = (location.search !== '') ?parseInt(location.search.slice(-1)) :1;
     const [pageNumber, setPageNumber] = useState(page);
-    const [showSearchInput, setShowSearchInput] = useState(false);
-    
+    const [searchValue, setSearchValue] = useState({initial: '', confirm:''});
+
 
     const showHandler=()=>{
         (showSearchInput)
@@ -28,8 +30,9 @@ function SearchBill() {
     }
 
     const fetchBillsSummary = ()=>{
-
-        Fetch_Bill_Summary(pageNumber)
+        let searchFor = (searchValue.confirm === '') ? `/?page=${pageNumber}`:`/${searchValue.confirm}/?page=${pageNumber}`
+        console.log(searchFor);
+        Fetch_Bill_Summary(searchFor)
             .then(function (response) {
                 // handle success
                 console.log(response.data);
@@ -52,14 +55,38 @@ function SearchBill() {
         }
     }
 
-    useEffect(()=>{
-        history.push({
-            pathname: '/bill/search',
-            search: `?page=${ pageNumber}`
-        });
+    const filterInputHandler = ({target})=>{
+        searchValue['initial'] = target.value;
 
-        fetchBillsSummary();
-    },[pageNumber]);
+        setSearchValue({...searchValue});
+    }
+
+    const searchButtonHandler = ()=>{
+        searchValue['confirm'] = searchValue['initial'];
+
+        setPageNumber(1);
+        setSearchValue({...searchValue});
+    }
+
+
+    useEffect(()=>{
+            history.push({
+                pathname: '/bill/search',
+                search: `?page=${ pageNumber}`
+            });
+    
+            fetchBillsSummary();
+    },[pageNumber, searchValue.confirm]);
+
+    // it will be called if the filter input is empty
+    useEffect(()=>{
+        if(searchValue.initial === ''){
+            searchValue['confirm'] = '';
+
+            setSearchValue({...searchValue})
+        }
+    },[searchValue.initial]);
+
 
 
     return (
@@ -77,8 +104,8 @@ function SearchBill() {
                             format="MMM dd, yyyy" 
                             style={{fontFamily:'Poppins sans-serif', fontSize:'1.4rem', width:'10rem', paddingTop:'0.3rem', textAlign:'center'}} 
                         ></DatePickerComponent>
-                        <input type="search" className="form-control" placeholder='Search...'/>
-                        <button type="button" className="btn btn-primary search-btn">
+                        <input type="search" value={searchValue.initial}  onChange={filterInputHandler} className="form-control" placeholder='Search Customer...'/>
+                        <button type="button" className="btn btn-primary search-btn" onClick={searchButtonHandler}>
                             <i><HiSearch/></i>
                         </button>
                     </div>

@@ -19,8 +19,8 @@ export const Post_Bill = async(newBill)=>{
     return await AXIOS.post(URL_POST_BILL, newBill);
 }
 
-export const Fetch_Bill_Summary = async(pageNumber)=>{
-    return await AXIOS.get(URL_GET_BILLS_SUMMARY+pageNumber);
+export const Fetch_Bill_Summary = async(searchFor)=>{
+    return await AXIOS.get(URL_GET_BILLS_SUMMARY+searchFor);
 }
 
 // tried to create sepreeate file for axios and this works
