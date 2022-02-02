@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import React, {useState, useEffect} from 'react'
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
 import { Fetch_All_Rates } from '../../API/UserServer';
+import { Spinner } from '../../Components/index';
 
 function Dashboard() {
 
@@ -190,7 +191,7 @@ function Dashboard() {
                                         );
                                     }
                                 ))
-                                : "No date Found !!"
+                                : <Spinner/>
                         }
                         
                     </div>

@@ -82,6 +82,20 @@
     border-radius: 5px;
 }
 
+@media (max-width: 1360px) {
+    .bill-table-card{
+        /* background: #ee82ee;
+        width: 100%; */
+        overflow-y: hidden !important;
+        /* text-overflow: none !important; */
+        
+    }
+    .bill-table-card > table{
+       overflow: scoll;
+       border-collapse: collapse;
+    }
+}
+
 .bill-table-card > table{
     border-collapse: separate;
   border-spacing: 0px 0.6rem;

@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import { format } from 'date-fns';
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
 import { Fetch_All_Rates, Fetch_Rate_By_Date } from '../../API/UserServer';
+import { Spinner } from '../../Components/index';
 
 
 const Toast = Swal.mixin({
@@ -104,7 +105,7 @@ function RateOverview() {
                             )
                         }
                     ))
-                    : <h5>Not Found !</h5>
+                    : <Spinner/>
                 }
             </div>
         </>

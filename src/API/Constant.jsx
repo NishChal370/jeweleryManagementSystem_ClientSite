@@ -9,6 +9,7 @@ const URL_SET_RATE = 'rate-set/';
 const URL_GET_ALL_RATES = 'rates/';
 const URL_GET_RATE_BY_DATE = 'rate/';
 const URL_POST_BILL ='generate-bill/';
+const URL_GET_BILLS_SUMMARY = 'bills/summary/?page=';
 
 
 export { 
@@ -17,5 +18,6 @@ export {
     URL_GET_ALL_RATES, 
     URL_GET_RATE_BY_DATE, 
     URL_POST_BILL,
+    URL_GET_BILLS_SUMMARY,
     
 }

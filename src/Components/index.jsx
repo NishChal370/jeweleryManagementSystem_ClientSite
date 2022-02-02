@@ -8,8 +8,10 @@ import ProductTable from "./Bill/ProductTable";
 
 import Invoice from "./Invoice/Invoice";
 
+import Spinner from "./Spinner";
 export {
         Header, SideNav, Main, 
         InputField, TotalCard, Invoice,
         ProductTable,
+        Spinner,
 }
