@@ -62,13 +62,22 @@
     display: flex;
     justify-content: space-between;
 }
-.search-input>span{
+
+select> option{
+    text-align: center;
+}
+.search-input>section{
+    display: flex;
+    gap: 1rem;
+    justify-content: space-around;
+}
+.search-input>section>span{
     display: flex;
     gap: 1rem;
     margin-top: 0.5rem;
     height: 1.6rem;
 }
-.search-input>span>p{
+.search-input>section>span>p{
     font-weight: bold;
 }
 

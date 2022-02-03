@@ -25,7 +25,9 @@ function SearchBill() {
     const history = useHistory();
     const location = useLocation();
     const [billType, setBillType] = useState('all');
+    const [billStatus, setBillStatus] = useState('all');
     const [billSummary, setBillSummary] = useState();
+    const [initailReder, setInitialRender] = useState(true);
     const [showSearchInput, setShowSearchInput] = useState(false);
     const page = (location.search !== '') ?parseInt(location.search.slice(-1)) :1;
     const [pageNumber, setPageNumber] = useState(page);
@@ -39,8 +41,8 @@ function SearchBill() {
 
     const fetchBillsSummary = ()=>{
         let searchFor = (searchValue.confirm === '') 
-                            ? `/?billType=${billType}&page=${pageNumber}`
-                            : `/${searchValue.confirm}/?billType=${billType}&page=${pageNumber}`
+                            ? `/?billType=${billType}&billStatus=${billStatus}&page=${pageNumber}`
+                            : `/${searchValue.confirm}/?billType=${billType}&billStatus=${billStatus}&page=${pageNumber}`
 
         Fetch_Bill_Summary(searchFor)
             .then(function (response) {
@@ -74,7 +76,13 @@ function SearchBill() {
         }
     }
 
-    const changeBillTypeHandler = ({target})=> setBillType(target.value);
+    const changeBillTypeHandler = ({target})=>{
+        alert("In");
+        console.log(target.value);
+        setBillType(target.value)
+    };
+
+    const changeBillStatusHandler = ({target})=> setBillStatus(target.value);
 
     const filterInputHandler = ({target})=>{
         searchValue['initial'] = target.value;
@@ -111,7 +119,7 @@ function SearchBill() {
             });
     
             fetchBillsSummary();
-    },[pageNumber, searchValue.confirm, billType]);
+    },[pageNumber, searchValue.confirm, billType, billStatus]);
 
     // it will be called if the filter input is empty
     useEffect(()=>{
@@ -122,27 +130,42 @@ function SearchBill() {
         }
     },[searchValue.initial]);
 
+    useEffect(()=>{
+        (!initailReder)
+            ?setPageNumber(1)
+            :setInitialRender(false);
+    },[billType, billStatus])
 
 
     return (
         <div className="card background--none " id='search-card'>
             <section className={`top-icons`}>
                 <span>
-                    <div className='filter-btn'>
-                        
+                    <div className='filter-btn'>  
                         <p onClick={sortButtonHandler}><i><FaSortAmountUpAlt/></i> Sort</p>
                         <p onClick={showHandler}> <i><FaFilter/></i> Filter</p>
                     </div>
 
                     <div className={`search-input mb-3 ${(showSearchInput)? 'show' :'hide'}`}>
-                        <span>
-                            <p>Type</p>
-                            <select name="billType" id="billType" className="dropdown-toggle" value={billType} onChange={changeBillTypeHandler}>
-                                <option value="all">All</option>
-                                <option value="gold">Gold</option>
-                                <option value="silver">Silver</option>
-                            </select>
-                        </span>
+                        <section>
+                            <span>
+                                <p>Type</p>
+                                <select name="billType" id="billType" className="dropdown-toggle" value={billType} onChange={changeBillTypeHandler}>
+                                    <option value="all">All</option>
+                                    <option value="gold">Gold</option>
+                                    <option value="silver">Silver</option>
+                                </select>
+                            </span>
+
+                            <span>
+                                <p>Status</p>
+                                <select name="billStatus" id="billType" className="dropdown-toggle" value={billStatus} onChange={changeBillStatusHandler}>
+                                    <option value="all">All</option>
+                                    <option value="submitted">Submit</option>
+                                    <option value="draft">Draft</option>
+                                </select>
+                            </span>
+                        </section>
                         
                         <aside>
                             <DatePickerComponent 
