@@ -1,15 +1,14 @@
 import './bill.css';
 import Swal from 'sweetalert2';
-import { useLocation } from 'react-router-dom';
+import { format } from 'date-fns';
 import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import { FiEdit } from 'react-icons/fi';
 import { HiSearch } from 'react-icons/hi';
-import { BiFirstPage, BiLastPage} from 'react-icons/bi';
 import { FaSortAmountUpAlt, FaFilter } from 'react-icons/fa';
 import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
-import { Spinner } from '../../Components/index';
 import { Fetch_Bill_Summary } from '../../API/UserServer';
+import { SearchTable } from '../../Components';
 
 
 const Toast = Swal.mixin({
@@ -24,15 +23,18 @@ const Toast = Swal.mixin({
 function SearchBill() {
     const history = useHistory();
     const location = useLocation();
+
+    const [billSummary, setBillSummary] = useState();
     const [billType, setBillType] = useState('all');
     const [billStatus, setBillStatus] = useState('all');
-    const [billSummary, setBillSummary] = useState();
+    const [searchedDate, setSearchedDate] = useState(null);
     const [initailReder, setInitialRender] = useState(true);
     const [showSearchInput, setShowSearchInput] = useState(false);
+    const [searchValue, setSearchValue] = useState({initial: '', confirm:''});
     const page = (location.search !== '') ?parseInt(location.search.slice(-1)) :1;
     const [pageNumber, setPageNumber] = useState(page);
-    const [searchValue, setSearchValue] = useState({initial: '', confirm:''});
     
+
     const showHandler=()=>{
         (showSearchInput)
             ? setShowSearchInput(false)
@@ -40,9 +42,12 @@ function SearchBill() {
     }
 
     const fetchBillsSummary = ()=>{
-        let searchFor = (searchValue.confirm === '') 
+        let searchFor = (searchValue.confirm === '') // if search not with customer detail
                             ? `/?billType=${billType}&billStatus=${billStatus}&page=${pageNumber}`
                             : `/${searchValue.confirm}/?billType=${billType}&billStatus=${billStatus}&page=${pageNumber}`
+
+                                         //if search by date
+        searchFor = (searchedDate != null) ?`${searchFor}&billDate=${searchedDate}` : searchFor
 
         Fetch_Bill_Summary(searchFor)
             .then(function (response) {
@@ -77,12 +82,17 @@ function SearchBill() {
     }
 
     const changeBillTypeHandler = ({target})=>{
-        alert("In");
-        console.log(target.value);
-        setBillType(target.value)
-    };
+
+        setBillType(target.value);
+    }
 
     const changeBillStatusHandler = ({target})=> setBillStatus(target.value);
+
+    const datePickerHandler = ({target})=>{
+        let date = (target.value != null) ? format(target.value, 'yyyy-MM-dd') : target.value;
+        
+        setSearchedDate(date);
+    }
 
     const filterInputHandler = ({target})=>{
         searchValue['initial'] = target.value;
@@ -113,13 +123,14 @@ function SearchBill() {
 
 
     useEffect(()=>{
+        console.log(searchedDate);
             history.push({
                 pathname: '/bill/search',
                 search: `?page=${ pageNumber}`
             });
     
             fetchBillsSummary();
-    },[pageNumber, searchValue.confirm, billType, billStatus]);
+    },[pageNumber, searchValue.confirm, billType, billStatus, searchedDate]);
 
     // it will be called if the filter input is empty
     useEffect(()=>{
@@ -134,7 +145,7 @@ function SearchBill() {
         (!initailReder)
             ?setPageNumber(1)
             :setInitialRender(false);
-    },[billType, billStatus])
+    },[billType, billStatus, searchedDate])
 
 
     return (
@@ -169,7 +180,9 @@ function SearchBill() {
                         
                         <aside>
                             <DatePickerComponent 
-                                format="MMM dd, yyyy" 
+                                allowEdit={false}
+                                format="MMM dd, yyyy"
+                                onChange={datePickerHandler}
                                 style={{fontFamily:'Poppins sans-serif', fontSize:'1.4rem', width:'10rem', paddingTop:'0.3rem', textAlign:'center'}} 
                             ></DatePickerComponent>
 
@@ -178,72 +191,12 @@ function SearchBill() {
                                 <i><HiSearch/></i>
                             </button>
                         </aside>
-                        
                     </div>
                 </span>
                 
             </section>
             
-            <section className='bill-table-card'>
-            {(billSummary !== undefined) 
-            ?(
-                <table className="table table-borderless">
-                    <thead>
-                        <tr>
-                            <th scope="col">Bill No.</th>
-                            <th scope="col">Customer Name</th>
-                            <th scope="col">Phone</th>
-                            <th scope="col">Address</th>
-                            <th scope="col">Type</th>
-                            <th scope="col">Total Product</th>
-                            <th scope="col">Products Weight</th>
-                            <th scope="col">Customer Product Weight</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Payment</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                    {
-                        billSummary.results.map(({billId, customerName, customerAddress, phone, type, totalProduct, productsWeight, customerProductWeight, status, payment, date}, index)=>{
-                            return(
-                                <tr key={`${index}SBTR`}>
-                                    <th scope="row">{billId}</th>
-                                    <td>{customerName}</td>
-                                    <td>{phone}</td>
-                                    <td>{customerAddress}</td>
-                                    <td style={{color: (type === 'gold')? '#b36b00' : '#595959'}}>{type}</td>
-                                    <td>{totalProduct}</td>
-                                    <td>{productsWeight}</td>
-                                    <td>{customerProductWeight}</td>
-                                    <td><span className={`badge bg-${(status === 'submitted')?'success': 'warning'}`}>{status}</span></td>
-                                    <td><span className={`badge bg-${(payment === 'Payed')?'success':'danger'}`}>{payment}</span></td>
-                                    <td>{date}</td>
-                                    <td>{(status ==='draft')? <FiEdit/> : null}</td>
-                                </tr>
-                            )
-                        }) 
-
-                    }
-                    </tbody>
-                    <tfoot>
-                        <tr className="text-end">
-                            <td colSpan="12" className="border-top">
-                                <>
-                                <span>{billSummary.pageIndex} &emsp;</span>
-                                <i className='hover--curser' onClick={()=>{changePagehandler('previous')}} style={{ visibility: (billSummary.previous === null)?'hidden': 'visible'}}><BiFirstPage/></i> 
-                                <i className='hover--curser' onClick={()=>{changePagehandler('next')}} style={{ visibility: (billSummary.next === null)?'hidden': 'visible'}}><BiLastPage/></i>
-                                </>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
-            )
-            :( <Spinner/> )
-            }
-            </section>
+            <SearchTable billSummary={billSummary}  changePagehandler={changePagehandler} />
         </div>
     )
 }

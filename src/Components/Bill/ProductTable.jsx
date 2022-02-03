@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 let initialTableHeading =['#', 'Product name', 'Net Weight', 'loss Weight', 'Total Weight', 'M. Charge', 'Gems Name', 'Gems Price', 'Total Amount', 'Action'];
 
+/**
+ * use in Invoice component  & in generate bill page
+ * */
 function ProductTable({billProductList, editAddedProductHandler, deleteAddedProductHandler, calledBy}) {
 
     const [tableHeading, setTableHeading] = useState([...initialTableHeading]);
