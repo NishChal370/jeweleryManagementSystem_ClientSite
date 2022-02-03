@@ -16,11 +16,11 @@
 --------------------------------------------------------------*/
 
 .top-icons{
-    display: flex;
+    /* display: flex; */
     overflow: hidden;
     padding: 0.5rem 2rem; 
     border-radius: 0.6rem;
-    justify-content: flex-end;
+    /* justify-content: flex-end; */
     box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
 }
 
@@ -51,28 +51,50 @@
     color: #012970;
     cursor: pointer;
 }
-.search-input > input{
+#billType{
+    border: none !important;
+    background: none !important;
+    border-bottom: 1px solid black !important;
+}
+
+.search-input{
+    color: #012970;
+    display: flex;
+    justify-content: space-between;
+}
+.search-input>span{
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    height: 1.6rem;
+}
+.search-input>span>p{
+    font-weight: bold;
+}
+
+.search-input>aside>input{
     padding: 0rem !important;
     margin-left: 1rem;
 }
 
-.search-input> button{
+.search-input>aside>button{
     padding: 0.1rem 1rem !important;
 }
 
-.search-input> input, .search-input> button{
+.search-input>aside>input, .search-input>aside>button{
     border-radius:0px !important;
 }
-.search-input:hover{
+.search-input>aside:hover{
     border: none !important;
 }
-.search-input:focus{
+.search-input>aside:focus{
     border: none !important;
 }
-.search-input{
+
+.search-input>aside{
     display: flex;
 }
-.top-icons > span > .search-input> input, .top-icons > span > .search-input> button{
+.top-icons>span>.search-input>aside>input, .top-icons>span>.search-input>aside>button{
     box-shadow: none;
 }
 

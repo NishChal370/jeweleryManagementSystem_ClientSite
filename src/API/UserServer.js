@@ -20,6 +20,7 @@ export const Post_Bill = async(newBill)=>{
 }
 
 export const Fetch_Bill_Summary = async(searchFor)=>{
+    // return await AXIOS.get(URL_GET_BILLS_SUMMARY+searchFor);
     return await AXIOS.get(URL_GET_BILLS_SUMMARY+searchFor);
 }
 

@@ -1,4 +1,5 @@
 import './bill.css';
+import Swal from 'sweetalert2';
 import { useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
@@ -11,18 +12,25 @@ import { Spinner } from '../../Components/index';
 import { Fetch_Bill_Summary } from '../../API/UserServer';
 
 
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 800,
+    timerProgressBar: false,
+});
 
 
 function SearchBill() {
     const history = useHistory();
     const location = useLocation();
+    const [billType, setBillType] = useState('all');
     const [billSummary, setBillSummary] = useState();
     const [showSearchInput, setShowSearchInput] = useState(false);
     const page = (location.search !== '') ?parseInt(location.search.slice(-1)) :1;
     const [pageNumber, setPageNumber] = useState(page);
     const [searchValue, setSearchValue] = useState({initial: '', confirm:''});
-
-
+    
     const showHandler=()=>{
         (showSearchInput)
             ? setShowSearchInput(false)
@@ -30,16 +38,27 @@ function SearchBill() {
     }
 
     const fetchBillsSummary = ()=>{
-        let searchFor = (searchValue.confirm === '') ? `/?page=${pageNumber}`:`/${searchValue.confirm}/?page=${pageNumber}`
-        console.log(searchFor);
+        let searchFor = (searchValue.confirm === '') 
+                            ? `/?billType=${billType}&page=${pageNumber}`
+                            : `/${searchValue.confirm}/?billType=${billType}&page=${pageNumber}`
+
         Fetch_Bill_Summary(searchFor)
             .then(function (response) {
                 // handle success
-                console.log(response.data);
+
                 setBillSummary(response.data);
             })
             .catch(function (error) {
                 // handle error
+                billSummary['results'] = [];
+                billSummary['pageIndex'] = `${pageNumber} of 1`;
+
+                setBillSummary({...billSummary});
+
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Not found!!',
+                });
                 console.log(error);
             });
     }
@@ -55,6 +74,8 @@ function SearchBill() {
         }
     }
 
+    const changeBillTypeHandler = ({target})=> setBillType(target.value);
+
     const filterInputHandler = ({target})=>{
         searchValue['initial'] = target.value;
 
@@ -68,6 +89,20 @@ function SearchBill() {
         setSearchValue({...searchValue});
     }
 
+    const sortButtonHandler = () =>{
+
+        billSummary['results'] = (!location.search.includes('sorted'))
+                                    ?  billSummary.results.sort((a,b) => (a.billId > b.billId) ? 1 : ((b.billId > a.billId) ? -1 : 0))
+                                    :  billSummary.results.sort((a,b) => (a.billId < b.billId) ? 1 : ((b.billId < a.billId) ? -1 : 0))
+
+        setBillSummary({...billSummary});
+
+        history.push({
+            pathname: '/bill/search',
+            search: (!location.search.includes('sorted')) ?`?sorted/?page=${ pageNumber}` :`?page=${pageNumber}`
+        });
+    }
+
 
     useEffect(()=>{
             history.push({
@@ -76,7 +111,7 @@ function SearchBill() {
             });
     
             fetchBillsSummary();
-    },[pageNumber, searchValue.confirm]);
+    },[pageNumber, searchValue.confirm, billType]);
 
     // it will be called if the filter input is empty
     useEffect(()=>{
@@ -95,19 +130,32 @@ function SearchBill() {
                 <span>
                     <div className='filter-btn'>
                         
-                        <p><i><FaSortAmountUpAlt/></i> Sort</p>
+                        <p onClick={sortButtonHandler}><i><FaSortAmountUpAlt/></i> Sort</p>
                         <p onClick={showHandler}> <i><FaFilter/></i> Filter</p>
                     </div>
 
                     <div className={`search-input mb-3 ${(showSearchInput)? 'show' :'hide'}`}>
-                        <DatePickerComponent 
-                            format="MMM dd, yyyy" 
-                            style={{fontFamily:'Poppins sans-serif', fontSize:'1.4rem', width:'10rem', paddingTop:'0.3rem', textAlign:'center'}} 
-                        ></DatePickerComponent>
-                        <input type="search" value={searchValue.initial}  onChange={filterInputHandler} className="form-control" placeholder='Search Customer...'/>
-                        <button type="button" className="btn btn-primary search-btn" onClick={searchButtonHandler}>
-                            <i><HiSearch/></i>
-                        </button>
+                        <span>
+                            <p>Type</p>
+                            <select name="billType" id="billType" className="dropdown-toggle" value={billType} onChange={changeBillTypeHandler}>
+                                <option value="all">All</option>
+                                <option value="gold">Gold</option>
+                                <option value="silver">Silver</option>
+                            </select>
+                        </span>
+                        
+                        <aside>
+                            <DatePickerComponent 
+                                format="MMM dd, yyyy" 
+                                style={{fontFamily:'Poppins sans-serif', fontSize:'1.4rem', width:'10rem', paddingTop:'0.3rem', textAlign:'center'}} 
+                            ></DatePickerComponent>
+
+                            <input type="search" value={searchValue.initial}  onChange={filterInputHandler} className="form-control" placeholder='Search Customer...'/>
+                            <button type="button" className="btn btn-primary search-btn" onClick={searchButtonHandler}>
+                                <i><HiSearch/></i>
+                            </button>
+                        </aside>
+                        
                     </div>
                 </span>
                 
@@ -122,6 +170,7 @@ function SearchBill() {
                             <th scope="col">Bill No.</th>
                             <th scope="col">Customer Name</th>
                             <th scope="col">Phone</th>
+                            <th scope="col">Address</th>
                             <th scope="col">Type</th>
                             <th scope="col">Total Product</th>
                             <th scope="col">Products Weight</th>
@@ -135,12 +184,13 @@ function SearchBill() {
 
                     <tbody>
                     {
-                        billSummary.results.map(({billId, customerName, phone, type, totalProduct, productsWeight, customerProductWeight, status, payment, date}, index)=>{
+                        billSummary.results.map(({billId, customerName, customerAddress, phone, type, totalProduct, productsWeight, customerProductWeight, status, payment, date}, index)=>{
                             return(
                                 <tr key={`${index}SBTR`}>
                                     <th scope="row">{billId}</th>
                                     <td>{customerName}</td>
                                     <td>{phone}</td>
+                                    <td>{customerAddress}</td>
                                     <td style={{color: (type === 'gold')? '#b36b00' : '#595959'}}>{type}</td>
                                     <td>{totalProduct}</td>
                                     <td>{productsWeight}</td>
@@ -157,7 +207,7 @@ function SearchBill() {
                     </tbody>
                     <tfoot>
                         <tr className="text-end">
-                            <td colSpan="11" className="border-top">
+                            <td colSpan="12" className="border-top">
                                 <>
                                 <span>{billSummary.pageIndex} &emsp;</span>
                                 <i className='hover--curser' onClick={()=>{changePagehandler('previous')}} style={{ visibility: (billSummary.previous === null)?'hidden': 'visible'}}><BiFirstPage/></i> 
