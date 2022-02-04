@@ -1,13 +1,46 @@
-import React from 'react';
-import { ProductTable, TotalCard } from '..';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import './../../Components/Invoice/invoice.css';
+import { Fetch_Bill_By_Id } from '../../API/UserServer';
+import { ProductTable, TotalCard } from '../../Components';
 import { InternetIcon, PancardIcon, PhoneIcon, ShopLogo, SignitureSampleIcon } from '../../Assets/img';
-import './invoice.css';
+
 
 const date = new Date();
-const Invoice = React.forwardRef(({customer, bill, billProductList}, ref) => {
+
+function Invoice(props) {
+    const billId = useLocation().state;
+    const [billDetail, setBillDetail] = useState();
+
+    const fetchBillById =()=>{
+        Fetch_Bill_By_Id(billId)
+            .then(function (response) {
+                // handle success
+                let bill = response.data;
+                const customer = bill.customer;
+                const billProductList = bill.billProduct;
+
+                delete bill.customer;
+                delete bill.billProduct;
+
+                setBillDetail({customer, bill,billProductList});             
+            })
+            .catch(function (error) {
+                // handle error
+                console.log("error");
+            });
+    }
+
+    useEffect(()=>{
+        (billId == undefined)
+            ? setBillDetail(props)
+            : fetchBillById()
+    },[])
     
     return (
-        <div id='print-me'  className= "card bill-pdf" ref={ref} >
+        <div id='print-me'  className= "card bill-pdf" >
+        {(billDetail !== undefined) &&(
+            <>
             <h1 className='water-marker'>Gitanjali Jewellers</h1>
             <h1 className='water-marker2'>Gitanjali Jewellers</h1>
             <span id='top-design'></span>
@@ -25,7 +58,7 @@ const Invoice = React.forwardRef(({customer, bill, billProductList}, ref) => {
                 <div className='customer-info'>
                     <section>
                         <p>BILL TO:</p>
-                        <h5>{customer.name}</h5>
+                        <h5>{billDetail.customer.name}</h5>
                         <hr />
                         <div className='display--flex'>
                             <header className='font--bold'>
@@ -35,9 +68,9 @@ const Invoice = React.forwardRef(({customer, bill, billProductList}, ref) => {
                             </header>
 
                             <span>
-                                <address>:{customer.address}</address>
-                                <p>:{customer.phone}</p>
-                                <p>:{customer.email}</p> 
+                                <address>:{billDetail.customer.address}</address>
+                                <p>:{billDetail.customer.phone}</p>
+                                <p>:{billDetail.customer.email}</p> 
                             </span>
                         </div>
                     </section>
@@ -53,10 +86,11 @@ const Invoice = React.forwardRef(({customer, bill, billProductList}, ref) => {
                             </header>
 
                             <span>
-                                <p>:{bill.billId}</p>
-                                <p>:{`${date.toLocaleDateString()}`}</p>
-                                <p>:{bill.billType}</p>
-                                <p>:{bill.rate}</p>
+                                <p>:{billDetail.bill.billId}</p>
+                                {/* <p>:{`${date.toLocaleDateString()}`}</p> */}
+                                <p>{billDetail.bill.date}</p>
+                                <p>:{billDetail.bill.billType}</p>
+                                <p>:{billDetail.bill.rate}</p>
                             </span>
                         </span>
                     </aside>
@@ -65,12 +99,12 @@ const Invoice = React.forwardRef(({customer, bill, billProductList}, ref) => {
                 <div className='scroll--table invoice-product-table'>
                     <ProductTable 
                         calledBy = 'invoice'
-                        billProductList={billProductList} 
+                        billProductList={billDetail.billProductList} 
                     />
                 </div>
 
                 <div>
-                    <TotalCard bill={bill}/>
+                    <TotalCard bill={billDetail.bill}/>
 
                     <aside>
                         <section className='condition-section'>
@@ -107,7 +141,7 @@ const Invoice = React.forwardRef(({customer, bill, billProductList}, ref) => {
                                 </div>
                                 <div>
                                     {value.item.map((data,index)=>{
-                                        return  <p>{data}</p>
+                                        return  <p key={`${index}CDTL`}>{data}</p>
                                     })}
                                 </div>
                             </section>
@@ -118,9 +152,10 @@ const Invoice = React.forwardRef(({customer, bill, billProductList}, ref) => {
             
             <span id='footer-design-2'></span>
             <span id='footer-design'></span>
-
+            </>
+        )}
         </div>
     )
-});
+}
 
-export default Invoice
+export default Invoice;

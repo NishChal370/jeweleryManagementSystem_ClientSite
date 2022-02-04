@@ -1,13 +1,11 @@
-
+import './bill.css'
 import React, { useEffect } from 'react'
 import { NavLink, Route, Switch, useHistory } from 'react-router-dom';
-
+import Invoice from './Invoice';
 import SearchBill from './SearchBill';
 import GenerateBill from './GenerateBill';
-
 import { VerifyInputs } from '../../Assets/js/validation';
 
-import './bill.css'
 
 function Bill() {
 
@@ -40,6 +38,10 @@ function Bill() {
             </span>
 
             <Switch>   
+                <Route path="/bill/invoice">
+                    <Invoice/>
+                </Route>
+
                 <Route path="/bill/search">
                     <SearchBill/>
                 </Route>

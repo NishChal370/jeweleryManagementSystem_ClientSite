@@ -1,12 +1,16 @@
 import React from 'react';
 import { Spinner } from '../index';
+import { BsEye } from 'react-icons/bs';
 import { FiEdit } from 'react-icons/fi';
 import { BiFirstPage, BiLastPage } from 'react-icons/bi';
+import { useHistory } from 'react-router-dom';
 
 /**
  *  used in search Bill page
  **/
 function SearchTable({billSummary, changePagehandler}) {
+    const history = useHistory();
+
     return(
         <section className='bill-table-card'>
         {(billSummary !== undefined) 
@@ -45,7 +49,7 @@ function SearchTable({billSummary, changePagehandler}) {
                                     <td><span className={`badge bg-${(status === 'submitted')?'success': 'warning'}`}>{status}</span></td>
                                     <td><span className={`badge bg-${(payment === 'Payed')?'success':'danger'}`}>{payment}</span></td>
                                     <td>{date}</td>
-                                    <td>{(status ==='draft')? <FiEdit/> : null}</td>
+                                    <td>{(status ==='draft' || payment === 'Remain')? <i><FiEdit/></i> : <i onClick={()=> history.push({pathname:'/bill/invoice', state:billId}) }><BsEye/></i> }</td>
                                 </tr>
                             )
                         }) 

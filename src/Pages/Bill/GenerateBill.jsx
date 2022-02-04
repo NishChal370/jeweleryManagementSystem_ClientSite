@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import React, { useEffect, useRef, useState } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import { Post_Bill } from '../../API/UserServer';
-import { InputField, Invoice, ProductTable, TotalCard } from '../../Components';
+import { InputField, InvoicePdf, ProductTable, TotalCard } from '../../Components';
 import { removeResetValidation, VerifyInputs } from '../../Assets/js/validation';
 import { INITIAL_BILL, INITIAL_BILL_PRODUCT, INITIAL_BILL_PRODUCT_LIST, INITIAL_CUSTOMER, INITIAL_PRODUCT  } from '../../Components/Bill/Constant';
 import { calculateFinalWeightAndAmount, calculateGrandTotalAmount, calculatePerProductAmount, calculateRatePerLal, calculateRemaingAmount } from '../../Assets/js/billCalculation';
@@ -327,7 +327,7 @@ function GenerateBill() {
     return (
         <div className="card generate-bill" id='generate-bill'>
             <div hidden>
-                <Invoice ref={componentRef} bill={bill} billProductList={billProductList} customer={customer}/>
+                <InvoicePdf ref={componentRef} bill={bill} billProductList={billProductList} customer={customer}/>
             </div>
 
             <div className="card-body fs-5">

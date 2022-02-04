@@ -8,6 +8,7 @@ const AXIOS = axios.create({
 const URL_SET_RATE = 'rate-set/';
 const URL_GET_ALL_RATES = 'rates/';
 const URL_GET_RATE_BY_DATE = 'rate/';
+const URL_GET_BILL_BY_ID = 'bill/'
 const URL_POST_BILL ='generate-bill/';
 const URL_GET_BILLS_SUMMARY = 'bills/summary';
 
@@ -18,6 +19,7 @@ export {
     URL_GET_ALL_RATES, 
     URL_GET_RATE_BY_DATE, 
     URL_POST_BILL,
+    URL_GET_BILL_BY_ID,
     URL_GET_BILLS_SUMMARY,
     
 }

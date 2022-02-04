@@ -7,12 +7,12 @@ import InputField from "./Bill/InputField";
 import ProductTable from "./Bill/ProductTable";
 import SearchTable from "./Bill/SearchTable";
 
-import Invoice from "./Invoice/Invoice";
+import InvoicePdf from "./Invoice/InvoicePdf";
 
 import Spinner from "./Spinner";
 export {
         Header, SideNav, Main, 
-        InputField, TotalCard, Invoice,
+        InputField, TotalCard, InvoicePdf,
         ProductTable,SearchTable,
         Spinner,
 }
