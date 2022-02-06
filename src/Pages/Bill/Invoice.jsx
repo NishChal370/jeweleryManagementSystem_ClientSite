@@ -4,13 +4,16 @@ import './../../Components/Invoice/invoice.css';
 import { Fetch_Bill_By_Id } from '../../API/UserServer';
 import { ProductTable, TotalCard } from '../../Components';
 import { InternetIcon, PancardIcon, PhoneIcon, ShopLogo, SignitureSampleIcon } from '../../Assets/img';
+import { useHistory } from 'react-router-dom';
 
 
 const date = new Date();
 
 function Invoice(props) {
+    const history = useHistory();
     const billId = useLocation().state;
     const [billDetail, setBillDetail] = useState();
+
 
     const fetchBillById =()=>{
         Fetch_Bill_By_Id(billId)
@@ -31,14 +34,16 @@ function Invoice(props) {
             });
     }
 
+
     useEffect(()=>{
-        (billId == undefined)
+        (billId === undefined || history.location.pathname === '/bill')
             ? setBillDetail(props)
             : fetchBillById()
-    },[])
-    
+    },[props])
+   
+
     return (
-        <div id='print-me'  className= "card bill-pdf" >
+        <div id='print-me'  className= "card bill-pdf">
         {(billDetail !== undefined) &&(
             <>
             <h1 className='water-marker'>Gitanjali Jewellers</h1>
@@ -104,7 +109,7 @@ function Invoice(props) {
                 </div>
 
                 <div>
-                    <TotalCard bill={billDetail.bill}/>
+                    <TotalCard bill={billDetail.bill} inputHandler={()=>{}}/>
 
                     <aside>
                         <section className='condition-section'>

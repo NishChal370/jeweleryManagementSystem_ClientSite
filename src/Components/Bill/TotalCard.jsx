@@ -5,13 +5,12 @@ function TotalCard({bill, inputHandler}) {
 
     let {customerProductWeight, customerProductAmount, finalWeight, grandTotalWeight, discount, grandTotalAmount, advanceAmount, payedAmount, remainingAmount, totalAmount} = bill;
 
-
     return (
         <div className="card bill-totals--card scroll-off">
             <div className="card-body">
                 <span>
                     <p>Final Weight : <span>{finalWeight}</span></p>
-                    <p>Customer P.Weight : <span> <input type="number" name='customerProductWeight' value={(customerProductWeight == null)? 0: customerProductWeight} onChange={inputHandler}/></span></p>
+                    <p>Customer P.Weight : <span> <input type="number" name='customerProductWeight' value={(customerProductWeight == null )? 0: customerProductWeight} onChange={inputHandler}/></span></p>
                 </span>
                 <hr />
 

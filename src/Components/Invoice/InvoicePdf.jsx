@@ -6,7 +6,6 @@ import './invoice.css';
 
 // const date = new Date();
 const InvoicePdf = React.forwardRef(({customer, bill, billProductList}, ref) => {
-    
     return (
         <div ref={ref}>
             <Invoice customer={customer} bill={bill} billProductList={billProductList}/>

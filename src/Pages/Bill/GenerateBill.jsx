@@ -1,12 +1,16 @@
 import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
-import React, { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
-import { Post_Bill } from '../../API/UserServer';
-import { InputField, InvoicePdf, ProductTable, TotalCard } from '../../Components';
+import React, { useEffect, useRef, useState } from 'react';
+import { Fetch_Bill_By_Id, Post_Bill, Post_Edited_Bill } from '../../API/UserServer';
 import { removeResetValidation, VerifyInputs } from '../../Assets/js/validation';
+import { InputField, InvoicePdf, ProductTable, TotalCard } from '../../Components';
 import { INITIAL_BILL, INITIAL_BILL_PRODUCT, INITIAL_BILL_PRODUCT_LIST, INITIAL_CUSTOMER, INITIAL_PRODUCT  } from '../../Components/Bill/Constant';
 import { calculateFinalWeightAndAmount, calculateGrandTotalAmount, calculatePerProductAmount, calculateRatePerLal, calculateRemaingAmount } from '../../Assets/js/billCalculation';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
+
 
 
 const Toast = Swal.mixin({
@@ -20,6 +24,8 @@ const Toast = Swal.mixin({
 
 function GenerateBill() {
     const componentRef = useRef();
+    let billId = useLocation().state;
+    let history = useHistory();
     const latestRate = useSelector(state => state.latestRateReducer.data);
 
     const [bill, setBill] = useState(INITIAL_BILL);
@@ -58,7 +64,7 @@ function GenerateBill() {
             }
 
             if( inputName === 'customerProductWeight'){
-
+                
                 bill['grandTotalWeight'] = bill['finalWeight']-bill['customerProductWeight'];
 
                 let rate = (bill['billType'] === 'gold')? latestRate.tajabiRate : latestRate.silverRate;
@@ -84,15 +90,60 @@ function GenerateBill() {
         },
     });
 
-    const PostBill=(newBill)=>{
+    const PostBill=(newBill,saveAs)=>{
         Post_Bill(newBill)
             .then(function (response) {
                 // handle success
-                handlePrint();
+                if (saveAs !== 'Draft'){
+                    handlePrint()
+                }
+                else{
+                    resetHandler(); 
+                    Swal.fire('Saved as Draft!', '', 'success'); 
+                } 
             })
             .catch(function (error) {
                 // handle error
-                Swal.fire(error, 'error')
+                Swal.fire("Error occur in Post bill !", 'error')
+            });
+    }
+
+    const FetchBillById =()=>{
+        Fetch_Bill_By_Id(billId)
+            .then(function (response) {
+                // handle success
+                let bill = response.data;
+                // seperating response data
+                const customer = bill.customer;
+                const billProductList = bill.billProduct;
+                delete bill.customer;
+                delete bill.billProduct;
+
+                setBill(bill);
+                setCustomer(customer);
+                setBillProductList(billProductList);            
+            })
+            .catch(function (error) {
+                // handle error
+                console.log("error");
+            });
+    }
+
+    const PostEditedBill = (editedBill, saveAs)=>{
+        Post_Edited_Bill(editedBill)
+            .then(function(response){
+                // handle success
+                if (saveAs !== 'Draft'){
+                    handlePrint()
+                }
+                else{
+                    resetHandler(); 
+                    Swal.fire('Saved as Draft!', '', 'success'); 
+                }
+            })
+            .catch(function(error){
+                // handle error
+                Swal.fire("error occure post edit bill", 'error')
             });
     }
 
@@ -102,8 +153,10 @@ function GenerateBill() {
         (saveAs === 'Draft')&& (bill.status ='draft')
 
         customer.bills = [bill];
-
-        PostBill(customer);
+        
+        (billId === undefined)
+            ? PostBill(customer,saveAs)
+            : PostEditedBill(customer,saveAs)
     }
 
     const saveButtonHandler=(saveAs)=>{
@@ -186,8 +239,16 @@ function GenerateBill() {
 
         removeResetValidation();
     }
+    
+    const clearHistory =()=>{
+        let oldHistory = history.location
+        delete oldHistory.state
+        delete oldHistory.search
+        history.replace({ ...oldHistory });
+    }
 
-    const resetHandler=()=>{        
+    const resetHandler=()=>{  
+        clearHistory();      
         INITIAL_BILL['rate'] = latestRate.hallmarkRate;
 
         setBill({...INITIAL_BILL});
@@ -232,11 +293,14 @@ function GenerateBill() {
     const convertIntoTwoDArray =(object)=>{
         let twoDArray = [];
         for(let i=0; i<Object.keys(object).length-2; i++){
-            twoDArray.push(
-               [ Object.keys(object)[i], Object.keys(object)[i+2] ]
-            )
+            if(Object.keys(object)[i] !== 'customerId'){
+                twoDArray.push(
+                    [ Object.keys(object)[i], Object.keys(object)[i+2] ]
+                 )
+            }
+            
         }
-
+        //[['customerName', 'Phpne'],['address','email']]
         return twoDArray;
     };
 
@@ -262,8 +326,6 @@ function GenerateBill() {
                 setBillProductList([...billProductList]);
             }
         });
-
-
     }
 
     const editAddedProductHandler=(index, billProduct)=>{
@@ -293,27 +355,32 @@ function GenerateBill() {
 
     /**used when user add product in Bill */
     useEffect(() => {
+            let{finalWeight, finalAmount} = calculateFinalWeightAndAmount(billProductList);
 
-        let{finalWeight, finalAmount} = calculateFinalWeightAndAmount(billProductList);
+            if(billId === undefined){
+                bill['date'] = getDate();
+            }
 
-        bill['date'] = getDate();
+            bill['finalWeight'] = finalWeight;
 
-        bill['finalWeight'] = finalWeight;
+            bill['grandTotalWeight'] = bill['finalWeight']-bill['customerProductWeight'];
 
-        bill['grandTotalWeight'] = bill['finalWeight']-bill['customerProductWeight'];
+            bill['totalAmount'] = finalAmount;
 
-        bill['totalAmount'] = finalAmount;
+            bill.grandTotalAmount = calculateGrandTotalAmount(bill);
 
-        bill.grandTotalAmount = calculateGrandTotalAmount(bill);
+            bill.remainingAmount = calculateRemaingAmount(bill);
 
-        bill.remainingAmount = calculateRemaingAmount(bill);
-
-        setBill({...bill});
+            setBill({...bill});
     }, [billProductList]);
 
     /* verify inputs */
     useEffect(()=>{
         VerifyInputs();
+
+        if(billId !== undefined){// if  bill is updating
+            FetchBillById();
+        }
     },[]);
 
     useEffect(()=>{
@@ -334,7 +401,7 @@ function GenerateBill() {
                 <span className='d-flex mx-auto justify-content-between'>
                     <h5 className="card-title fs-5 ps-1">
                         Bill No:
-                        <span className='fs-5 ps-2'>234</span>
+                        <span className='fs-5 ps-2'>{bill.billId}</span>
                     </h5>
 
                     <select name="billType" id="rate" className="dropdown-toggle rate-choose-btn" disabled={(billProductList.length<=0)? false: true} value={bill.billType} onChange={(e)=>inputHandler(e)} >
@@ -346,10 +413,15 @@ function GenerateBill() {
 
 
                 <form className="row g-4 pt-3 needs-validation" noValidate onSubmit={buttonClickHandler}>
-                    <section className='row mb-2'>
+                    <section className='col mb-2'>
+                        <div className="col-md-5 d-flex gap-3">
+                            <label htmlFor="validationTooltip01">Rate: </label>
+                            <span >{bill.rate}</span>
+                        </div>
+                        
                         <div className="col-md-5 d-flex bill--order">
                             <label htmlFor="validationTooltip01" className="form-label">Order No: </label>
-                            <input type="text"/>
+                            <span className='fs-5 ps-2'>{bill.orderId}</span>
                         </div>
                     </section>
 
@@ -359,15 +431,17 @@ function GenerateBill() {
                                 <section className='row  justify-content-between' key={`custDetailRow${index}`}>
                                 {
                                     row.map((key,index)=>{
-                                        return(
-                                            <InputField key={`custDetailInput${index}`}
-                                                name ={key}
-                                                value={customer[key]}
-                                                changehandler={(e)=>inputHandler(e)}
-                                                isReadonly = {false}
-                                                type={(key==='email') ? "email" : (key==='phone')? "number":"text"}
-                                            />
-                                        )
+                                        if (key !== 'customerId'){
+                                            return(
+                                                <InputField key={`custDetailInput${index}`}
+                                                    name ={key}
+                                                    value={customer[key]}
+                                                    changehandler={(e)=>inputHandler(e)}
+                                                    isReadonly = {false}
+                                                    type={(key==='email') ? "email" : (key==='phone')? "number":"text"}
+                                                />
+                                            )
+                                        }
                                     })
                                 }
                                 </section>

@@ -1,15 +1,58 @@
 import React from 'react';
+import Swal from 'sweetalert2';
 import { Spinner } from '../index';
 import { BsEye } from 'react-icons/bs';
 import { FiEdit } from 'react-icons/fi';
 import { BiFirstPage, BiLastPage } from 'react-icons/bi';
 import { useHistory } from 'react-router-dom';
 
+
 /**
  *  used in search Bill page
  **/
-function SearchTable({billSummary, changePagehandler}) {
+function SearchTable({billSummary, changePagehandler, DeleteBillById}) {
     const history = useHistory();
+    
+    const buttonhandler=(buttonName, billId)=>{
+        if(buttonName === 'action'){
+            Swal.fire({
+                title: 'Select action',
+                icon: 'info',
+                confirmButtonColor: '#3085d6',
+                denyButtonColor: '#d33',
+                showDenyButton: true,
+                confirmButtonText: 'Edit',
+                denyButtonText: 'Delete'
+
+            }).then((result) => {
+                if(result.isConfirmed){ //if edit button click
+                    history.push({pathname:'/bill', state:billId, search: `?billno=${ billId}`});
+                }
+                else if(result.isDenied){ //if delete button click
+                    Swal.fire({
+                        title: `Do you want to delete bill ${billId}`,
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showDenyButton: true,
+                        confirmButtonText: 'Delete',
+                        denyButtonText: `Cancel`,
+        
+                    }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                            
+                            DeleteBillById(billId);
+                        }
+                    });
+                }
+            });
+        
+        }
+        else if(buttonName === 'view'){
+            history.push({pathname:'/bill/invoice', state:billId, search: `?billno=${ billId}`}) 
+        }
+    }
+
 
     return(
         <section className='bill-table-card'>
@@ -49,7 +92,9 @@ function SearchTable({billSummary, changePagehandler}) {
                                     <td><span className={`badge bg-${(status === 'submitted')?'success': 'warning'}`}>{status}</span></td>
                                     <td><span className={`badge bg-${(payment === 'Payed')?'success':'danger'}`}>{payment}</span></td>
                                     <td>{date}</td>
-                                    <td>{(status ==='draft' || payment === 'Remain')? <i><FiEdit/></i> : <i onClick={()=> history.push({pathname:'/bill/invoice', state:billId}) }><BsEye/></i> }</td>
+                                    <td>{(status ==='draft' || payment === 'Remain')
+                                        ? <i onClick={()=> buttonhandler('action',billId) }><FiEdit/></i> 
+                                        : <i onClick={()=> buttonhandler('view',billId)}><BsEye/></i> }</td>
                                 </tr>
                             )
                         }) 

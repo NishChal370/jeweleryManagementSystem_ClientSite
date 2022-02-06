@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
 import { FaSortAmountUpAlt, FaFilter } from 'react-icons/fa';
 import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
-import { Fetch_Bill_Summary } from '../../API/UserServer';
+import { Delete_Bill_By_Id, Fetch_Bill_Summary } from '../../API/UserServer';
 import { SearchTable } from '../../Components';
 
 
@@ -23,13 +23,13 @@ const Toast = Swal.mixin({
 function SearchBill() {
     const history = useHistory();
     const location = useLocation();
-
     const [billSummary, setBillSummary] = useState();
     const [billType, setBillType] = useState('all');
     const [billStatus, setBillStatus] = useState('all');
     const [searchedDate, setSearchedDate] = useState(null);
     const [initailReder, setInitialRender] = useState(true);
     const [showSearchInput, setShowSearchInput] = useState(false);
+    const [isProductDeleted, setIsProductDeleted] = useState(false);
     const [searchValue, setSearchValue] = useState({initial: '', confirm:''});
     const page = (location.search !== '') ?parseInt(location.search.slice(-1)) :1;
     const [pageNumber, setPageNumber] = useState(page);
@@ -57,10 +57,10 @@ function SearchBill() {
             })
             .catch(function (error) {
                 // handle error
-                billSummary['results'] = [];
-                billSummary['pageIndex'] = `${pageNumber} of 1`;
+                // billSummary['results'] = [];
+                // billSummary['pageIndex'] = `${pageNumber} of 1`;
 
-                setBillSummary({...billSummary});
+                // setBillSummary({...billSummary});
 
                 Toast.fire({
                     icon: 'error',
@@ -70,6 +70,17 @@ function SearchBill() {
             });
     }
     
+    const DeleteBillById =(billId)=>{
+        Delete_Bill_By_Id(billId)
+            .then(function(response){
+                setIsProductDeleted(!isProductDeleted)
+                
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+    }
+
     const changePagehandler =(btnName)=>{
         if(billSummary.next !== null && btnName === 'next'){
 
@@ -123,14 +134,13 @@ function SearchBill() {
 
 
     useEffect(()=>{
-        console.log(searchedDate);
-            history.push({
-                pathname: '/bill/search',
-                search: `?page=${ pageNumber}`
-            });
-    
-            fetchBillsSummary();
-    },[pageNumber, searchValue.confirm, billType, billStatus, searchedDate]);
+        history.push({
+            pathname: '/bill/search',
+            search: `?page=${ pageNumber}`
+        });
+
+        fetchBillsSummary();
+    },[pageNumber, searchValue.confirm, billType, billStatus, searchedDate, isProductDeleted]);
 
     // it will be called if the filter input is empty
     useEffect(()=>{
@@ -195,8 +205,8 @@ function SearchBill() {
                 </span>
                 
             </section>
-            
-            <SearchTable billSummary={billSummary}  changePagehandler={changePagehandler} />
+
+            <SearchTable billSummary={billSummary}  changePagehandler={changePagehandler} DeleteBillById={DeleteBillById}/>
         </div>
     )
 }

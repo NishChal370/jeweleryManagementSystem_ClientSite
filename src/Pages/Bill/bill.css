@@ -161,3 +161,209 @@ select> option{
 .hover--curser{
     cursor: pointer;
 }
+
+
+
+
+/*--------------------------------------------------------------
+# Generate Bill
+--------------------------------------------------------------*/
+.generate-bill{
+    font-weight: 500;
+    color: #012970 !important;
+  }
+  table{
+    color: #012970 !important;
+  }
+  .bill--order label{
+    width: 1rem;
+  }
+  .bill--order input{
+    outline: 0;
+    height: 2rem;
+    font-size: 14px;
+    border-width: 0 0 2px;
+    border-color: #012a7050;
+  }
+  .bill--order input:focus{
+    outline: 0;
+  }
+  
+  .generate-bill .form-label{
+    width: 9rem !important;
+  }
+  .generate-bill form div{
+    padding-bottom: 0.5rem !important;
+  }
+  
+  .scroll--table{
+    height: 300px;
+    overflow: auto;
+    border-bottom: 1px rgba(141, 141, 141, 0.596) solid;
+  }
+  .scroll--table table {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+    /* height: 300px; */
+  }
+  .scroll--table thead {
+    top: 0;
+    flex: 0 0 auto;
+    position: sticky;
+    background-color: rgba(212, 212, 212, 0.596);
+  }
+  .scroll--table tbody {
+    flex: 1 1 auto;
+    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .scroll--table tr {
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+    border-bottom: 0.5px rgba(141, 141, 141, 0.596) solid;
+  }
+  .scroll--table tr:nth-child(even){
+    background-color: rgba(231, 231, 231, 0.781);
+  }
+  .scroll--table thead th:nth-child(1), tbody th:nth-child(1){
+    width: 2rem;
+  }
+  .add-btn{
+    z-index: 1;
+    font-size: 2rem;
+    position:sticky;
+    height: 0px;
+    margin-top: -1.7rem;
+    margin-left: -0.8rem;
+    border: none;
+    width: fit-content;
+    transition: font-size 1s;
+    transition: margin-left 1s;
+    background-color: rgba(255, 255, 255, 0);
+  }
+  .add-btn:hover{
+    color: rgb(219, 22, 22);
+    border: none;
+    cursor: pointer;
+    margin-left: -0.6rem;
+    font-size: 2.3rem;
+    
+  }
+  .generate-bill .rate-choose-btn{
+    height: fit-content;
+    margin-top: 1rem;
+    margin-right: 1rem;
+    width: 8rem;
+    font-weight: bolder;
+    font-size: 1.2rem;
+    border: 2px solid black;
+    border-radius: 6px;
+    color: #8b6105;
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+  }
+  .generate-bill .rate-choose-btn:hover{
+    cursor: pointer;
+  }
+  .generate-bill-product-detail{
+    display: flex;
+  }
+  .generate-bill-product-detail .card .card-body div{
+    width: 90%;
+  }
+  .generate-bill-product-detail .card {
+    background: rgba(255, 255, 255, 0.37);
+    gap: 4rem;
+    box-shadow: none;
+  
+  }
+  /*product--input-card*/
+  .generate-bill-product-detail .card:nth-child(1){
+    width: 100%;
+    top: 2rem;
+    flex: 2;
+    height: 90%;
+    
+    /* background-color: #18d26e; */
+    /* flex-grow: 4; */
+  }
+  
+  .generate-bill-product-detail .card:nth-child(2){
+    width: 100%;
+    flex: 1;
+    border: 2px solid #012a7050;
+    /* background-color: #3e4f6f; */
+  }
+  .generate-bill-product-detail input{
+    width: 100%;
+  }
+  .bill-totals--card{
+    padding-top: 0.5rem;
+  }
+  .bill-totals--card h5{
+    font-weight: 900;
+  }
+  .bill-totals--card p, .bill-totals--card h5{
+    display: flex;
+    justify-content: space-between;
+  }
+  .generate-bill--button{
+    display: flex;
+    justify-content: end;
+  
+    gap: 2rem;
+    margin-right: 4rem;
+    /* position:sticky; */
+    /* display: flex; */
+    /* width: fit-content; */
+    /* justify-content: flex-start; */
+    /* margin-left: 46%; */
+  }
+  .generate-bill--button .col{
+    /* width: 2rem !important;
+    padding: 0px !important; */
+    
+    background-color: #18d26e;
+  }
+  .bill-totals--card span input{
+    text-align: right;
+    width: 90px;
+    border: none;
+    border-bottom: 1px solid black;
+    font-size: 1rem;
+  }
+  .bill-totals--card span input:focus{
+    outline: none;
+    border: none;
+    border-bottom: 1px solid black;
+  }
+  
+  @media (max-width: 1440px) {
+    .generate-bill-product-detail input{
+      width: 100%;
+    }
+  }
+  @media (max-width: 1024px) {
+    .generate-bill{
+      height: 120vh;
+    }
+    
+    .generate-bill-product-detail{
+      display: inline;
+    }
+    .generate-bill-product-detail .card:nth-child(1) .card-body{
+      height: 1rem;
+    }
+    .generate-bill-product-detail input{
+      width: 100%;
+    }
+  
+  }
+  @media (max-width: 768px) {
+  }
+  
+  

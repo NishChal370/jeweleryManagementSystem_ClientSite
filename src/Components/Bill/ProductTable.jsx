@@ -12,7 +12,8 @@ function ProductTable({billProductList, editAddedProductHandler, deleteAddedProd
     useEffect(()=>{
         if (calledBy === 'invoice'){
             tableHeading.pop();
-            setTableHeading(tableHeading);
+
+            setTableHeading([...tableHeading]);
         }
     },[])
 
