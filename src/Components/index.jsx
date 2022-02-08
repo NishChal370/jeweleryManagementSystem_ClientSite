@@ -2,9 +2,10 @@ import Main from "./Main/Main";
 import Header from "./Header/Header";
 import SideNav from "./SideNav/SideNav";
 
-import TotalCard from "./Bill/TotalCard";
-import InputField from "./Bill/InputField";
-import ProductTable from "./Bill/ProductTable";
+import TotalCard from "./Common/TotalCard";
+import InputField from "./Common/InputField";
+import ProductTable from "./Common/ProductTable";
+
 import SearchTable from "./Bill/SearchTable";
 
 import InvoicePdf from "./Invoice/InvoicePdf";

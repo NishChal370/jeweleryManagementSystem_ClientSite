@@ -104,12 +104,12 @@ function Invoice(props) {
                 <div className='scroll--table invoice-product-table'>
                     <ProductTable 
                         calledBy = 'invoice'
-                        billProductList={billDetail.billProductList} 
+                        productsList={billDetail.billProductList} 
                     />
                 </div>
 
                 <div>
-                    <TotalCard bill={billDetail.bill} inputHandler={()=>{}}/>
+                    <TotalCard data={billDetail.bill} inputHandler={()=>{}}/>
 
                     <aside>
                         <section className='condition-section'>

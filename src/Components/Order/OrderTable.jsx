@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 let initialTableHeading = ['#', 'Product name', 'Net Weight', 'Total Weight', 'Size','Gems Name', 'Design', 'Action'];
 
 /**
- * use in place order
+ * use in place order but not in use now
  * */
 function OrderTable({orderProductList, editAddedProductHandler, deleteAddedProductHandler}) {
 

@@ -8,7 +8,7 @@ function InputField({name, type, changehandler, value, min, flex, isReadonly}) {
             <label htmlFor="" className="form-label">
                 { ( name.charAt(0).toUpperCase()+name.slice(1) ).replace(/([a-z])([A-Z])/g, '$1 $2') }
             </label>
-            {console.log(name)}
+
             {
                 ['email', 'phone', 'gemsName', 'gemsPrice', 'size', 'design'].includes(name)
                     ?(

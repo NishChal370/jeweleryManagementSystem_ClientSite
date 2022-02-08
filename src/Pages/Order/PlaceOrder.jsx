@@ -2,9 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { InputField } from '../../Components';
-import TotalCard from '../../Components/Order/TotalCard';
-import OrderTable from '../../Components/Order/OrderTable';
+import { InputField, ProductTable, TotalCard } from '../../Components';
 import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
 import { removeResetValidation, VerifyInputs } from '../../Assets/js/validation';
 import { INITIAL_CUSTOMER, INITIAL_ORDER, INITIAL_ORDER_PRODUCT, INITIAL_ORDER_PRODUCT_LIST, INITIAL_PRODUCT } from '../../Components/Order/Constant';
@@ -137,8 +135,8 @@ function PlaceOrder() {
             }
 
             <div className='scroll--table bill-product-table'>
-                <OrderTable
-                    orderProductList={orderProductList}
+                <ProductTable
+                    productsList={orderProductList}
                     // editAddedProductHandler={editAddedProductHandler}
                     // deleteAddedProductHandler={deleteAddedProductHandler}
                 />
@@ -198,8 +196,8 @@ function PlaceOrder() {
                 </div>
 
                 <TotalCard
-                    order={order}
-                    inputHandler={inputChangeHandler}
+                  data={order}
+                  inputHandler={inputChangeHandler}
                 />
 
             </section>

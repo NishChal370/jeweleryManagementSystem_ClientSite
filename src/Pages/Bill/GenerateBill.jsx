@@ -401,7 +401,7 @@ function GenerateBill() {
 
     return (
         <div className="card generate-bill" id='generate-bill'>
-            <div hidden>
+            <div>
                 <InvoicePdf ref={componentRef} bill={bill} billProductList={billProductList} customer={customer}/>
             </div>
 
@@ -460,7 +460,7 @@ function GenerateBill() {
                     <div className='scroll--table bill-product-table'>
                         <ProductTable
                             calledBy = 'bill'
-                            billProductList={billProductList}
+                            productsList={billProductList}
                             editAddedProductHandler={editAddedProductHandler}
                             deleteAddedProductHandler={deleteAddedProductHandler}
                         />
@@ -520,7 +520,7 @@ function GenerateBill() {
                         </div>
 
                         <TotalCard
-                            bill={bill}
+                            data={bill}
                             inputHandler={inputHandler}
                         />
 
