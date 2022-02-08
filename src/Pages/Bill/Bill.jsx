@@ -4,7 +4,7 @@ import { NavLink, Route, Switch, useHistory } from 'react-router-dom';
 import Invoice from './Invoice';
 import SearchBill from './SearchBill';
 import GenerateBill from './GenerateBill';
-import { VerifyInputs } from '../../Assets/js/validation';
+import { VerifyInputs } from '../../Components/Common/validation';
 
 
 function Bill() {

@@ -24,7 +24,7 @@ function TotalCard({data, inputHandler}) {
                         <p>Final P.Amount : <span>{data.totalAmount}</span></p>
                         <p>Customer P.Amount : <span>{(isNaN(data.customerProductAmount)) ? 0.0 :  data.customerProductAmount}</span></p>
                         
-                        {(location.includes('order')) &&(
+                        {(!location.includes('order')) &&(
                             <p>Discount : <span> <input type="number" name='discount' value={(data.discount == null)? 0 : data.discount} onChange={inputHandler}/></span></p>
                         )}
                     </span>
@@ -36,8 +36,8 @@ function TotalCard({data, inputHandler}) {
                     <hr />
     
                     <span>
-                        <p>Advance payment : <span> <input type="number" name='advanceAmount' value={data.advanceAmount} onChange={inputHandler}/></span></p>
-
+                        <p>Advance payment : <span> <input type="number" name="advanceAmount" value={(data.advanceAmount == null) ?0 :data.advanceAmount} onChange={inputHandler}/></span></p>
+                        
                         {(location.includes('order'))
                             ? <p>Submittion Date: <input name='submittionDate' style={{width:'fit-content'}} type="date"  value={data.submittionDate} onChange={inputHandler} /></p>
                             :<p>Payment : <span> <input type="number" name='payedAmount' value={(data.payedAmount == null) ?0 :data.payedAmount} onChange={inputHandler}/></span></p>

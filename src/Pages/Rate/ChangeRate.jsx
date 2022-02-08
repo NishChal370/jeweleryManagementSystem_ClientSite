@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { Post_Rate } from '../../API/UserServer';
 import { setLatestRate } from '../../Redux/Action';
-import { VerifyInputs } from '../../Assets/js/validation';
+import { VerifyInputs } from '../../Components/Common/validation';
 
 let rate = {
     'hallmarkRate': 0,

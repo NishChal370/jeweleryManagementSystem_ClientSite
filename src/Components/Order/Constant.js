@@ -9,12 +9,16 @@ let INITIAL_ORDER = {
     orderId : null,
     date: '',
     rate: null,
+    type: 'gold',
     advanceAmount : null,
     submittionDate : '',
     submittedDate : '',
+    finalWeight: null,
+    customerProductWeight : null,
+    customerProductAmount : null,
     grandTotalWeight : null,
     status : 'pending',
-    remark : ''
+    remark : '',
 }
 
 let INITIAL_ORDER_PRODUCT = {

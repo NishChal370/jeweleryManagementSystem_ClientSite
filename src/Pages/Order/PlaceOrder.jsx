@@ -2,9 +2,9 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { InputField, ProductTable, TotalCard } from '../../Components';
 import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
-import { removeResetValidation, VerifyInputs } from '../../Assets/js/validation';
+import { InputField, ProductTable, TotalCard } from '../../Components';
+import { removeResetValidation, VerifyInputs } from '../../Components/Common/validation';
 import { INITIAL_CUSTOMER, INITIAL_ORDER, INITIAL_ORDER_PRODUCT, INITIAL_ORDER_PRODUCT_LIST, INITIAL_PRODUCT } from '../../Components/Order/Constant';
 
 
@@ -21,7 +21,7 @@ function PlaceOrder() {
   const inputChangeHandler= ({target}) =>{
     let value = target.value;
     let inputName = target.name;
-
+    console.log(inputName);
     if(product.hasOwnProperty(inputName)){
 
         setProduct((prevState) => ({ ...prevState, [inputName]: value }));
@@ -43,18 +43,62 @@ function PlaceOrder() {
 
   const buttonClickHandler = (e)=>{
     e.preventDefault();
-    alert("Hi")
+    let buttonName = e.target.name;
+    console.log(buttonName);
+    if(buttonName === 'Add'){
+      alert("add");
+      addButtonHandler();
+    }
+    else if(buttonName === 'Save'){
+      alert("Save");
+      saveButtonHandler();
+    }
+    else if(buttonName === 'Clear'){
+      alert("Clear");
+      clearButtonHandler();
+    }
+    else if(buttonName === 'Reset'){
+      alert("Reset");
+      resetButtonHandler();
+    }
     
-    addButtonHandler();
   }
 
   const addButtonHandler=()=>{
     orderProduct.product = product;
-    console.log(orderProduct);
     setOrderProductList([...orderProductList, orderProduct]);
+
+    clearButtonHandler();
     removeResetValidation();
-}
+  }
+
+  const saveButtonHandler = ()=>{
+    order.orderProduct = orderProductList;
+    customer.orders = [order];
+
+    console.log(customer);
+  }
+
+  const resetButtonHandler=()=>{  
   
+    INITIAL_ORDER['rate'] = latestRate.hallmarkRate;
+
+    setOrder({...INITIAL_ORDER});
+    setProduct({...INITIAL_PRODUCT});
+    setCustomer({...INITIAL_CUSTOMER});
+    setOrderProduct({...INITIAL_ORDER_PRODUCT});
+    setOrderProductList([...INITIAL_ORDER_PRODUCT_LIST]);
+
+    removeResetValidation();
+  }
+
+  const clearButtonHandler=()=>{
+    setOrderProduct({...INITIAL_ORDER_PRODUCT});
+    setProduct({...INITIAL_PRODUCT});
+
+    removeResetValidation();
+  }
+
   const convertIntoTwoDArray =(object)=>{
     let twoDArray = [];
     for(let i=0; i<Object.keys(object).length-2; i++){
@@ -89,6 +133,7 @@ function PlaceOrder() {
 
   return(
     <div className="card generate-bill" id='generate-bill'>
+
       <div className="card-body fs-5 mt-3">
         <span className='d-flex mx-auto justify-content-between'>
           <h5 className="card-title fs-5 ps-1">
@@ -96,7 +141,7 @@ function PlaceOrder() {
             <span className='fs-5 ps-2'>23</span>
           </h5>
 
-          <select name="billType" id="rate" className="dropdown-toggle rate-choose-btn">
+          <select name="type" id="rate" className="dropdown-toggle rate-choose-btn" value={order.type} onChange={inputChangeHandler}>
             <option value="gold">Gold</option>
             <option value="silver">Silver</option>
           </select>
@@ -142,7 +187,7 @@ function PlaceOrder() {
                 />
             </div>
 
-            <button className="ri-add-circle-fill add-btn" name='Add' ></button>
+            <button className="ri-add-circle-fill add-btn" name='Add'></button>
 
             <section className='generate-bill-product-detail'>
                 <div className="card">

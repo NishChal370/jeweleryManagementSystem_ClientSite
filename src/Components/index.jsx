@@ -10,7 +10,7 @@ import SearchTable from "./Bill/SearchTable";
 
 import InvoicePdf from "./Invoice/InvoicePdf";
 
-import Spinner from "./Spinner";
+import Spinner from "./Common/Spinner";
 export {
         Header, SideNav, Main, 
         InputField, TotalCard, InvoicePdf,

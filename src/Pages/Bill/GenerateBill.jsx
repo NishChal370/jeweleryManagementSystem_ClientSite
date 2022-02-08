@@ -1,14 +1,13 @@
 import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
+import { useLocation, useHistory } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
-import { Fetch_Bill_By_Id, Post_Bill, Post_Edited_Bill } from '../../API/UserServer';
-import { removeResetValidation, VerifyInputs } from '../../Assets/js/validation';
 import { InputField, InvoicePdf, ProductTable, TotalCard } from '../../Components';
+import { Fetch_Bill_By_Id, Post_Bill, Post_Edited_Bill } from '../../API/UserServer';
+import { removeResetValidation, VerifyInputs } from '../../Components/Common/validation';
 import { INITIAL_BILL, INITIAL_BILL_PRODUCT, INITIAL_BILL_PRODUCT_LIST, INITIAL_CUSTOMER, INITIAL_PRODUCT  } from '../../Components/Bill/Constant';
-import { calculateFinalWeightAndAmount, calculateGrandTotalAmount, calculatePerProductAmount, calculateRatePerLal, calculateRemaingAmount } from '../../Assets/js/billCalculation';
-import { useHistory } from 'react-router-dom';
+import { calculateFinalWeightAndAmount, calculateGrandTotalAmount, calculatePerProductAmount, calculateRatePerLal, calculateRemaingAmount } from '../../Components/Bill/billCalculation';
 
 
 const Toast = Swal.mixin({
@@ -35,7 +34,6 @@ function GenerateBill() {
     const [billProductList, setBillProductList] = useState(INITIAL_BILL_PRODUCT_LIST);
 
     const [editingBillProductIndex, setEditingBillProductIndex] = useState();
-
 
     const inputHandler=(e)=>{
         let value = e.target.value;
@@ -363,23 +361,23 @@ function GenerateBill() {
 
     /**used when user add product in Bill */
     useEffect(() => {
-            let{finalWeight, finalAmount} = calculateFinalWeightAndAmount(billProductList);
+        let{finalWeight, finalAmount} = calculateFinalWeightAndAmount(billProductList);
 
-            if(billId === undefined){
-                bill['date'] = getDate();
-            }
+        if(billId === undefined){
+            bill['date'] = getDate();
+        }
 
-            bill['finalWeight'] = finalWeight;
+        bill['finalWeight'] = finalWeight;
 
-            bill['grandTotalWeight'] = bill['finalWeight']-bill['customerProductWeight'];
+        bill['grandTotalWeight'] = bill['finalWeight']-bill['customerProductWeight'];
 
-            bill['totalAmount'] = finalAmount;
+        bill['totalAmount'] = finalAmount;
 
-            bill.grandTotalAmount = calculateGrandTotalAmount(bill);
+        bill.grandTotalAmount = calculateGrandTotalAmount(bill);
 
-            bill.remainingAmount = calculateRemaingAmount(bill);
+        bill.remainingAmount = calculateRemaingAmount(bill);
 
-            setBill({...bill});
+        setBill({...bill});
     }, [billProductList]);
 
     /* verify inputs */
@@ -392,16 +390,17 @@ function GenerateBill() {
     },[]);
 
     useEffect(()=>{
-        if(latestRate !== undefined){
-            bill['rate'] = latestRate.hallmarkRate;
-
-            setBill({...bill});
-        }
+        if(billId === undefined){
+            if(latestRate !== undefined){
+                bill['rate'] = latestRate.hallmarkRate;
+                setBill({...bill});
+            }
+        }  
     },[latestRate]);
 
     return (
         <div className="card generate-bill" id='generate-bill'>
-            <div>
+            <div hidden>
                 <InvoicePdf ref={componentRef} bill={bill} billProductList={billProductList} customer={customer}/>
             </div>
 
