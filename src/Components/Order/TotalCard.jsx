@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom';
 
 
-function TotalCard({bill, inputHandler}) {
+function TotalCard({order, inputHandler}) {
     const location = useLocation().pathname.replace('/','')
     console.log(location);
-    let {customerProductWeight, customerProductAmount, finalWeight, grandTotalWeight, discount, grandTotalAmount, advanceAmount, payedAmount, remainingAmount, totalAmount} = bill;
+    let {customerProductWeight, customerProductAmount, finalWeight, grandTotalWeight, grandTotalAmount, advanceAmount, totalAmount, submittionDate, remark} = order;
 
     return (
         <div className="card bill-totals--card scroll-off">
@@ -24,7 +24,6 @@ function TotalCard({bill, inputHandler}) {
                 <span>
                     <p>Final P.Amount : <span>{totalAmount}</span></p>
                     <p>Customer P.Amount : <span>{(isNaN(customerProductAmount)) ? 0.0 :  customerProductAmount}</span></p>
-                    <p>Discount : <span> <input type="number" name='discount' value={(discount == null)? 0 : discount} onChange={inputHandler}/></span></p>
                 </span>
                 <hr />
 
@@ -34,19 +33,18 @@ function TotalCard({bill, inputHandler}) {
                 <hr />
 
                 <span>
-                    <p>Advance payment : <span> <input type="number" name='advanceAmount' value={advanceAmount} onChange={inputHandler}/></span></p>
-                    <p>Payment : <span> <input type="number" name='payedAmount' value={(payedAmount == null) ?0 :payedAmount} onChange={inputHandler}/></span></p>
+                    <p>Advance payment : <span> <input name='advanceAmount' type="number"  value={advanceAmount} onChange={inputHandler} /></span></p>
+                    <p>Submittion Date: <input name='submittionDate' style={{width:'fit-content'}} type="date"  value={submittionDate} onChange={inputHandler} /></p>
                 </span>
                 <hr />
 
                 <span>
-                    <p>Remaining Amount : <span>{remainingAmount}</span></p>
+                    <p style={{marginBottom:'0rem'}}>Remark : <span> <textarea type="text" name='remark' placeholder='any other info....' value={remark} onChange={inputHandler} style={{fontSize: '1rem'}}/></span></p>
                 </span>
-
             </div>
         </div>  
     )
 }
 
-
+//backgroundColor: (isSubmittionDateExist)? 'red':''
 export default TotalCard

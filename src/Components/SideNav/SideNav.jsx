@@ -1,8 +1,8 @@
 import { useHistory } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 
+import { GiFlatHammer, GiPriceTag } from 'react-icons/gi';
 import { IoReceiptOutline } from 'react-icons/io5';
-
 
 function SideNav({isDisplay}) {
 
@@ -63,8 +63,30 @@ function SideNav({isDisplay}) {
                 </li>
 
                 <li className="nav-item">
+                    <a className={`nav-link ${(currentLocation !== 'order')? 'collapsed': ""}`} data-bs-target="#order-nav" data-bs-toggle="collapse" href="#" arial-aria-expanded="true">
+                        <i><GiFlatHammer/></i>
+                        <span>Order</span>
+                        <i className="bi bi-chevron-down ms-auto"></i>
+                    </a>
+
+                    <ul id="order-nav" className={`nav-content  curser--on-hover ${(currentLocation !== 'order')? 'collapse': "collapse show"}`} data-bs-parent="#sidebar-nav" >
+                        <li onClick={()=>history.push('/order/search')}>
+                            <a>
+                                <i className="bi bi-circle"style={{backgroundColor: (fullLocation !== '/order/view')? 'white': 'blue' }}></i><span>Overview</span>
+                            </a>
+                        </li>
+
+                        <li onClick={()=>history.push('/order')}>
+                            <a>
+                                <i className="bi bi-circle" style={{backgroundColor: (fullLocation !== '/order')? 'white': 'blue' }}></i><span>Place order</span>
+                            </a>
+                        </li>                    
+                    </ul>
+                </li>
+
+                <li className="nav-item">
                     <a className={`nav-link ${(currentLocation !== 'rate')? 'collapsed': ""}`} data-bs-target="#rate-nav" data-bs-toggle="collapse" href="#" arial-aria-expanded="true">
-                        <i><IoReceiptOutline/></i>
+                        <i><GiPriceTag/></i>
                         <span>Rate</span>
                         <i className="bi bi-chevron-down ms-auto"></i>
                     </a>
@@ -82,14 +104,7 @@ function SideNav({isDisplay}) {
                         </li>
                     
                     </ul>
-                </li>
-
-                <li className="nav-item curser--on-hover " name='dashboard' onClick={()=>history.push('/')}>
-                    <a className={`nav-link `}>
-                        <i className="bi bi-grid"></i>
-                        <span>Am</span>
-                    </a>
-                </li>
+                </li> 
             </ul>
         </aside>
 

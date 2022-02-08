@@ -9,8 +9,6 @@ import { InputField, InvoicePdf, ProductTable, TotalCard } from '../../Component
 import { INITIAL_BILL, INITIAL_BILL_PRODUCT, INITIAL_BILL_PRODUCT_LIST, INITIAL_CUSTOMER, INITIAL_PRODUCT  } from '../../Components/Bill/Constant';
 import { calculateFinalWeightAndAmount, calculateGrandTotalAmount, calculatePerProductAmount, calculateRatePerLal, calculateRemaingAmount } from '../../Assets/js/billCalculation';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
-
 
 
 const Toast = Swal.mixin({
@@ -27,7 +25,7 @@ function GenerateBill() {
     let billId = useLocation().state;
     let history = useHistory();
     const latestRate = useSelector(state => state.latestRateReducer.data);
-
+    const  [saved, setSave] = useState(false); //track if new bill saved
     const [bill, setBill] = useState(INITIAL_BILL);
     const [product, setProduct] = useState(INITIAL_PRODUCT);
     const [customer, setCustomer] = useState(INITIAL_CUSTOMER);
@@ -85,17 +83,21 @@ function GenerateBill() {
         content: () => componentRef.current,
         documentTitle: "Invoice file",
         onAfterPrint:() => {
+            
             resetHandler(); 
             Swal.fire('Saved!', '', 'success');
         },
     });
-
+    
     const PostBill=(newBill,saveAs)=>{
         Post_Bill(newBill)
             .then(function (response) {
                 // handle success
                 if (saveAs !== 'Draft'){
-                    handlePrint()
+                    bill['billId'] = response.data.bills[0]['billId'];
+                    setBill({...bill});
+
+                    setSave(true);
                 }
                 else{
                     resetHandler(); 
@@ -108,6 +110,9 @@ function GenerateBill() {
             });
     }
 
+    //called when bill is saved
+    useEffect(()=>{ if(saved){ handlePrint(); setSave(false)}},[saved])
+ 
     const FetchBillById =()=>{
         Fetch_Bill_By_Id(billId)
             .then(function (response) {
@@ -128,13 +133,14 @@ function GenerateBill() {
                 console.log("error");
             });
     }
-
+    
+   
     const PostEditedBill = (editedBill, saveAs)=>{
         Post_Edited_Bill(editedBill)
             .then(function(response){
                 // handle success
                 if (saveAs !== 'Draft'){
-                    handlePrint()
+                    handlePrint();
                 }
                 else{
                     resetHandler(); 
@@ -146,6 +152,8 @@ function GenerateBill() {
                 Swal.fire("error occure post edit bill", 'error')
             });
     }
+
+    
 
     const save = (saveAs)=>{
         bill.billProduct = billProductList;

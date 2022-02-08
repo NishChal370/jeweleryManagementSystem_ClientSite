@@ -121,8 +121,8 @@ function SearchBill() {
     const sortButtonHandler = () =>{
 
         billSummary['results'] = (!location.search.includes('sorted'))
-                                    ?  billSummary.results.sort((a,b) => (a.billId > b.billId) ? 1 : ((b.billId > a.billId) ? -1 : 0))
-                                    :  billSummary.results.sort((a,b) => (a.billId < b.billId) ? 1 : ((b.billId < a.billId) ? -1 : 0))
+                                    ?  billSummary.results.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0))
+                                    :  billSummary.results.sort((a,b) => (a.date < b.date) ? 1 : ((b.date < a.date) ? -1 : 0))
 
         setBillSummary({...billSummary});
 

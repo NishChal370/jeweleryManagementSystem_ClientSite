@@ -5,7 +5,6 @@ import { Post_Rate } from '../../API/UserServer';
 import { setLatestRate } from '../../Redux/Action';
 import { VerifyInputs } from '../../Assets/js/validation';
 
-
 let rate = {
     'hallmarkRate': 0,
     'tajabiRate': 0,
