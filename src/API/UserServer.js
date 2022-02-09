@@ -1,4 +1,4 @@
-import { AXIOS, URL_DELETE_BILL_BY_ID, URL_GET_ALL_RATES, URL_GET_BILLS_SUMMARY, URL_GET_BILL_BY_ID, URL_GET_RATE_BY_DATE, URL_POST_BILL, URL_POST_SAVED_BILL, URL_SET_RATE } from "./Constant"
+import { AXIOS, URL_DELETE_BILL_BY_ID, URL_GET_ALL_RATES, URL_GET_BILLS_SUMMARY, URL_GET_BILL_BY_ID, URL_GET_RATE_BY_DATE, URL_POST_BILL, URL_POST_ORDER, URL_POST_SAVED_BILL, URL_SET_RATE } from "./Constant"
 
 
 export const Fetch_Rate_By_Date = async (date)=>{
@@ -33,6 +33,10 @@ export const Post_Edited_Bill = async(editedBill)=>{
 
 export const Delete_Bill_By_Id = async(billId)=>{
     return await AXIOS.delete(URL_DELETE_BILL_BY_ID+billId)
+}
+
+export const Post_Order = async(newOrder)=>{
+    return await AXIOS.post(URL_POST_ORDER, newOrder)
 }
 
 // tried to create sepreeate file for axios and this works

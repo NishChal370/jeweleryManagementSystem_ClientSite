@@ -7,34 +7,42 @@ function TotalCard({data, inputHandler}) {
 
     return (
         (data !== undefined) &&(
-            <div className="card bill-totals--card scroll-off">
+            <div className={`card bill-totals--card scroll-off ${(location.includes('order'))?'margin--top':''}`}>
                 <div className="card-body">
                     <span>
-                        <p>Final Weight : <span>{data.finalWeight}</span></p>
+                        {(!location.includes('order')) &&(
+                            <p>Final Weight : <span>{(data.finalWeight === null)? 0.0 :data.finalWeight}</span></p>
+                        )}
                         <p>Customer P.Weight : <span> <input type="number" name='customerProductWeight' value={(data.customerProductWeight == null )? 0: data.customerProductWeight} onChange={inputHandler}/></span></p>
                     </span>
                     <hr />
+                    {(!location.includes('order')) &&(    
+                        <>    
+                        <span>
+                            <h5>Grand Weight : <span>{(isNaN(data.grandTotalWeight))? 0.0 :  data.grandTotalWeight}</span></h5>
+                        </span>
+                        <hr />
+                        </>
+                    )}
     
-                    <span>
-                        <h5>Grand Weight : <span>{(isNaN(data.grandTotalWeight))? 0.0 :  data.grandTotalWeight}</span></h5>
-                    </span>
-                    <hr />
-    
-                    <span>
-                        <p>Final P.Amount : <span>{data.totalAmount}</span></p>
-                        <p>Customer P.Amount : <span>{(isNaN(data.customerProductAmount)) ? 0.0 :  data.customerProductAmount}</span></p>
+                    {(!location.includes('order')) &&(
+                        <>
+                        <span>
+                            
+                            <p>Final P.Amount : <span>{(data.totalAmount === null)? 0.0 :data.totalAmount}</span></p>
+                            <p>Customer P.Amount : <span>{(isNaN(data.customerProductAmount)) ? 0.0 :  data.customerProductAmount}</span></p>
                         
-                        {(!location.includes('order')) &&(
                             <p>Discount : <span> <input type="number" name='discount' value={(data.discount == null)? 0 : data.discount} onChange={inputHandler}/></span></p>
-                        )}
-                    </span>
-                    <hr />
-    
-                    <span>
-                        <h5>Grand Total Amount : <span>{data.grandTotalAmount}</span></h5>
-                    </span>
-                    <hr />
-    
+                            
+                        </span>
+                        <hr />
+                            
+                        <span>
+                            <h5>Grand Total Amount : <span>{data.grandTotalAmount}</span></h5>
+                        </span>
+                        <hr />
+                        </>
+                    )}
                     <span>
                         <p>Advance payment : <span> <input type="number" name="advanceAmount" value={(data.advanceAmount == null) ?0 :data.advanceAmount} onChange={inputHandler}/></span></p>
                         

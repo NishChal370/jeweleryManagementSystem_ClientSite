@@ -128,7 +128,7 @@ select> option{
 }
 
 .bill-table-card > table{
-    border-collapse: separate;
+  border-collapse: separate;
   border-spacing: 0px 0.6rem;
   text-align: center;
 }
@@ -277,7 +277,7 @@ select> option{
   }
   .generate-bill-product-detail .card {
     background: rgba(255, 255, 255, 0.37);
-    gap: 4rem;
+    /* gap: 4rem; */
     box-shadow: none;
   
   }
@@ -303,7 +303,13 @@ select> option{
   }
   .bill-totals--card{
     padding-top: 0.5rem;
+    height: fit-content;
   }
+
+  .margin--top{
+    margin-top: 5rem;
+  }
+
   .bill-totals--card h5{
     font-weight: 900;
   }
@@ -354,10 +360,20 @@ select> option{
     
     .generate-bill-product-detail{
       display: inline;
+      color: red;
     }
     .generate-bill-product-detail .card:nth-child(1) .card-body{
-      height: 1rem;
+      height: 0rem;
     }
+    .generate-bill-product-detail .card:nth-child(1){
+      height: 80%;
+
+    }
+    /* .generate-bill-product-detail .card:nth-child(1) .card-body .aside-inputs{
+      background-color: #18d26e;
+      height: fit-content;
+    } */
+
     .generate-bill-product-detail input{
       width: 100%;
     }

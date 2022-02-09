@@ -13,7 +13,7 @@ const URL_POST_BILL = 'generate-bill/';
 const URL_POST_SAVED_BILL = 'bill/update';
 const URL_DELETE_BILL_BY_ID = 'bill/delete/';
 const URL_GET_BILLS_SUMMARY = 'bills/summary';
-
+const URL_POST_ORDER = 'place-order/';
 
 
 export { 
@@ -26,5 +26,6 @@ export {
     URL_POST_SAVED_BILL,
     URL_GET_BILLS_SUMMARY,
     URL_DELETE_BILL_BY_ID,
+    URL_POST_ORDER,
     
 }

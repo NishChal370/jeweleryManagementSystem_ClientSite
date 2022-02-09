@@ -7,16 +7,16 @@ let INITIAL_CUSTOMER = {
 
 let INITIAL_ORDER = {
     orderId : null,
-    date: '',
+    date: new Date().toJSON().slice(0,10),
     rate: null,
     type: 'gold',
     advanceAmount : null,
-    submittionDate : '',
-    submittedDate : '',
-    finalWeight: null,
+    submittionDate : null,
+    submittedDate : null,
+    // finalWeight: null,
     customerProductWeight : null,
-    customerProductAmount : null,
-    grandTotalWeight : null,
+    // customerProductAmount : null,
+    // grandTotalWeight : null,
     status : 'pending',
     remark : '',
 }

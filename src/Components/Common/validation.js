@@ -10,7 +10,16 @@ const VerifyInputs = () =>{
             form.addEventListener('submit', function (eventt) {
                 
                 if (!form.checkValidity()) {
+                    form.getElementsByTagName('input')[9].required = true;
+                    form.getElementsByTagName('input')[8].required = true;
+                    if(form.getElementsByTagName('input')[8].value >0){
 
+                        form.getElementsByTagName('input')[9].required = false;
+                    }
+                    else if(form.getElementsByTagName('input')[9].value >0){
+
+                        form.getElementsByTagName('input')[8].required = false;
+                    }
                     eventt.preventDefault();
                   
                     eventt.stopPropagation();

@@ -10,7 +10,17 @@ function InputField({name, type, changehandler, value, min, flex, isReadonly}) {
             </label>
 
             {
-                ['email', 'phone', 'gemsName', 'gemsPrice', 'size', 'design'].includes(name)
+                (name === 'design')
+                ?(
+                    <input className="form-control" id="validationTooltip01" 
+                        min={min}
+                        type={type}
+                        name={name}
+                        onChange={(e)=>changehandler(e)}   
+                        readOnly={isReadonly}
+                    />
+                )
+                :['email', 'phone', 'gemsName', 'gemsPrice', 'size', 'design'].includes(name)
                     ?(
                         <input className="form-control" id="validationTooltip01" 
                             min={min}
