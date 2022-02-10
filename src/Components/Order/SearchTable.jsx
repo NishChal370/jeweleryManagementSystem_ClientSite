@@ -1,6 +1,10 @@
-import React from 'react'
-import { BiFirstPage, BiLastPage } from 'react-icons/bi'
-import { Spinner } from '..'
+import React from 'react';
+import { Spinner } from '..';
+import { BsEye } from 'react-icons/bs';
+import { FiEdit } from 'react-icons/fi';
+import { BiFirstPage, BiLastPage } from 'react-icons/bi';
+
+
 
 function SearchTable({ordersSummary, changePagehandler}) {
   return (
@@ -8,7 +12,7 @@ function SearchTable({ordersSummary, changePagehandler}) {
         {(ordersSummary !== undefined) 
             ?(
                 <table className="table table-borderless" >
-                    <thead>
+                    <thead  style={{fontSize:'0.96rem'}}>
                         <tr>
                             <th scope="col">Order No.</th>
                             <th scope="col">Bill No.</th>
@@ -22,15 +26,13 @@ function SearchTable({ordersSummary, changePagehandler}) {
                             <th scope="col">Submittion Date</th>
                             <th scope="col">Submitted Date</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     
                     <tbody>
                     {
                         ordersSummary.results.map(({orderId, billId, customerName, phone, type, totalOrderedProduct, advanceAmount, customerProductWeight, date, submittionDate, submittedDate, status}, index)=>{
-                            {console.log(new Date(new Date().toJSON().slice(0,10)))}
-                            {console.log(new Date(submittionDate))}
-                            {console.log( new Date(submittionDate) - new Date(new Date().toJSON().slice(0,10)) )}
                             return(
                                 <tr key={`${index}SBTR`}>
                                     <th scope="row">{orderId}</th>
@@ -48,11 +50,7 @@ function SearchTable({ordersSummary, changePagehandler}) {
                                     </td>
                                     <td>{submittedDate}</td>
                                     <td><span className={`badge bg-${(status === 'submitted')?'success': 'warning text-dark'}`}>{status}</span></td>
-                                    {/* <td><span className={`badge bg-${(payment === 'Payed')?'success':'danger'}`}>{payment}</span></td> */}
-                                    
-                                    {/* <td>{(status ==='draft' || payment === 'Remain')
-                                        ? <i onClick={()=> buttonhandler('action',billId) }><FiEdit/></i> 
-                                        : <i onClick={()=> buttonhandler('view',billId)}><BsEye/></i> }</td> */}
+                                    <td><span><FiEdit/></span>| <span><BsEye/></span></td>
                                 </tr>
                             )
                         }) 
@@ -61,7 +59,7 @@ function SearchTable({ordersSummary, changePagehandler}) {
                     </tbody>
                     <tfoot>
                         <tr className="text-end">
-                            <td colSpan="12" className="border-top">
+                            <td colSpan="13" className="border-top">
                                 <>
                                 <span>{ordersSummary.pageIndex} &emsp;</span>
                                 <i className='hover--curser' onClick={()=>changePagehandler('previous')} style={{ visibility: (ordersSummary.previous === null)?'hidden': 'visible'}}><BiFirstPage/></i> 

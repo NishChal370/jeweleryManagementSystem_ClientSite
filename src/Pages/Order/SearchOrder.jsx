@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import { useHistory } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-import { HiSearch } from 'react-icons/hi'
-import { FaFilter, FaSortAmountUpAlt } from 'react-icons/fa';
+import { format } from 'date-fns';
+import { HiSearch } from 'react-icons/hi';
+import React, { useState, useEffect } from 'react';
+import { useHistory,useLocation } from 'react-router-dom';
 import { Fetch_Orders_Summary } from '../../API/UserServer';
 import SearchTable from '../../Components/Order/SearchTable';
+import { FaFilter, FaSortAmountUpAlt } from 'react-icons/fa';
 import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
 
 
@@ -24,7 +24,7 @@ function SearchOrder() {
     const [ordersSummary, setOrdersSummary] = useState();
     const [showSearchInput, setShowSearchInput] = useState(false);
     const page = (location.search !== '') ?parseInt(location.search.slice(-1)) :1;
-    const [pageNumber, setPageNumber] = useState(page);
+    const [filter, setFilter] = useState({pageNumber: page, type: 'all', status:'all', customerInfo:{initial:'', confirm:''}, date:'None'});
 
     const showHandler=()=>{
         (showSearchInput)
@@ -33,7 +33,8 @@ function SearchOrder() {
     }
 
     const FetchOrderSummary=()=>{
-        Fetch_Orders_Summary(`?page=${pageNumber}`)
+        let {pageNumber, type, status, customerInfo, date} = filter;
+        Fetch_Orders_Summary(`?customerInfo=${(customerInfo.confirm === '')?'None' : customerInfo.confirm}&type=${type}&status=${status}&date=${date}&page=${pageNumber}`)
             .then(function(response){
 
                 setOrdersSummary(response.data)
@@ -49,27 +50,54 @@ function SearchOrder() {
 
     const changePagehandler =(btnName)=>{
         if(ordersSummary.next !== null && btnName === 'next'){
+            filter.pageNumber = filter.pageNumber +1;
 
-            setPageNumber(pageNumber+1);
+            setFilter({... filter});
         }
         else if(ordersSummary.previous !== null && btnName === 'previous'){
+            filter.pageNumber = filter.pageNumber -1;
 
-            setPageNumber(pageNumber-1);
+            setFilter({... filter});
         }
+    }
+
+    const changefilterInputHandler=({target})=>{
+        let  {name, value} = target;
+
+        if(name === 'customerInfo'){
+            filter.customerInfo.initial = value;
+
+            (value === '') && (searchButtonHandler())
+        }
+        else if (name === 'datepicker'){
+
+            filter.date = (target.value != null) ? format(target.value, 'yyyy-MM-dd') : 'None';
+            filter.pageNumber = 1;
+        }
+        else{
+            filter[name] = value;
+            filter.pageNumber = 1;
+        }
+        
+        
+        setFilter({...filter});
+    }
+
+    const searchButtonHandler = ()=>{
+        filter.customerInfo.confirm = filter.customerInfo.initial;
+        filter.pageNumber = 1;
+
+        setFilter({...filter});
     }
 
     useEffect(()=>{
         history.push({
             pathname: '/order/search',
-            search: `?page=${ pageNumber}`
+            search: `?page=${ filter.pageNumber }`
         });
 
         FetchOrderSummary();
-    },[pageNumber]);
-
-    useEffect(()=>{
-        FetchOrderSummary()
-    },[])
+    },[filter.pageNumber, filter.type, filter.status, filter.customerInfo.confirm, filter.date]);
 
 
     return (
@@ -85,8 +113,7 @@ function SearchOrder() {
                     <section>
                         <span>
                             <p>Type</p>
-                            {/* <select name="billType" id="billType" className="dropdown-toggle" value={billType} onChange={changeBillTypeHandler}> */}
-                            <select name="billType" id="billType" className="dropdown-toggle">
+                            <select name="type" id="billType" className="dropdown-toggle" value={filter.type} onChange={changefilterInputHandler}>
                                 <option value="all">All</option>
                                 <option value="gold">Gold</option>
                                 <option value="silver">Silver</option>
@@ -95,12 +122,11 @@ function SearchOrder() {
 
                         <span>
                             <p>Status</p>
-                            {/* <select name="billStatus" id="billType" className="dropdown-toggle" value={billStatus} onChange={changeBillStatusHandler}> */}
-                            <select name="billStatus" id="billType" className="dropdown-toggle">
+                            <select name="status" id="billType" className="dropdown-toggle" value={filter.status} onChange={changefilterInputHandler}>
                                 <option value="all">All</option>
-                                <option value="submitted">Completed</option>
-                                <option value="draft">Inprogress</option>
-                                <option value="draft">Pending</option>
+                                <option value="completed">Completed</option>
+                                <option value="inprogress">Inprogress</option>
+                                <option value="pending">Pending</option>
                             </select>
                         </span>
                     </section>
@@ -108,15 +134,14 @@ function SearchOrder() {
                     <aside>
                         <DatePickerComponent
                             allowEdit={false}
+                            name="datepicker"
                             format="MMM dd, yyyy"
-                            // onChange={datePickerHandler}
+                            onChange={changefilterInputHandler}
                             style={{fontFamily:'Poppins sans-serif', fontSize:'1.4rem', width:'10rem', paddingTop:'0.3rem', textAlign:'center'}} 
                         ></DatePickerComponent>
 
-                        {/* <input type="search" value={searchValue.initial}  onChange={filterInputHandler} className="form-control" placeholder='Search Customer...'/> */}
-                        <input type="search" className="form-control" placeholder='Search Customer...'/>
-                        {/* <button type="button" className="btn btn-primary search-btn" onClick={searchButtonHandler}> */}
-                        <button type="button" className="btn btn-primary search-btn">
+                        <input type="search" className="form-control" name='customerInfo' placeholder='Search Customer...' value={filter.customerInfo.initial} onChange={changefilterInputHandler}/>
+                        <button type="button" className="btn btn-primary search-btn" onClick={searchButtonHandler}>
                             <i><HiSearch/></i>
                         </button>
                     </aside>
