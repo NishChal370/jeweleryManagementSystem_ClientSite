@@ -72,7 +72,7 @@ function SideNav({isDisplay}) {
                     <ul id="order-nav" className={`nav-content  curser--on-hover ${(currentLocation !== 'order')? 'collapse': "collapse show"}`} data-bs-parent="#sidebar-nav" >
                         <li onClick={()=>history.push('/order/search')}>
                             <a>
-                                <i className="bi bi-circle"style={{backgroundColor: (fullLocation !== '/order/view')? 'white': 'blue' }}></i><span>Overview</span>
+                                <i className="bi bi-circle"style={{backgroundColor: (fullLocation !== '/order/search')? 'white': 'blue' }}></i><span>Overview</span>
                             </a>
                         </li>
 

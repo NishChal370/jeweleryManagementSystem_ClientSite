@@ -2,13 +2,13 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
+import Swal from 'sweetalert2';
 import { FaUnlockAlt, FaLock } from 'react-icons/fa';
+import { Post_Order } from '../../API/UserServer';
 import { InputField, ProductTable, TotalCard } from '../../Components';
 import { removeResetValidation, VerifyInputs } from '../../Components/Common/validation';
 import { INITIAL_CUSTOMER, INITIAL_ORDER, INITIAL_ORDER_PRODUCT, INITIAL_ORDER_PRODUCT_LIST, INITIAL_PRODUCT } from '../../Components/Order/Constant';
-import Swal from 'sweetalert2';
-import { Post_Order } from '../../API/UserServer';
+
 
 
 
@@ -47,8 +47,9 @@ function PlaceOrder() {
     else if(orderProduct.hasOwnProperty(inputName)){
       
       if(inputName === 'design'){
-
-        setOrderProduct((prevState) => ({ ...prevState, [inputName]: target.files[0] }));
+        console.log(target.files[0]);
+        // for image not working
+        // setOrderProduct((prevState) => ({ ...prevState, [inputName]: target.files[0] }));
       }
       else{
         if(['totalWeight', 'quantity'].includes(inputName)){
@@ -89,11 +90,12 @@ function PlaceOrder() {
     let buttonName = e.target.name;
 
     if(buttonName === 'Save'){
-      alert("Save");
+
       saveButtonHandler();
     }
     else if(buttonName === 'Add' || e.type === 'submit'){
-      alert("add");
+
+      VerifyInputs();
       addButtonHandler();
     }
     else if(buttonName === 'Clear'){
@@ -159,7 +161,6 @@ function PlaceOrder() {
   
   const saveButtonHandler = ()=>{
     if(orderProductList.length > 0){
-      console.log(order);
       if(order.submittionDate === null || order.submittionDate === ''){
         document.getElementsByName("submittionDate")[0].style.borderColor ='red';
         Toast.fire({
@@ -172,6 +173,7 @@ function PlaceOrder() {
         (!isRateFixed)&&(order.rate = null);
         customer.orders = [order];
 
+        console.log(customer);
         PostOrder(customer);
     
         clearButtonHandler();
@@ -204,7 +206,7 @@ function PlaceOrder() {
 
     // removing order from customer without mutation . id order exists
     let initial_Customer = _.omit(INITIAL_CUSTOMER, ['orders']);
-
+    setIsRateFixed(false);
     setOrder({...INITIAL_ORDER});
     setProduct({...INITIAL_PRODUCT});
     setCustomer({...initial_Customer});

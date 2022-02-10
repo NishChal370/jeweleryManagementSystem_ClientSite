@@ -23,7 +23,7 @@ let INITIAL_ORDER = {
 
 let INITIAL_ORDER_PRODUCT = {
     quantity : 1,
-    design: '',
+    design: null,
     totalWeight : null,
     status : 'pending'
 }

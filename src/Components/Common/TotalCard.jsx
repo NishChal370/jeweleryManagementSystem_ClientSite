@@ -47,7 +47,7 @@ function TotalCard({data, inputHandler}) {
                         <p>Advance payment : <span> <input type="number" name="advanceAmount" value={(data.advanceAmount == null) ?0 :data.advanceAmount} onChange={inputHandler}/></span></p>
                         
                         {(location.includes('order'))
-                            ? <p>Submittion Date: <input name='submittionDate' style={{width:'fit-content'}} type="date"  value={data.submittionDate} onChange={inputHandler} /></p>
+                            ? <p>Submittion Date: <input name='submittionDate' style={{width:'fit-content'}} type="date"  value={(data.submittionDate === null)? '': data.submittionDate} onChange={inputHandler} /></p>
                             :<p>Payment : <span> <input type="number" name='payedAmount' value={(data.payedAmount == null) ?0 :data.payedAmount} onChange={inputHandler}/></span></p>
                         }
                     </span>

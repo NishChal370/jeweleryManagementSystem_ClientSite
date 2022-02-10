@@ -89,7 +89,7 @@ function SearchTable({billSummary, changePagehandler, DeleteBillById}) {
                                     <td>{totalProduct}</td>
                                     <td>{productsWeight}</td>
                                     <td>{customerProductWeight}</td>
-                                    <td><span className={`badge bg-${(status === 'submitted')?'success': 'warning'}`}>{status}</span></td>
+                                    <td><span className={`badge bg-${(status === 'submitted')?'success': 'warning text-dark'}`}>{status}</span></td>
                                     <td><span className={`badge bg-${(payment === 'Payed')?'success':'danger'}`}>{payment}</span></td>
                                     <td>{date}</td>
                                     <td>{(status ==='draft' || payment === 'Remain')
