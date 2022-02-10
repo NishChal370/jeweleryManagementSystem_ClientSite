@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 
 function TotalCard({data, inputHandler}) {
     const location = useLocation().pathname.replace('/','')
-
     return (
         (data !== undefined) &&(
             <div className={`card bill-totals--card scroll-off ${(location.includes('order'))?'margin--top':''}`}>
@@ -45,7 +44,7 @@ function TotalCard({data, inputHandler}) {
                     )}
                     <span>
                         <p>Advance payment : <span> <input type="number" name="advanceAmount" value={(data.advanceAmount == null) ?0 :data.advanceAmount} onChange={inputHandler}/></span></p>
-                        
+
                         {(location.includes('order'))
                             ? <p>Submittion Date: <input name='submittionDate' style={{width:'fit-content'}} type="date"  value={(data.submittionDate === null)? '': data.submittionDate} onChange={inputHandler} /></p>
                             :<p>Payment : <span> <input type="number" name='payedAmount' value={(data.payedAmount == null) ?0 :data.payedAmount} onChange={inputHandler}/></span></p>

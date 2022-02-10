@@ -4,10 +4,13 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { FaUnlockAlt, FaLock } from 'react-icons/fa';
-import { Post_Order } from '../../API/UserServer';
+import { Post_Order, Post_Order_Update } from '../../API/UserServer';
 import { InputField, ProductTable, TotalCard } from '../../Components';
 import { removeResetValidation, VerifyInputs } from '../../Components/Common/validation';
 import { INITIAL_CUSTOMER, INITIAL_ORDER, INITIAL_ORDER_PRODUCT, INITIAL_ORDER_PRODUCT_LIST, INITIAL_PRODUCT } from '../../Components/Order/Constant';
+import { useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { setLatestRate } from '../../Redux/Action';
 
 
 
@@ -22,6 +25,8 @@ const Toast = Swal.mixin({
 
 
 function PlaceOrder() {
+  const history = useHistory();
+  let searchedOrder = useLocation().state;
   const [isRateFixed, setIsRateFixed]= useState(false);
   const latestRate = useSelector(state => state.latestRateReducer.data);
   const [order, setOrder] = useState(INITIAL_ORDER);
@@ -173,9 +178,11 @@ function PlaceOrder() {
         (!isRateFixed)&&(order.rate = null);
         customer.orders = [order];
 
-        console.log(customer);
-        PostOrder(customer);
-    
+        // console.log(customer);
+        // PostOrder(customer);
+        (searchedOrder === undefined)
+          ? alert("New order")
+          : PostOrderUpdate(customer) //old
         clearButtonHandler();
         resetButtonHandler();
       }
@@ -213,7 +220,14 @@ function PlaceOrder() {
     setOrderProduct({...INITIAL_ORDER_PRODUCT});
     setOrderProductList([...INITIAL_ORDER_PRODUCT_LIST]);
 
+    clearHistory();
     removeResetValidation();
+  }
+
+  const clearHistory =()=>{
+    let oldHistory = history.location
+    delete oldHistory.state
+    history.replace({ ...oldHistory });
   }
 
   const clearButtonHandler=()=>{
@@ -255,23 +269,84 @@ function PlaceOrder() {
       });
   }
 
-  useEffect(()=>{
-    if(latestRate !== undefined){
-      order['rate'] = latestRate.hallmarkRate;
+  const PostOrderUpdate = (editedOrder)=>{
+    Post_Order_Update(editedOrder)
+      .then(function (response) {
+        // handle success
+        console.log("Updated")
+        console.log(response.data);
+        Swal.fire('Saved !', '', 'success'); 
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+        Swal.fire("Error occur in Post order !", 'error')
+      });
+  }
 
-      setOrder({...order});
-    }
-  },[latestRate]);
+  const setEditingOrder =()=>{
+    let oldCustomer = searchedOrder;
+    let oldOrder = searchedOrder['orders'];
+    let oldOrderProductList = oldOrder['orderProducts'];
+
+    delete searchedOrder['orders'];
+    delete oldOrder['orderProducts'];
+
+    if(oldOrder.rate !== null){setIsRateFixed(true)}
+    
+    setCustomer({...oldCustomer});
+    setOrder({...oldOrder});
+    setOrderProductList([...oldOrderProductList]);
+  }
+
 
   /* verify inputs */
   useEffect(()=>{
-    delete customer.orders
+    // console.log("called1");
+    if(searchedOrder !== undefined){
+      setEditingOrder();
+    }
+    else{
+      delete customer.orders
+    }
+    
     VerifyInputs();
   },[]);
 
+  const [initial, setInitial] = useState(true);
+  const setRate = ()=>{ 
+    if(latestRate !== undefined){
+      //for new order
+      if(searchedOrder === undefined){
+        if(initial){
+          let rate = (order.type === 'gold') ? latestRate.hallmarkRate : latestRate.silverRate;
+      
+          setOrder((prevState) => ({ ...prevState, 'rate': rate}));
+          setInitial(false)
+        }
+        
+      }
+      else{
+        //set latest rate if the edint order or search order dont have rate
+        if(order.orderId !== null){
+          if(order.rate === null){
+            let rate = (order.type === 'gold') ? latestRate.hallmarkRate : latestRate.silverRate;
+      
+            setOrder((prevState) => ({ ...prevState, 'rate': rate}));
+          }
+        }
+      }
+    }
+  }
+
+
+  useEffect(()=>{
+    setRate();
+  },[latestRate, order]);
+
+
   return(
     <div className="card generate-bill" id='generate-bill'>
-
       <div className="card-body fs-5 mt-3">
         <span className='d-flex mx-auto justify-content-between'>
           <h5 className="card-title fs-5 ps-1">
@@ -392,3 +467,22 @@ function PlaceOrder() {
 }
 
 export default PlaceOrder;
+
+
+
+// console.log("latestRate ", latestRate);
+    // console.log("HAve ",!haveRate);
+    // if(latestRate !== undefined){
+    //   console.log("in");
+    //   if(searchedOrder !== undefined){
+    //     if(!haveRate){
+    //       console.log(order);
+    //       console.log('dont have rate');
+    //       let rate = (order.type === 'gold') ? latestRate.hallmarkRate : latestRate.silverRate;
+          
+    //       setOrder((prevState) => ({ ...prevState, 'rate': rate}));
+    //       setHaveRate(false);
+    //     }
+    //   }
+      
+    // }

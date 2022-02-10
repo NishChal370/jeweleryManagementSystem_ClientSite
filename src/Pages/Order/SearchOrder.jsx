@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import { HiSearch } from 'react-icons/hi';
 import React, { useState, useEffect } from 'react';
 import { useHistory,useLocation } from 'react-router-dom';
-import { Fetch_Orders_Summary } from '../../API/UserServer';
+import { Fetch_Orders_Summary, Fetch_Order_By_Id } from '../../API/UserServer';
 import SearchTable from '../../Components/Order/SearchTable';
 import { FaFilter, FaSortAmountUpAlt } from 'react-icons/fa';
 import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
@@ -46,6 +46,29 @@ function SearchOrder() {
                     title: 'Not found!!',
                 });
             })
+    }
+
+    const FetchOrderById=(orderId)=>{
+        Fetch_Order_By_Id(orderId)
+            .then(function(response){
+
+                // console.log(response.data);
+                history.push({pathname:'/order', state: response.data})
+            })
+            .catch(function(error){
+                console.log(error);
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Not found!!',
+                });
+            })
+    }
+
+    const buttonHandler=(btnName, orderId)=>{
+        // console.log(btnName);
+        // console.log(orderId);
+        FetchOrderById(orderId);
+
     }
 
     const changePagehandler =(btnName)=>{
@@ -150,7 +173,7 @@ function SearchOrder() {
             
         </section>
 
-        <SearchTable ordersSummary={ordersSummary} changePagehandler={changePagehandler}/>
+        <SearchTable ordersSummary={ordersSummary} changePagehandler={changePagehandler} buttonHandler={buttonHandler}/>
     </div>
   )
 }

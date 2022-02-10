@@ -6,7 +6,7 @@ import { BiFirstPage, BiLastPage } from 'react-icons/bi';
 
 
 
-function SearchTable({ordersSummary, changePagehandler}) {
+function SearchTable({ordersSummary, changePagehandler, buttonHandler}) {
   return (
     <section className='bill-table-card'>
         {(ordersSummary !== undefined) 
@@ -50,7 +50,7 @@ function SearchTable({ordersSummary, changePagehandler}) {
                                     </td>
                                     <td>{submittedDate}</td>
                                     <td><span className={`badge bg-${(status === 'submitted')?'success': 'warning text-dark'}`}>{status}</span></td>
-                                    <td><span><FiEdit/></span>| <span><BsEye/></span></td>
+                                    <td><span onClick={()=>buttonHandler('edit', orderId)}><FiEdit/></span>| <span><BsEye/></span></td>
                                 </tr>
                             )
                         }) 
