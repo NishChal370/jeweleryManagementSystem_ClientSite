@@ -12,7 +12,7 @@ function SearchTable({ordersSummary, changePagehandler, buttonHandler}) {
         {(ordersSummary !== undefined) 
             ?(
                 <table className="table table-borderless" >
-                    <thead  style={{fontSize:'0.96rem'}}>
+                    <thead  style={{fontSize:'0.94rem'}}>
                         <tr>
                             <th scope="col">Order No.</th>
                             <th scope="col">Bill No.</th>
@@ -32,7 +32,7 @@ function SearchTable({ordersSummary, changePagehandler, buttonHandler}) {
                     
                     <tbody>
                     {
-                        ordersSummary.results.map(({orderId, billId, customerName, phone, type, totalOrderedProduct, advanceAmount, customerProductWeight, date, submittionDate, submittedDate, status}, index)=>{
+                        ordersSummary.results.map(({orderId, billId, customerName, phone, type, totalOrderedProduct, advanceAmount, customerProductWeight, date, submittionDate, submittedDate, status, billStatus, billRemainingAmt}, index)=>{
                             return(
                                 <tr key={`${index}SBTR`}>
                                     <th scope="row">{orderId}</th>
@@ -46,11 +46,16 @@ function SearchTable({ordersSummary, changePagehandler, buttonHandler}) {
                                     <td>{advanceAmount}</td>
                                     
                                     <td >
-                                        <i className={(( new Date(submittionDate) - new Date(new Date().toJSON().slice(0,10)) ) < 0)? 'fw-bold text-danger': (( new Date(submittionDate) - new Date(new Date().toJSON().slice(0,10)) ) == 0)? 'fw-bold text-info':''}>{submittionDate}</i>
+                                        <i className={(( new Date(submittionDate) - new Date(new Date().toJSON().slice(0,10)) ) < 0 && submittedDate === '-')? 'fw-bold text-danger': (( new Date(submittionDate) - new Date(new Date().toJSON().slice(0,10)) ) == 0)? 'fw-bold text-info':''}>{submittionDate}</i>
                                     </td>
                                     <td>{submittedDate}</td>
-                                    <td><span className={`badge bg-${(status === 'submitted')?'success': 'warning text-dark'}`}>{status}</span></td>
-                                    <td><span onClick={()=>buttonHandler('edit', orderId)}><FiEdit/></span>| <span><BsEye/></span></td>
+                                    <td><span className={`badge bg-${(status === 'completed')?'success':( status === 'submitted')? 'primary':'warning text-dark'}`}>{status}</span></td>
+                                    <td onClick={()=>buttonHandler( orderId, billId, status, billStatus)}>
+                                        {(status === 'submitted' && billStatus === 'submitted' && billRemainingAmt <=0)
+                                            ? <BsEye/>
+                                            : <FiEdit/>
+                                        }
+                                    </td>
                                 </tr>
                             )
                         }) 

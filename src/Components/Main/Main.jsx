@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { Bill, Dashboard, Order, Rate } from '../../Pages/index'
-import { Switch, Route, useHistory } from 'react-router-dom'
 import '../../Assets/css/style.css'
+import React, { useEffect, useState } from 'react'
+import { Switch, Route, useHistory } from 'react-router-dom'
+import { Bill, Dashboard, Order, Rate } from '../../Pages/index'
 
 function Main({isSideBarDisplayed}) {
 

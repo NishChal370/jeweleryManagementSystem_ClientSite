@@ -1,5 +1,9 @@
 import React from 'react'
 
+
+/**
+ * used in generate bill and place order page
+ */
 function InputField({name, type, changehandler, value, min, flex, isReadonly}) {
 
 

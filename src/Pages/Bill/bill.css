@@ -175,9 +175,7 @@ select> option{
   table{
     color: #012970 !important;
   }
-  .bill--order label{
-    width: 1rem;
-  }
+
   .bill--order input{
     outline: 0;
     height: 2rem;
@@ -190,7 +188,7 @@ select> option{
   }
   
   .generate-bill .form-label{
-    width: 9rem !important;
+    width: fit-content !important;
   }
   .generate-bill form div{
     padding-bottom: 0.5rem !important;

@@ -1,19 +1,16 @@
 
 import { useHistory } from 'react-router-dom';
 import React, {useState, useEffect} from 'react'
-import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
-import { Fetch_All_Rates } from '../../API/UserServer';
 import { Spinner } from '../../Components/index';
+import { Fetch_All_Rates } from '../../API/UserServer';
+import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
 
 function Dashboard() {
-
     const history = useHistory();
-
     const [rates, setRates]= useState();
 
     
     const fetchRates=()=>{
-
         Fetch_All_Rates()
             .then(function (response) {
                 // handle success

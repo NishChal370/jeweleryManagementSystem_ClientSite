@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import './../../Components/Invoice/invoice.css';
 import { Fetch_Bill_By_Id } from '../../API/UserServer';
 import { ProductTable, TotalCard } from '../../Components';
 import { InternetIcon, PancardIcon, PhoneIcon, ShopLogo, SignitureSampleIcon } from '../../Assets/img';
-import { useHistory } from 'react-router-dom';
 
 
 const date = new Date();
@@ -85,6 +84,7 @@ function Invoice(props) {
                         <span className='display--flex'>
                             <header  className='font--bold'>
                                 <p>Bill No</p>
+                                <p>Order No</p>
                                 <p>Date</p>
                                 <p>Type</p>
                                 <p>Rate</p>
@@ -92,6 +92,7 @@ function Invoice(props) {
 
                             <span>
                                 <p>:{billDetail.bill.billId}</p>
+                                <p>:{billDetail.bill.orderId}</p>
                                 {/* <p>:{`${date.toLocaleDateString()}`}</p> */}
                                 <p>{billDetail.bill.date}</p>
                                 <p>:{billDetail.bill.billType}</p>

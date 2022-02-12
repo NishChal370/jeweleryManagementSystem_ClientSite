@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * used in searchOrderTable SearchBillTable dashboard and rateOverview
+ */
 const Spinner=()=>{
   return (
     <div className="text-center">

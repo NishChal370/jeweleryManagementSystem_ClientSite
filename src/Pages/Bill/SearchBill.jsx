@@ -8,7 +8,7 @@ import { HiSearch } from 'react-icons/hi';
 import { FaSortAmountUpAlt, FaFilter } from 'react-icons/fa';
 import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
 import { Delete_Bill_By_Id, Fetch_Bill_Summary } from '../../API/UserServer';
-import { SearchTable } from '../../Components';
+import { SearchBillTable } from '../../Components';
 
 
 const Toast = Swal.mixin({
@@ -206,7 +206,7 @@ function SearchBill() {
                 
             </section>
 
-            <SearchTable billSummary={billSummary}  changePagehandler={changePagehandler} DeleteBillById={DeleteBillById}/>
+            <SearchBillTable billSummary={billSummary}  changePagehandler={changePagehandler} DeleteBillById={DeleteBillById}/>
         </div>
     )
 }

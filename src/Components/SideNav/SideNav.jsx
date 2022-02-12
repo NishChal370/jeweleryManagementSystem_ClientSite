@@ -1,8 +1,8 @@
 import { useHistory } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-
-import { GiFlatHammer, GiPriceTag } from 'react-icons/gi';
 import { IoReceiptOutline } from 'react-icons/io5';
+import { GiFlatHammer, GiPriceTag } from 'react-icons/gi';
+
 
 function SideNav({isDisplay}) {
 

@@ -2,6 +2,9 @@ import React from 'react'
 import { useLocation } from 'react-router-dom';
 
 
+/**
+ * used in generateBill, invoice and placeOrder
+ */
 function TotalCard({data, inputHandler}) {
     const location = useLocation().pathname.replace('/','')
     return (
@@ -47,7 +50,7 @@ function TotalCard({data, inputHandler}) {
 
                         {(location.includes('order'))
                             ? <p>Submittion Date: <input name='submittionDate' style={{width:'fit-content'}} type="date"  value={(data.submittionDate === null)? '': data.submittionDate} onChange={inputHandler} /></p>
-                            :<p>Payment : <span> <input type="number" name='payedAmount' value={(data.payedAmount == null) ?0 :data.payedAmount} onChange={inputHandler}/></span></p>
+                            : <p>Payment : <span> <input type="number" name='payedAmount' value={(data.payedAmount == null) ?0 :data.payedAmount} onChange={inputHandler}/></span></p>
                         }
                     </span>
                     <hr />

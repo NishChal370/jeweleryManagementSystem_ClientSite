@@ -1,13 +1,12 @@
+import React, { useState, useEffect } from 'react';
+import { useHistory,useLocation } from 'react-router-dom';
+import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
 import Swal from 'sweetalert2';
 import { format } from 'date-fns';
 import { HiSearch } from 'react-icons/hi';
-import React, { useState, useEffect } from 'react';
-import { useHistory,useLocation } from 'react-router-dom';
-import { Fetch_Orders_Summary, Fetch_Order_By_Id } from '../../API/UserServer';
-import SearchTable from '../../Components/Order/SearchTable';
 import { FaFilter, FaSortAmountUpAlt } from 'react-icons/fa';
-import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
-
+import { SearchOrderTable } from '../../Components';
+import { Fetch_Bill_By_Id, Fetch_Orders_Summary, Fetch_Order_By_Id } from '../../API/UserServer';
 
 const Toast = Swal.mixin({
     toast: true,
@@ -48,12 +47,19 @@ function SearchOrder() {
             })
     }
 
-    const FetchOrderById=(orderId)=>{
+    const FetchOrderById=(orderId, action)=>{
         Fetch_Order_By_Id(orderId)
             .then(function(response){
 
-                // console.log(response.data);
-                history.push({pathname:'/order', state: response.data})
+                if (action === 'edit'){
+                    history.push({pathname:'/order', state: response.data})
+                }
+                else if(action === 'view'){
+                    alert("view page")
+                }
+                else{
+                    changePage(orderId, response);
+                }
             })
             .catch(function(error){
                 console.log(error);
@@ -64,23 +70,104 @@ function SearchOrder() {
             })
     }
 
-    const buttonHandler=(btnName, orderId)=>{
-        // console.log(btnName);
-        // console.log(orderId);
-        FetchOrderById(orderId);
+    const FetchBillById=(billId)=>{
+        Fetch_Bill_By_Id(billId)
+            .then(function(response){
+                let bill = response.data;
+                // seperating response data
+                const customer = bill.customer;
+                const billProductList = bill.billProduct;
+                delete bill.customer;
+                delete bill.billProduct;
 
+                // if bill amount is unpaid or draft navigate to generate bill i.e. update or else navigate invoice page
+                (bill['remainingAmount'] <= 0 && bill['status'] === 'submitted')
+                    ? history.push({pathname:'/bill/invoice', state:billId, search: `?billno=${ billId}`})
+                    : history.push({pathname:'/bill', state:{dataType:'oldBill', bill:bill, customer:customer, billProductList:billProductList}, search: `?billno=${ billId}`});
+
+            })
+            .catch(function(error){
+                console.log(error);
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Not found!!',
+                });
+            })
+    }
+
+    const changePage= (orderId, response)=>{
+        Swal.fire({
+            title: 'Select action',
+            icon: 'info',
+            confirmButtonColor: '#3085d6',
+            denyButtonColor: '#d33',
+            showDenyButton: true,
+            confirmButtonText: 'View',
+            denyButtonText: 'Generate bill'
+
+        }).then((result) => {
+            if(result.isConfirmed){ //if edit button click
+                alert("View page")
+                // history.push({pathname:'/order', state: response.data})
+            }
+            else if(result.isDenied){ //if generate bill button click
+                let customer = response.data;
+                const order = customer.orders;
+                const orderProductList = order.orderProducts;
+                delete customer.orders;
+                delete order.orderProducts;
+
+                history.push({pathname:'/bill', state:{dataType:'orderBill', bill:order, customer:customer, billProductList:orderProductList}, search: `?orderno=${ orderId}`});
+            }
+        });
+    }
+
+    const buttonHandler=(orderId, billId, status, billStatus)=>{
+        // FetchOrderById(orderId);
+        if (status === 'pending'){
+            FetchOrderById(orderId,'edit');
+        }
+        else if(status === 'inprogress'){
+            alert("view order")
+            FetchOrderById(orderId,'view');
+        }
+        else if(status === 'completed' && billId === '-'){
+            FetchOrderById(orderId)
+        }
+        else if((status === 'completed' && billId !== '-') || (status === 'submitted' && billStatus === 'submitted')){
+            // view order or go to bill
+            Swal.fire({
+                title: 'Select action',
+                icon: 'info',
+                confirmButtonColor: '#3085d6',
+                denyButtonColor: '#d33',
+                showDenyButton: true,
+                confirmButtonText: 'View order',
+                denyButtonText: 'Go to bill'
+    
+            }).then((result) => {
+                if(result.isConfirmed){ //if edit button click
+                    FetchOrderById(orderId,'view');
+                }
+                else if(result.isDenied){ //if Go to billbutton click
+                    FetchBillById(billId);
+                }
+            });
+        }
+        
+        
     }
 
     const changePagehandler =(btnName)=>{
         if(ordersSummary.next !== null && btnName === 'next'){
             filter.pageNumber = filter.pageNumber +1;
 
-            setFilter({... filter});
+            setFilter({...filter});
         }
         else if(ordersSummary.previous !== null && btnName === 'previous'){
             filter.pageNumber = filter.pageNumber -1;
 
-            setFilter({... filter});
+            setFilter({...filter});
         }
     }
 
@@ -101,8 +188,8 @@ function SearchOrder() {
             filter[name] = value;
             filter.pageNumber = 1;
         }
-        
-        
+
+
         setFilter({...filter});
     }
 
@@ -111,6 +198,20 @@ function SearchOrder() {
         filter.pageNumber = 1;
 
         setFilter({...filter});
+    }
+
+    const sortButtonHandler = () =>{
+        console.log(ordersSummary);
+        ordersSummary['results'] = (!location.search.includes('sorted'))
+                                    ?  ordersSummary.results.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0))
+                                    :  ordersSummary.results.sort((a,b) => (a.date < b.date) ? 1 : ((b.date < a.date) ? -1 : 0))
+
+        setOrdersSummary({...ordersSummary});
+
+        history.push({
+            pathname: '/order/search',
+            search: (!location.search.includes('sorted')) ?`?sorted/?page=${filter.pageNumber}` :`?page=${filter.pageNumber}`
+        });
     }
 
     useEffect(()=>{
@@ -127,11 +228,11 @@ function SearchOrder() {
     <div className="card background--none " id='search-card'>
         <section className={`top-icons`}>
             <span>
-                <div className='filter-btn'>   
-                    <p><i><FaSortAmountUpAlt/></i> Sort</p>
+                <div className='filter-btn'>
+                    <p onClick={sortButtonHandler}><i><FaSortAmountUpAlt/></i> Sort</p>
                     <p onClick={showHandler}><i><FaFilter/></i> Filter</p>
                 </div>
-                
+
                 <div className={`search-input mb-3 ${(showSearchInput)? 'show' :'hide'}`}>
                     <section>
                         <span>
@@ -147,20 +248,20 @@ function SearchOrder() {
                             <p>Status</p>
                             <select name="status" id="billType" className="dropdown-toggle" value={filter.status} onChange={changefilterInputHandler}>
                                 <option value="all">All</option>
-                                <option value="completed">Completed</option>
+                                <option value="submitted">Completed</option>
                                 <option value="inprogress">Inprogress</option>
                                 <option value="pending">Pending</option>
                             </select>
                         </span>
                     </section>
-                    
+
                     <aside>
                         <DatePickerComponent
                             allowEdit={false}
                             name="datepicker"
                             format="MMM dd, yyyy"
                             onChange={changefilterInputHandler}
-                            style={{fontFamily:'Poppins sans-serif', fontSize:'1.4rem', width:'10rem', paddingTop:'0.3rem', textAlign:'center'}} 
+                            style={{fontFamily:'Poppins sans-serif', fontSize:'1.4rem', width:'10rem', paddingTop:'0.3rem', textAlign:'center'}}
                         ></DatePickerComponent>
 
                         <input type="search" className="form-control" name='customerInfo' placeholder='Search Customer...' value={filter.customerInfo.initial} onChange={changefilterInputHandler}/>
@@ -170,10 +271,10 @@ function SearchOrder() {
                     </aside>
                 </div>
             </span>
-            
+
         </section>
 
-        <SearchTable ordersSummary={ordersSummary} changePagehandler={changePagehandler} buttonHandler={buttonHandler}/>
+        <SearchOrderTable ordersSummary={ordersSummary} changePagehandler={changePagehandler} buttonHandler={buttonHandler}/>
     </div>
   )
 }
@@ -190,9 +291,242 @@ export default SearchOrder
                         <p>completed</p>
                     </div>
                     {/* <div className='filter-btn'>   /*
-                    <div className='d-flex gap-2'>  
+                    <div className='d-flex gap-2'>
                         <p><i><FaSortAmountUpAlt/></i> Sort</p>
                         <p onClick={showHandler}><i><FaFilter/></i> Filter</p>
                     </div>
                 </span>
  */
+
+
+
+
+
+/**const buttonHandler=(orderId, billId, status, billStatus)=>{
+        FetchOrderById(orderId);
+        // if(status === 'pending'){
+        //     FetchOrderById(orderId);
+        // }
+        // else if(status === 'inprogress'){
+        //     alert("view only")
+        // }
+        // else if(status === 'completed' && billStatus !== 'submitted'){ //i.e.completed
+        //     alert("view order or generate bill")
+        //     Swal.fire({
+        //         confirmButtonColor: '#3085d6',
+        //         denyButtonColor: '#625c78',
+        //         showDenyButton: true,
+        //         confirmButtonText:`View order`,
+        //         denyButtonText: `Generate Bill`
+
+        //     }).then((result) => {
+        //         if(result.isConfirmed){ //if view order button click
+        //             alert("VIew")
+        //         }
+        //         else if(result.isDenied){ //if generate bill button click
+        //             FetchBillById(billId);
+        //         }
+        //     });
+        // }
+        // else if(billStatus === 'submitted'){
+        //     alert("view order or view bill")
+        //     FetchOrderById(orderId);
+            // FetchOrderById(orderId);
+            // changePage();
+            // Swal.fire({
+            //     confirmButtonColor: '#3085d6',
+            //     denyButtonColor: '#625c78',
+            //     showDenyButton: true,
+            //     confirmButtonText:`View order`,
+            //     denyButtonText: `View Invoice`
+
+            // }).then((result) => {
+            //     if(result.isConfirmed){ //if view order button click
+            //         alert("VIew")
+            //     }
+            //     else if(result.isDenied){ //if generate bill button click
+            //         FetchBillById(billId);
+            //     }
+            // });
+
+        // // }
+        // // id bill id dont exit allow to edit order or else navigate to bill
+        // ( billId === '-')
+        //     ? FetchOrderById(orderId)
+        //     : FetchBillById(billId);
+    } */                
+
+
+
+
+
+
+
+
+
+
+/// button handler
+
+
+/**if(status === 'pending'){
+            //edit
+            FetchOrderById(orderId, status);
+        }
+        else if(status === 'inprogress'){
+            //view only
+            FetchOrderById(orderId, status);
+        }
+        else if(status === 'completed' && billId === '-'){
+            //alert("view order or generate bill");
+            FetchOrderById(orderId, status);
+        }
+        else if(status === 'completed' && billStatus === 'draft'){
+            //alert("view order or edit bill");
+            Swal.fire({
+                title: 'Select action',
+                icon: 'info',
+                confirmButtonColor: '#3085d6',
+                denyButtonColor: '#d33',
+                showDenyButton: true,
+                confirmButtonText: 'View',
+                denyButtonText: 'Edit bill'
+    
+            }).then((result) => {
+                if(result.isConfirmed){ //if view button click
+                    //alert("View page")
+                    FetchOrderById(orderId, status, billStatus);
+                    // history.push({pathname:'/order', state: response.data})
+                }
+                else if(result.isDenied){ //if edit bill button click
+                    FetchBillById(billId)
+                }
+            });
+        }
+        else if(status === 'completed' && billStatus === 'submitted'){
+            Swal.fire({
+                title: 'Select action',
+                icon: 'info',
+                confirmButtonColor: '#3085d6',
+                denyButtonColor: '#d33',
+                showDenyButton: true,
+                confirmButtonText: 'View',
+                denyButtonText: 'Edit bill'
+    
+            }).then((result) => {
+                if(result.isConfirmed){ //if edit button click
+                    alert("View page")
+                    FetchOrderById(orderId, status, billStatus);
+                    // history.push({pathname:'/order', state: response.data})
+                }
+                else if(result.isDenied){ //if generate bill button click
+                    FetchBillById(billId)
+                }
+            });
+        } */    
+
+
+
+// button vlivk handler last else if
+        // else if(){
+        //     alert("view order or view bill")
+        //     Swal.fire({
+        //         title: 'Select action',
+        //         icon: 'info',
+        //         confirmButtonColor: '#3085d6',
+        //         denyButtonColor: '#d33',
+        //         showDenyButton: true,
+        //         confirmButtonText: 'View order',
+        //         denyButtonText: 'Go to bill'
+    
+        //     }).then((result) => {
+        //         if(result.isConfirmed){ //if edit button click
+        //             FetchOrderById(orderId,'view');
+        //             // history.push({pathname:'/order', state: response.data})
+        //         }
+        //         else if(result.isDenied){ //if generate bill button click
+        //             FetchBillById(billId)
+        //         }
+        //     });
+        // }
+        
+
+
+/** const FetchOrderById=(orderId, action)=>{
+        // const FetchOrderById=(orderId, status, billStatus)=>{
+        Fetch_Order_By_Id(orderId)
+            .then(function(response){
+                // (status === 'pending')
+                //     ? history.push({pathname:'/order', state: response.data})
+                //     : changePage(orderId, response);
+                // // if(status === 'pending'){ // only edit order
+                // //     history.push({pathname:'/order', state: response.data})
+                // // }
+                // // else if(status === 'inprogress' ){
+                // //     alert("View page")
+                // // }
+                // // else if(status === 'completed' && billStatus === ''){
+                // //     changePage(orderId, response);
+                // // }
+
+                if (action === 'edit'){
+                    history.push({pathname:'/order', state: response.data})
+                }
+                else if(action === 'view'){
+                    alert("view page")
+                }
+                else{
+                    changePage(orderId, response);
+                }
+                // changePage(orderId, response);
+
+            })
+            .catch(function(error){
+                console.log(error);
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Not found!!',
+                });
+            })
+    } */        
+
+
+
+    /**const buttonHandler=(orderId, billId, status, billStatus)=>{
+        // FetchOrderById(orderId);
+        if (status === 'pending'){
+            //alert("edit order")
+            // FetchOrderById(orderId, status, billStatus);
+            FetchOrderById(orderId,'edit');
+        }
+        else if(status === 'inprogress'){
+            alert("view order")
+            FetchOrderById(orderId,'view');
+        }
+        else if(status === 'completed' && billId === '-'){
+           // alert("View order or generate bill", billStatus)
+            FetchOrderById(orderId)
+        }
+        else if((status === 'completed' && billId !== '-') || (status === 'submitted' && billStatus === 'submitted')){
+            alert("view order or go to bill")
+            Swal.fire({
+                title: 'Select action',
+                icon: 'info',
+                confirmButtonColor: '#3085d6',
+                denyButtonColor: '#d33',
+                showDenyButton: true,
+                confirmButtonText: 'View order',
+                denyButtonText: 'Go to bill'
+    
+            }).then((result) => {
+                if(result.isConfirmed){ //if edit button click
+                    FetchOrderById(orderId,'view');
+                    // history.push({pathname:'/order', state: response.data})
+                }
+                else if(result.isDenied){ //if generate bill button click
+                    FetchBillById(billId);
+                }
+            });
+        }
+        
+        
+    } */

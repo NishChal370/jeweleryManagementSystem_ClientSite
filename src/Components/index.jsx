@@ -7,15 +7,16 @@ import TotalCard from "./Common/TotalCard";
 import InputField from "./Common/InputField";
 import ProductTable from "./Common/ProductTable";
 
-import SearchTable from "./Bill/SearchTable";
+import SearchBillTable from "./Bill/SearchBillTable";
 
 import InvoicePdf from "./Invoice/InvoicePdf";
 
-import SearchOrderTable from "./Order/SearchTable";
+import SearchOrderTable from "./Order/SearchOrderTable";
+
 export {
         Header, SideNav, Main, 
         InputField, TotalCard, InvoicePdf,
-        ProductTable,SearchTable,
+        ProductTable,SearchBillTable,
         Spinner,
         SearchOrderTable
 }

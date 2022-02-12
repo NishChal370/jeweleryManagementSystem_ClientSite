@@ -20,9 +20,9 @@ const Toast = Swal.mixin({
 
 
 function GenerateBill() {
-    const componentRef = useRef();
-    let billId = useLocation().state;
     let history = useHistory();
+    const componentRef = useRef();
+    let updatingBill = useLocation().state;
     const latestRate = useSelector(state => state.latestRateReducer.data);
     const  [saved, setSave] = useState(false); //track if new bill saved
     const [bill, setBill] = useState(INITIAL_BILL);
@@ -109,30 +109,14 @@ function GenerateBill() {
     }
 
     //called when bill is saved
-    useEffect(()=>{ if(saved){ handlePrint(); setSave(false)}},[saved])
- 
-    const FetchBillById =()=>{
-        Fetch_Bill_By_Id(billId)
-            .then(function (response) {
-                // handle success
-                let bill = response.data;
-                // seperating response data
-                const customer = bill.customer;
-                const billProductList = bill.billProduct;
-                delete bill.customer;
-                delete bill.billProduct;
-
-                setBill(bill);
-                setCustomer(customer);
-                setBillProductList(billProductList);            
-            })
-            .catch(function (error) {
-                // handle error
-                console.log("error");
-            });
-    }
+    useEffect(()=>{ 
+        if(saved){
+            handlePrint();
+            setSave(false);
+        }
+    },[saved])
+//
     
-   
     const PostEditedBill = (editedBill, saveAs)=>{
         Post_Edited_Bill(editedBill)
             .then(function(response){
@@ -152,17 +136,18 @@ function GenerateBill() {
     }
 
     
-
     const save = (saveAs)=>{
         bill.billProduct = billProductList;
 
-        (saveAs === 'Draft')&& (bill.status ='draft')
+        (saveAs === 'Draft')
+            ? bill.status ='draft'
+            : bill.status ='submitted'
 
         customer.bills = [bill];
-        
-        (billId === undefined)
-            ? PostBill(customer,saveAs)
-            : PostEditedBill(customer,saveAs)
+        console.log(customer);
+        (updatingBill === undefined||updatingBill['dataType'] === 'orderBill')
+            ? PostBill(customer,saveAs) //alert("New bill")
+            : PostEditedBill(customer,saveAs) //alert("Old bill update")
     }
 
     const saveButtonHandler=(saveAs)=>{
@@ -363,7 +348,7 @@ function GenerateBill() {
     useEffect(() => {
         let{finalWeight, finalAmount} = calculateFinalWeightAndAmount(billProductList);
 
-        if(billId === undefined){
+        if(updatingBill === undefined||updatingBill['dataType'] === 'orderBill'){
             bill['date'] = getDate();
         }
 
@@ -380,22 +365,71 @@ function GenerateBill() {
         setBill({...bill});
     }, [billProductList]);
 
+    const _ = require("lodash"); 
+    //set updaing bill data or order data
+    const setUpdatingBill=()=>{
+        if(updatingBill !== undefined){// if  bill is updating or for order
+            // FetchBillById();
+            let tempBill = _.omit(INITIAL_BILL);
+            for (const [key, value] of Object.entries(updatingBill.bill)) {
+                if(tempBill.hasOwnProperty(key)){
+                    tempBill[key] = value;
+                }
+                if(key === 'type'){
+                    tempBill['billType'] = value
+                }
+            }
+
+            // set rate for updating bill if rate is null
+            (tempBill['rate'] === null)&&(
+                tempBill['rate'] = (tempBill['billType']=== 'gold')? latestRate.hallmarkRate : latestRate.silverRate
+            )
+
+            let tempBillProductList = []
+            for(var billProduct of updatingBill.billProductList){
+                let tempProduct = _.omit(INITIAL_PRODUCT);
+                let tempBillproduct =_.omit(INITIAL_BILL_PRODUCT);
+
+                for (const [key, value] of Object.entries(billProduct)) {
+                    if(tempBillproduct.hasOwnProperty(key)){
+
+                        tempBillproduct[key] = value;
+                    }
+                    if(key === 'billProductId'){
+                        tempBillproduct['billProductId'] = value;
+                    }
+                    if(key === 'product'){
+
+                        tempProduct = value;
+                    }
+                    
+                }
+
+                tempBillproduct['product'] = tempProduct;
+                tempBillProductList.push(tempBillproduct);
+            }
+
+            setBill({...tempBill});
+            setCustomer({...updatingBill.customer});
+            setBillProductList([...tempBillProductList]);  
+        }
+    }
+
     /* verify inputs */
     useEffect(()=>{
         VerifyInputs();
 
-        if(billId !== undefined){// if  bill is updating
-            FetchBillById();
-        }
+        setUpdatingBill();
     },[]);
 
     useEffect(()=>{
-        if(billId === undefined){
+        if(updatingBill === undefined){
             if(latestRate !== undefined){
                 bill['rate'] = latestRate.hallmarkRate;
+
                 setBill({...bill});
             }
-        }  
+        }
     },[latestRate]);
 
     return (
@@ -533,3 +567,40 @@ function GenerateBill() {
 
 
 export default GenerateBill
+
+
+
+
+
+
+
+
+
+ 
+    //-> const FetchBillById =()=>{
+    //     Fetch_Bill_By_Id(billId)
+    //         .then(function (response) {
+    //             // handle success
+    //             let bill = response.data;
+    //             // seperating response data
+    //             const customer = bill.customer;
+    //             const billProductList = bill.billProduct;
+    //             delete bill.customer;
+    //             delete bill.billProduct;
+
+    //             setBill(bill);
+    //             setCustomer(customer);
+    //             setBillProductList(billProductList);            
+    //         })
+    //         .catch(function (error) {
+    //             // handle error
+    //             console.log("error");
+    //         });
+    // }
+
+
+
+
+            // (updatingBill === undefined)
+        //     ? PostBill(customer,saveAs)
+        //     : PostEditedBill(customer,saveAs)

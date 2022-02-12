@@ -1,18 +1,12 @@
-import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { FaUnlockAlt, FaLock } from 'react-icons/fa';
+import { useLocation, useHistory } from 'react-router-dom';
 import { Post_Order, Post_Order_Update } from '../../API/UserServer';
 import { InputField, ProductTable, TotalCard } from '../../Components';
 import { removeResetValidation, VerifyInputs } from '../../Components/Common/validation';
 import { INITIAL_CUSTOMER, INITIAL_ORDER, INITIAL_ORDER_PRODUCT, INITIAL_ORDER_PRODUCT_LIST, INITIAL_PRODUCT } from '../../Components/Order/Constant';
-import { useLocation } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
-import { setLatestRate } from '../../Redux/Action';
-
-
 
 
 const Toast = Swal.mixin({
@@ -178,11 +172,10 @@ function PlaceOrder() {
         (!isRateFixed)&&(order.rate = null);
         customer.orders = [order];
 
-        // console.log(customer);
-        // PostOrder(customer);
         (searchedOrder === undefined)
-          ? alert("New order")
-          : PostOrderUpdate(customer) //old
+          ? PostOrder(customer)
+          : PostOrderUpdate(customer); //old
+          
         clearButtonHandler();
         resetButtonHandler();
       }
