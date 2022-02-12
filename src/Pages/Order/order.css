@@ -1,0 +1,27 @@
+#order-view{
+    /* background-color: green; */
+    font-family: "Poppins", sans-serif;
+    color: #012970;
+    padding: 2rem;
+}
+#order-view *{
+    margin-bottom: 0rem !important;
+}
+#order-view hr{
+    margin-top: 0.5rem;
+}
+
+#order-view > main> .customer-info {
+    display: flex;
+    justify-content: space-between;
+    margin: 0rem 4rem;
+}
+
+#order-view > main > .customer-info > section{
+    margin-top: 1rem;
+    width: 20%;
+}
+#order-view > main > .customer-info > aside > h3{
+    font-weight: 900;
+    font-size: 1.8rem;
+}

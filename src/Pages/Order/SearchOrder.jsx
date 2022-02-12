@@ -55,7 +55,8 @@ function SearchOrder() {
                     history.push({pathname:'/order', state: response.data})
                 }
                 else if(action === 'view'){
-                    alert("view page")
+                    // alert("view page")
+                    history.push({pathname:'/order/view', state: response.data})
                 }
                 else{
                     changePage(orderId, response);
@@ -107,7 +108,8 @@ function SearchOrder() {
 
         }).then((result) => {
             if(result.isConfirmed){ //if edit button click
-                alert("View page")
+                //alert("View page")
+                history.push({pathname:'/order/view', state: response.data})
                 // history.push({pathname:'/order', state: response.data})
             }
             else if(result.isDenied){ //if generate bill button click
@@ -248,7 +250,8 @@ function SearchOrder() {
                             <p>Status</p>
                             <select name="status" id="billType" className="dropdown-toggle" value={filter.status} onChange={changefilterInputHandler}>
                                 <option value="all">All</option>
-                                <option value="submitted">Completed</option>
+                                <option value="submitted">Submitted</option>
+                                <option value="completed">Completed</option>
                                 <option value="inprogress">Inprogress</option>
                                 <option value="pending">Pending</option>
                             </select>
