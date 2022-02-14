@@ -206,7 +206,7 @@ function SearchBill() {
                 
             </section>
 
-            <SearchBillTable billSummary={billSummary}  changePagehandler={changePagehandler} DeleteBillById={DeleteBillById}/>
+            <SearchBillTable billSummary={billSummary}  changePagehandler={changePagehandler} DeleteBillById={DeleteBillById} sortButtonHandler={sortButtonHandler}/>
         </div>
     )
 }

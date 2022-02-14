@@ -113,7 +113,8 @@ select> option{
     border-radius: 5px;
 }
 
-@media (max-width: 1360px) {
+@media (max-width: 1861px) {
+  /* @media (max-width: 1360px) { */
     .bill-table-card{
         /* background: #ee82ee;
         width: 100%; */

@@ -2,19 +2,19 @@ import React from 'react';
 import { Spinner } from '..';
 import { BsEye } from 'react-icons/bs';
 import { FiEdit } from 'react-icons/fi';
-import { BiFirstPage, BiLastPage } from 'react-icons/bi';
+import { BiFirstPage, BiLastPage, BiSortAlt2 } from 'react-icons/bi';
 
 
 
-function SearchTable({ordersSummary, changePagehandler, buttonHandler}) {
+function SearchTable({ordersSummary, changePagehandler, buttonHandler, sortButtonHandler}) {
   return (
     <section className='bill-table-card'>
         {(ordersSummary !== undefined) 
             ?(
                 <table className="table table-borderless" >
-                    <thead  style={{fontSize:'0.94rem'}}>
+                    <thead  style={{fontSize:'0.92rem'}}>
                         <tr>
-                            <th scope="col">Order No.</th>
+                            <th scope="col"><span onClick={sortButtonHandler} style={{fontSize:'1.2rem', cursor:'pointer'}}><BiSortAlt2/></span>Order No.</th>
                             <th scope="col">Bill No.</th>
                             <th scope="col">Date</th>
                             <th scope="col">Customer Name</th>

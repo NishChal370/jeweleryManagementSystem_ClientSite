@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 import { Spinner } from '../index';
 import { BsEye } from 'react-icons/bs';
 import { FiEdit } from 'react-icons/fi';
-import { BiFirstPage, BiLastPage } from 'react-icons/bi';
+import { BiFirstPage, BiLastPage, BiSortAlt2 } from 'react-icons/bi';
 import { useHistory } from 'react-router-dom';
 import { Fetch_Bill_By_Id } from '../../API/UserServer';
 
@@ -11,7 +11,7 @@ import { Fetch_Bill_By_Id } from '../../API/UserServer';
 /**
  *  used in search Bill page
  **/
-function SearchBillTable({billSummary, changePagehandler, DeleteBillById}) {
+function SearchBillTable({billSummary, changePagehandler, DeleteBillById, sortButtonHandler}) {
     const history = useHistory();
 
     const FetchBillById =(billId)=>{
@@ -81,7 +81,7 @@ function SearchBillTable({billSummary, changePagehandler, DeleteBillById}) {
                 <table className="table table-borderless">
                     <thead>
                         <tr>
-                            <th scope="col">Bill No.</th>
+                            <th scope="col"><span onClick={sortButtonHandler} style={{fontSize:'1.2rem', cursor:'pointer'}}><BiSortAlt2/></span> Bill No.</th>
                             <th scope="col">Customer Name</th>
                             <th scope="col">Phone</th>
                             <th scope="col">Address</th>

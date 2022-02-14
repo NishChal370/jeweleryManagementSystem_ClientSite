@@ -1,0 +1,107 @@
+#staff-card{
+    padding: 1rem 2rem;
+    font-family: "Poppins", sans-serif;
+    color: #012970;
+}
+
+#staff-card  p{
+    margin: 0rem;
+    padding: 0rem;
+}
+
+.add-staff{
+    /* background-color: green; */
+        /* display: flex; */
+    overflow: hidden;
+    padding: 0.5rem 2rem; 
+    border-radius: 2rem;
+    /* justify-content: flex-end; */
+    box-shadow: 0px 0 30px rgba(2, 27, 70, 0.247);
+}
+.add-staff:hover{
+    cursor: pointer;
+}
+.add-staff:active{
+    box-shadow: none;
+    background-color: #012970;
+    color: white;
+}
+
+.staff-info--hide> td>section>*{
+    visibility: collapse;
+    transition: visibility 0.4s ease-in-out;  
+}
+.staff-info--hide{
+    pointer-events: none;
+    height: 0rem;
+    visibility: collapse;
+    margin-bottom: 0rem !important; 
+    transition: height 0.4s ease-in-out, visibility 0.3s ease-in-out, margin-bottom 0.4s ease-in-out;  
+}
+.staff-info--show{
+    pointer-events: none;
+    height: fit-content;
+    transition: height 0.4s ease-in-out, visibility 0.4s ease-in-out, margin-bottom 0.4s ease-in-out;
+}
+.staff-avtar{
+    justify-content: flex-start;
+    width: 8rem;
+}
+.staff-info{
+    text-align: start;
+    padding-left: 4%;
+    /* background-color: green; */
+}
+.staff-info> aside{
+    /* background-color: green; */
+    width: 100%;
+    padding: 1rem 0rem 0rem 3rem;
+}
+.assignwork-btn, .resignwork-btn{
+    pointer-events:visibleFill;
+    border-radius: 2rem;
+    color: white;
+}
+
+.assignwork-btn{
+    background-color: green; 
+}
+
+.resignwork-btn{
+    background-color: red;
+    margin-top: 0.7rem !important;
+}
+
+.assignwork-btn:hover, .resignwork-btn:hover{
+    cursor: pointer;
+    background-color: white;
+}
+
+.assignwork-btn:hover{
+    color: green;
+}
+
+.resignwork-btn:hover{
+    color: red;
+}
+
+
+/*--------------------------------------------------------------
+    # Register staff
+--------------------------------------------------------------*/
+
+.register-staff{
+    color: #012970;
+    font-weight: 600;
+    padding: 0.6rem 2rem;
+    /* background-color: #012970; */
+}
+
+.register-staff > main> section{
+    /* background-color: aqua; */
+    justify-content: space-between;
+}
+
+.register-staff > main> section>span{
+    width: 45%;
+}

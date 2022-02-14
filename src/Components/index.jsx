@@ -13,10 +13,15 @@ import InvoicePdf from "./Invoice/InvoicePdf";
 
 import SearchOrderTable from "./Order/SearchOrderTable";
 
+import StaffTable from "./Staff/StaffTable";
+import ResigsterStaff from "./Staff/ResigsterStaff";
+
 export {
         Header, SideNav, Main, 
         InputField, TotalCard, InvoicePdf,
         ProductTable,SearchBillTable,
         Spinner,
-        SearchOrderTable
+        SearchOrderTable,
+        StaffTable,
+        ResigsterStaff,
 }

@@ -1,7 +1,9 @@
 import { useHistory } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { IoReceiptOutline } from 'react-icons/io5';
-import { GiFlatHammer, GiPriceTag } from 'react-icons/gi';
+import { GiFlatHammer, GiPriceTag, GiTeamIdea } from 'react-icons/gi';
+import { FaUsers, FaUsersCog } from 'react-icons/fa';
+import { HiOutlineUserGroup } from 'react-icons/hi';
 
 
 function SideNav({isDisplay}) {
@@ -100,6 +102,28 @@ function SideNav({isDisplay}) {
                         <li onClick={()=>history.push('/rate/change-rate')}>
                             <a >
                                 <i className="bi bi-circle"style={{backgroundColor: (fullLocation !== '/rate/change-rate')? 'white': 'blue' }}></i><span>Change Rate</span>
+                            </a>
+                        </li>
+                    
+                    </ul>
+                </li>
+                 
+                <li className="nav-item">
+                    <a className={`nav-link ${(currentLocation !== 'staff')? 'collapsed': ""}`} data-bs-target="#staff-nav" data-bs-toggle="collapse" href="#" arial-aria-expanded="true">
+                        <i><HiOutlineUserGroup/></i>
+                        <span>Staff</span>
+                        <i className="bi bi-chevron-down ms-auto"></i>
+                    </a>
+
+                    <ul id="staff-nav" className={`nav-content  curser--on-hover ${(currentLocation !== 'staff')? 'collapse': "collapse show"}`} data-bs-parent="#sidebar-nav" >
+                        <li onClick={()=>history.push('/staff')}>
+                            <a >
+                                <i className="bi bi-circle" style={{backgroundColor: (fullLocation !== '/staff')? 'white': 'blue' }}></i><span>Staff</span>
+                            </a>
+                        </li>
+                        <li onClick={()=>history.push('/staff/work')}>
+                            <a >
+                                <i className="bi bi-circle"style={{backgroundColor: (fullLocation !== '/staff/work')? 'white': 'blue' }}></i><span>Change Rate</span>
                             </a>
                         </li>
                     

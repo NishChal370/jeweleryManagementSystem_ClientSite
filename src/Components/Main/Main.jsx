@@ -1,7 +1,7 @@
 import '../../Assets/css/style.css'
 import React, { useEffect, useState } from 'react'
 import { Switch, Route, useHistory } from 'react-router-dom'
-import { Bill, Dashboard, Order, Rate } from '../../Pages/index'
+import { Bill, Dashboard, Order, Rate, Staff } from '../../Pages/index'
 
 function Main({isSideBarDisplayed}) {
 
@@ -54,6 +54,11 @@ function Main({isSideBarDisplayed}) {
                 <Route path='/order'>
                     <Order/>
                 </Route>
+
+                <Route path='/staff'>
+                    <Staff/>
+                </Route>
+
                 <Route path="/">
                     <Dashboard/>
                 </Route>

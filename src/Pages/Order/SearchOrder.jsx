@@ -277,7 +277,7 @@ function SearchOrder() {
 
         </section>
 
-        <SearchOrderTable ordersSummary={ordersSummary} changePagehandler={changePagehandler} buttonHandler={buttonHandler}/>
+        <SearchOrderTable ordersSummary={ordersSummary} changePagehandler={changePagehandler} buttonHandler={buttonHandler} sortButtonHandler={sortButtonHandler}/>
     </div>
   )
 }
