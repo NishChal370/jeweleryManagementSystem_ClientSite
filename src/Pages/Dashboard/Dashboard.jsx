@@ -36,7 +36,7 @@ function Dashboard() {
                     <div className="row">
 
                         {
-                            [{title:'Bill', icon: 'bi-cart', link:'/bill'}, {title:'Order', icon: 'bi-currency-dollar', link:'/order'}, {title:'Staff', icon: 'bi-people-fill', link:'/'}].map(
+                            [{title:'Bill', icon: 'bi-cart', link:'/bill'}, {title:'Order', icon: 'bi-currency-dollar', link:'/order'}, {title:'Staff', icon: 'bi-people-fill', link:'/staff'}].map(
                                 (item, index)=>{
                                    return (
                                     <div className="col-xxl-4 col-md-6 curser--on-hover" key={index+"BDS"}   onClick={()=> history.push(item.link)}>

@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
-import { BiFirstPage, BiLastPage } from 'react-icons/bi'
+import { useHistory } from 'react-router-dom';
 import { GiClick } from 'react-icons/gi';
+import { BiFirstPage, BiLastPage } from 'react-icons/bi'
 import { CompletedIcon, ResignIcon, StaffAvtar, TotalWorkIcon, WorkProcessIcon } from '../../Assets/img';
 
+
+
 function StaffTable() {
+    const history = useHistory();
     const[isDetailShow, setIsDetailShow]= useState({index:0, action:false});
     console.log(isDetailShow);
 
@@ -48,7 +52,7 @@ function StaffTable() {
                                 <section className='staff-info d-flex gap-5' >
                                     <section >
                                         <img className='staff-avtar' src={StaffAvtar} alt="avtar"/>
-                                        <p className="assignwork-btn fw-bolder text-center " >Assign work</p>
+                                        <p className="assignwork-btn fw-bolder text-center " onClick={()=>history.push("/staff/assign")} >Assign work</p>
                                         <p className="resignwork-btn fw-bolder text-center " >Resign</p>
 
                                     </section >

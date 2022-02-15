@@ -118,15 +118,21 @@ function SideNav({isDisplay}) {
                     <ul id="staff-nav" className={`nav-content  curser--on-hover ${(currentLocation !== 'staff')? 'collapse': "collapse show"}`} data-bs-parent="#sidebar-nav" >
                         <li onClick={()=>history.push('/staff')}>
                             <a >
-                                <i className="bi bi-circle" style={{backgroundColor: (fullLocation !== '/staff')? 'white': 'blue' }}></i><span>Staff</span>
+                                <i className="bi bi-circle" style={{backgroundColor: (fullLocation !== '/staff')? 'white': 'blue' }}></i><span>Staff Detail</span>
                             </a>
                         </li>
+
                         <li onClick={()=>history.push('/staff/work')}>
                             <a >
-                                <i className="bi bi-circle"style={{backgroundColor: (fullLocation !== '/staff/work')? 'white': 'blue' }}></i><span>Change Rate</span>
+                                <i className="bi bi-circle"style={{backgroundColor: (fullLocation !== '/staff/work')? 'white': 'blue' }}></i><span>Work Detail</span>
                             </a>
                         </li>
                     
+                        <li onClick={()=>history.push('/staff/assign')}>
+                            <a>
+                                <i className="bi bi-circle"style={{backgroundColor: (fullLocation !== '/staff/assign')? 'white': 'blue' }}></i><span>Assign Work</span>
+                            </a>
+                        </li>
                     </ul>
                 </li> 
             </ul>

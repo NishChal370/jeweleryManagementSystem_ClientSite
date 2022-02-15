@@ -433,7 +433,7 @@ function GenerateBill() {
     },[latestRate]);
 
     return (
-        <div className="card generate-bill" id='generate-bill'>
+        <div className="card generate-bill" id='generate-bill'style={{backgroundColor:'rgba(255, 255, 255, 0.822)'}}>
             <div hidden>
                 <InvoicePdf ref={componentRef} bill={bill} billProductList={billProductList} customer={customer}/>
             </div>

@@ -19,7 +19,7 @@ function Bill() {
 
     return (
         <div>
-            <span className='d-flex justify-content-end'>
+            {/* <span className='d-flex justify-content-end'>
                 <div className='rate-datepicker card-title  m-0 p-0 pb-3'>                                                                                                                                                    
                     <NavLink 
                         to="/bill" 
@@ -35,7 +35,7 @@ function Bill() {
                         Search
                     </NavLink>
                 </div>
-            </span>
+            </span> */}
 
             <Switch>   
                 <Route path="/bill/invoice">

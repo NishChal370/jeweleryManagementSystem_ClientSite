@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import { HiSaveAs } from 'react-icons/hi';
 import { AiOutlineClear } from 'react-icons/ai';
 
-function ResigsterStaff({show, handleClose}) {
+function ResigsterStaffModal({show, handleClose}) {
   return (
     <Modal
         show={show}
@@ -54,7 +54,7 @@ function ResigsterStaff({show, handleClose}) {
                         </span>
                         <span style={{display:'flex', alignItems:'flex-end', justifyContent:'center'}}>
                             <span className='d-flex gap-5'>
-                            <button type="button" className="btn btn-success"> <HiSaveAs/>  Register </button>
+                            <button type="button" className="btn btn-success"> <HiSaveAs/>  Save </button>
                             <button type="button" className="btn btn-danger"> <AiOutlineClear/>  Clear </button>
                             </span>
                             
@@ -72,4 +72,4 @@ function ResigsterStaff({show, handleClose}) {
   )
 }
 
-export default ResigsterStaff
+export default ResigsterStaffModal

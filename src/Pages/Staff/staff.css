@@ -13,7 +13,8 @@
     /* background-color: green; */
         /* display: flex; */
     overflow: hidden;
-    padding: 0.5rem 2rem; 
+    padding: 0rem; 
+    /* padding: 0.5rem 2rem;  */
     border-radius: 2rem;
     /* justify-content: flex-end; */
     box-shadow: 0px 0 30px rgba(2, 27, 70, 0.247);
@@ -55,7 +56,7 @@
 .staff-info> aside{
     /* background-color: green; */
     width: 100%;
-    padding: 1rem 0rem 0rem 3rem;
+    padding: 1.6rem 0rem 0rem 3rem;
 }
 .assignwork-btn, .resignwork-btn{
     pointer-events:visibleFill;
@@ -69,7 +70,7 @@
 
 .resignwork-btn{
     background-color: red;
-    margin-top: 0.7rem !important;
+    margin-top: 0.5rem !important;
 }
 
 .assignwork-btn:hover, .resignwork-btn:hover{
@@ -104,4 +105,56 @@
 
 .register-staff > main> section>span{
     width: 45%;
+}
+
+
+/*--------------------------------------------------------------
+    # Assign work
+--------------------------------------------------------------*/
+
+#assign-work-card{
+    color: #012970;
+    padding: 1rem 2rem;
+    font-family: "Poppins", sans-serif;
+}
+
+#assign-work-card label{
+    font-weight: 500;
+}
+
+.top-icons{
+    /* display: flex; */
+    overflow: hidden;
+    padding: 0.5rem 2rem; 
+    border-radius: 0.6rem;
+    /* justify-content: flex-end; */
+    box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+}
+
+
+#assign-work-card  p{
+    margin: 0rem;
+    padding: 0rem;
+}
+
+#assign-work-card h5{
+    font-weight: bolder;
+}
+
+.top-nav{
+    /* display: flex; */
+    overflow: hidden;
+    padding: 0.5rem 2rem; 
+    border-radius: 0.6rem;
+    /* justify-content: flex-end; */
+    box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+}
+
+.box--shadow{
+    margin-top: 2rem;
+    overflow: hidden;
+    padding: 0.5rem 2rem; 
+    border-radius: 0.6rem;
+    /* justify-content: flex-end; */
+    box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
 }
