@@ -1,13 +1,22 @@
 import './staff.css';
+import Swal from 'sweetalert2';
 import React, { useState, useEffect } from 'react';
+import { Get_Staff_Detail } from '../../API/UserServer';
 import { VerifyInputs } from '../../Components/Common/validation';
 import { ResigsterStaffModal, StaffTable } from '../../Components';
-import { Get_Staff_Detail, Post_Staff } from '../../API/UserServer';
 
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 900,
+    timerProgressBar: false,
+});
 
 function StaffInfo() {
-    const [showAddStaff, setShowsAddStaff] = useState(false);
     const [staffDetail, setStaffDetail] = useState([]);
+    const [showAddStaff, setShowsAddStaff] = useState(false);
 
     const saveHandler = (updatedStaffDetail)=>{
         setStaffDetail(updatedStaffDetail)
@@ -19,8 +28,11 @@ function StaffInfo() {
                 console.log(response);
                 setStaffDetail(response.data)
             })
-            .catch(function(errror){
-
+            .catch(function(error){
+                Toast.fire({
+                    icon: 'error',
+                    title: error.response.data[0],
+                });
             })
     }
 
@@ -48,7 +60,7 @@ function StaffInfo() {
                 </span>
             </section>
 
-            <StaffTable staffDetail={staffDetail}/>
+            <StaffTable staffDetail={staffDetail} saveHandler={saveHandler}/>
 
             <ResigsterStaffModal handleClose={handleShowAddStaff} show={showAddStaff} saveHandler={saveHandler}/>
         </div>

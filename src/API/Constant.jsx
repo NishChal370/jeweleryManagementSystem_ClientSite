@@ -8,17 +8,21 @@ const AXIOS = axios.create({
 const URL_SET_RATE = 'rate-set/';
 const URL_GET_ALL_RATES = 'rates/';
 const URL_GET_RATE_BY_DATE = 'rate/';
+
 const URL_GET_BILL_BY_ID = 'bill/'
 const URL_POST_BILL = 'generate-bill/';
 const URL_POST_SAVED_BILL = 'bill/update';
 const URL_DELETE_BILL_BY_ID = 'bill/delete/';
 const URL_GET_BILLS_SUMMARY = 'bills/summary';
+
 const URL_GET_ORDER_BY_ID = 'order/';
 const URL_POST_ORDER = 'place-order/';
 const URL_POST_ORDER_UPDATE = 'order/update';
 const URL_GET_ORDERS_SUMMARY = 'orders/summary/';
+
 const URL_GET_STAFF_DETAIL = 'staff/';
 const URL_POST_STAFF = 'staff/register/';
+const URL_DELETE_STAFF_BY_ID = 'staff/delete/';
 
 export { 
     AXIOS,
@@ -36,4 +40,5 @@ export {
     URL_POST_ORDER_UPDATE,
     URL_POST_STAFF,
     URL_GET_STAFF_DETAIL,
+    URL_DELETE_STAFF_BY_ID,
 }

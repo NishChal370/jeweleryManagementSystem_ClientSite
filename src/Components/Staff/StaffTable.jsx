@@ -1,17 +1,25 @@
-import React, { useState } from 'react'
+import Swal from 'sweetalert2';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { GiClick } from 'react-icons/gi';
-import { BiFirstPage, BiLastPage } from 'react-icons/bi'
-import { CompletedIcon, ResignIcon, StaffAvtar, TotalWorkIcon, WorkProcessIcon } from '../../Assets/img';
-import { Get_Staff_Detail } from '../../API/UserServer';
-import { useEffect } from 'react';
+import { BiFirstPage, BiLastPage } from 'react-icons/bi';
 import { Spinner } from '..';
+import { Delete_Staff_By_Id } from '../../API/UserServer';
+import { CompletedIcon, StaffAvtar, TotalWorkIcon, WorkProcessIcon } from '../../Assets/img';
 
 
 
-function StaffTable({staffDetail}) {
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 900,
+    timerProgressBar: false,
+});
+
+
+function StaffTable({staffDetail, saveHandler}) {
     const history = useHistory();
-    // const[staffDetail, setStaffDetail] = useState([]);
     const[isDetailShow, setIsDetailShow]= useState({index:-1, action:false});
 
     const showHandle=(selectedIndex)=>{
@@ -21,22 +29,51 @@ function StaffTable({staffDetail}) {
 
     }
 
-    // const GetStaffDetail=()=>{
-    //     Get_Staff_Detail()
-    //         .then(function(response){
-    //             console.log(response);
-    //             setStaffDetail(response.data)
-    //         })
-    //         .catch(function(errror){
+    const deleteStaffById=(staffId)=>{
+        Delete_Staff_By_Id(staffId)
+            .then(function(response){
+                saveHandler(response.data);
 
-    //         })
-    // }
+                setIsDetailShow({index: -1, action:false});
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Deleted!'
+                });
+            })
+            .catch(function(error){
+                if(error.response.status === 428){
+                    Swal.fire(
+                        'Request unsuccessful!',
+                        error.response.data[0],
+                        'error'
+                    )
+                }
+                else{
+                    alert(error.response.message)
+                }
+                
+            })
+    }
 
 
-    // useEffect(()=>{
-    //     GetStaffDetail()
-    // },[])
+    const deleteHandler=(staffId)=>{
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed){
+                deleteStaffById(staffId)
+            }
+        });
+    }
 
+
+    
     return (
         <section className='bill-table-card'>
             <table className="table table-borderless">
@@ -75,7 +112,7 @@ function StaffTable({staffDetail}) {
                                     <section >
                                         <img className='staff-avtar' src={StaffAvtar} alt="avtar"/>
                                         <p className="assignwork-btn fw-bolder text-center " onClick={()=>history.push("/staff/assign")} >Assign work</p>
-                                        <p className="resignwork-btn fw-bolder text-center " >Resign</p>
+                                        <p className="resignwork-btn fw-bolder text-center " onClick={()=>{deleteHandler(staffId)}}>Resign</p>
 
                                     </section >
                                     {/* <section >
