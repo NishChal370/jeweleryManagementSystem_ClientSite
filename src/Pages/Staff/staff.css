@@ -50,13 +50,13 @@
 }
 .staff-info{
     text-align: start;
-    padding-left: 4%;
+    padding-left: 6%;
     /* background-color: green; */
 }
 .staff-info> aside{
     /* background-color: green; */
     width: 100%;
-    padding: 1.6rem 0rem 0rem 3rem;
+    padding: 1.6rem 0rem 0rem 4rem;
 }
 .assignwork-btn, .resignwork-btn{
     pointer-events:visibleFill;

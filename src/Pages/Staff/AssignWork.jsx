@@ -9,7 +9,7 @@ function AssignWork() {
                 {/* <div className='d-flex gap-4'>  */}
                     <div className=' d-flex flex-column gap-2'>
                         <section className='d-flex'>
-                            <h5>Order No: &nbsp;</h5>
+                            <h5>Order No&nbsp;</h5>
                             {/* <input type="number" className="form-control" min='0' style={{ textAlign:'center', fontSize:'1rem', height:'1.6rem', width:'2.6rem', padding:'0rem', borderRadius:'0rem', boxShadow:'none', border:'none', borderBottom:'1px solid gray', backgroundColor:'rgba(255, 255, 255, 0)'}}/>
                             <button type="button" className="btn btn-primary search-btn" style={{fontSize:'0.9rem',width:'1.6rem',height:'1.6rem', padding:'0rem', borderRadius:'0rem', boxShadow:'none'}}>
                                 <i style={{fontSize:'1rem',width:'2rem', height:'1.9rem', padding:'0rem', borderRadius:'0rem'}}><HiSearch/></i>
@@ -22,7 +22,7 @@ function AssignWork() {
                         {/* </section> */}
 
                         <section className='d-flex'>
-                            <h5>Staff: &nbsp;</h5>
+                            <h5>Staff&nbsp;</h5>
                             {/* <select id="cars" name="cars" style={{fontSize:'1rem', height:'1.6rem', width:'fit-containt', borderRadius:'0rem', boxShadow:'none', textAlign:'center'}}>
                                 <option value="ram">Ram</option>
                                 <option value="hari">Hari</option>
@@ -33,7 +33,7 @@ function AssignWork() {
                     </div>
 
                     <div className=' d-flex flex-column gap-2'>
-                        <section className='d-flex'>
+                        <section className='d-flex'>:
                             <input type="number" className="form-control" min='0' style={{ textAlign:'center', fontSize:'1rem', height:'1.6rem', width:'4rem', padding:'0rem', borderRadius:'0rem', boxShadow:'none', border:'none', borderBottom:'1px solid gray', backgroundColor:'rgba(255, 255, 255, 0)'}}/>
                             <button type="button" className="btn btn-primary search-btn" style={{fontSize:'0.9rem',width:'1.6rem',height:'1.6rem', padding:'0rem', borderRadius:'0rem', boxShadow:'none'}}>
                                 <i style={{fontSize:'1rem',width:'2rem', height:'1.9rem', padding:'0rem', borderRadius:'0rem'}}><HiSearch/></i>
@@ -44,7 +44,7 @@ function AssignWork() {
                             <input type="number" className="form-control" min='0' style={{fontSize:'1rem', height:'1.6rem', width:'5.6rem', padding:'0rem', borderRadius:'0rem', border:'none', borderBottom:'1px solid gray', boxShadow:'none', backgroundColor:'rgba(255, 255, 255, 0)'}} disabled/>
                         </section> */}
 
-                        <section className='d-flex mt-1'>
+                        <section className='d-flex mt-1'>:
                             <select id="cars" name="cars" style={{fontSize:'1rem', height:'1.6rem', width:'fit-containt', borderRadius:'0rem', boxShadow:'none', borderRadius:'0rem', border:'none', borderBottom:'1px solid gray', textAlign:'center'}}>
                                 <option value="ram">Ram</option>
                                 <option value="hari">Hari</option>

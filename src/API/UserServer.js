@@ -1,4 +1,4 @@
-import { AXIOS, URL_DELETE_BILL_BY_ID, URL_GET_ALL_RATES, URL_GET_BILLS_SUMMARY, URL_GET_BILL_BY_ID, URL_GET_ORDERS_SUMMARY, URL_GET_ORDER_BY_ID, URL_GET_RATE_BY_DATE, URL_POST_BILL, URL_POST_ORDER, URL_POST_ORDER_UPDATE, URL_POST_SAVED_BILL, URL_SET_RATE } from "./Constant"
+import { AXIOS, URL_DELETE_BILL_BY_ID, URL_GET_ALL_RATES, URL_GET_BILLS_SUMMARY, URL_GET_BILL_BY_ID, URL_GET_ORDERS_SUMMARY, URL_GET_ORDER_BY_ID, URL_GET_RATE_BY_DATE, URL_GET_STAFF_DETAIL, URL_POST_BILL, URL_POST_ORDER, URL_POST_ORDER_UPDATE, URL_POST_SAVED_BILL, URL_POST_STAFF, URL_SET_RATE } from "./Constant"
 
 
 export const Fetch_Rate_By_Date = async (date)=>{
@@ -51,6 +51,13 @@ export const Post_Order_Update = async(editedOrder)=>{
     return await AXIOS.post(URL_POST_ORDER_UPDATE, editedOrder)
 }
 
+export const Get_Staff_Detail = async()=>{
+    return await AXIOS.get(URL_GET_STAFF_DETAIL)
+}
+
+export const Post_Staff = async(staff)=>{
+    return await AXIOS.post(URL_POST_STAFF, staff)
+}
 // tried to create sepreeate file for axios and this works
 // export const fetchTry = async ()=>{
 //     return await axios.get(`http://127.0.0.1:8000/api/rates/`)

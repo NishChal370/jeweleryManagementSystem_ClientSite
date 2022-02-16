@@ -49,7 +49,7 @@ function SearchTable({ordersSummary, changePagehandler, buttonHandler, sortButto
                                         <i className={(( new Date(submittionDate) - new Date(new Date().toJSON().slice(0,10)) ) < 0 && submittedDate === '-')? 'fw-bold text-danger': (( new Date(submittionDate) - new Date(new Date().toJSON().slice(0,10)) ) == 0)? 'fw-bold text-info':''}>{submittionDate}</i>
                                     </td>
                                     <td>{submittedDate}</td>
-                                    <td><span className={`badge bg-${(status === 'completed')?'success':( status === 'submitted')? 'primary':'warning text-dark'}`}>{status}</span></td>
+                                    <td><span className={`badge bg-${(status === 'completed')?'success':( status === 'submitted')? 'primary':( status === 'inprogress')? 'secondary':'warning text-dark'}`}>{status}</span></td>
                                     <td onClick={()=>buttonHandler( orderId, billId, status, billStatus)}>
                                         {(status === 'submitted' && billStatus === 'submitted' && billRemainingAmt <=0)
                                             ? <BsEye/>

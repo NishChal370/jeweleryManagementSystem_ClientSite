@@ -3,20 +3,39 @@ import { useHistory } from 'react-router-dom';
 import { GiClick } from 'react-icons/gi';
 import { BiFirstPage, BiLastPage } from 'react-icons/bi'
 import { CompletedIcon, ResignIcon, StaffAvtar, TotalWorkIcon, WorkProcessIcon } from '../../Assets/img';
+import { Get_Staff_Detail } from '../../API/UserServer';
+import { useEffect } from 'react';
+import { Spinner } from '..';
 
 
 
-function StaffTable() {
+function StaffTable({staffDetail}) {
     const history = useHistory();
-    const[isDetailShow, setIsDetailShow]= useState({index:0, action:false});
-    console.log(isDetailShow);
+    // const[staffDetail, setStaffDetail] = useState([]);
+    const[isDetailShow, setIsDetailShow]= useState({index:-1, action:false});
 
     const showHandle=(selectedIndex)=>{
         (isDetailShow.index === selectedIndex)
-            ? setIsDetailShow({index: 0, action:false})
+            ? setIsDetailShow({index: -1, action:false})
             : setIsDetailShow({index: selectedIndex, action:false})
 
     }
+
+    // const GetStaffDetail=()=>{
+    //     Get_Staff_Detail()
+    //         .then(function(response){
+    //             console.log(response);
+    //             setStaffDetail(response.data)
+    //         })
+    //         .catch(function(errror){
+
+    //         })
+    // }
+
+
+    // useEffect(()=>{
+    //     GetStaffDetail()
+    // },[])
 
     return (
         <section className='bill-table-card'>
@@ -26,6 +45,7 @@ function StaffTable() {
                         <th scope="col"><span style={{fontSize:'1.2rem', cursor:'pointer'}}></span> Staff No.</th>
                         <th scope="col">Staff Name</th>
                         <th scope="col">Phone</th>
+                        <th scope="col">Email</th>
                         <th scope="col">Address</th>
                         <th scope="col">Registration date</th>
                         <th scope="col">Resign date</th>
@@ -33,19 +53,21 @@ function StaffTable() {
                     </tr>
                 </thead>
                 <tbody>
-                {[1,2,3,4,5,6,7,10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21].map((v)=>{
+                {(staffDetail.length>0)
+                    ?(staffDetail.map(({staffId, staffName, phone, email, address, registrationDate, resignDate, totalWork, completed, inprogress}, index)=>{
                     return(
                         <>
-                        <tr onClick={()=> showHandle(v)}>
-                            <th scope="row">{v}</th>
-                            <td>Ram</td>
-                            <td>9878767654</td>
-                            <td>Kathmandu</td>
-                            <td>2022-02-11</td>
-                            <td>-</td>
+                        <tr onClick={()=> showHandle(index)}>
+                            <th scope="row">{staffId}</th>
+                            <td>{staffName}</td>
+                            <td>{phone}</td>
+                            <td>{(email === null || email === '' )?'-':email}</td>
+                            <td>{address}</td>
+                            <td>{registrationDate}</td>
+                            <td>{(resignDate === null)?'-':resignDate}</td>
                             <td style={{fontSize:'1.6rem', margin:'0rem', padding:'0rem' }}><GiClick/></td>  
                         </tr>
-                        <tr className={`staff-info--${(isDetailShow.index === v)?(isDetailShow)?'show':'hide':'hide'}`}>
+                        <tr className={`staff-info--${(isDetailShow.index === index)?(isDetailShow)?'show':'hide':'hide'}`}>
                             {/* <tr  className={`a staff-info--show`} > */}
                             {/* <tr className={`staff-info--show`}> */}
                             <td  colspan="6">
@@ -61,9 +83,9 @@ function StaffTable() {
                                         <p className="resignwork-btn fw-bolder text-center " >Resign</p>
                                     </section >
                                      */}
-                                    <aside className='d-flex gap-5 justify-content-between'>
+                                    <aside className='d-flex justify-content-between'>
                                         <span className='d-flex'>
-                                            <h5 className="fw-bolder pt-4" style={{fontSize:'6rem'}}>01</h5>
+                                            <h5 className="fw-bolder pt-4" style={{fontSize:'6rem'}}>{(totalWork).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}</h5>
                                         
                                             <div>
                                                 <img src={TotalWorkIcon} alt="" style={{width:'6rem', alignSelf:'center'}}/>
@@ -72,7 +94,7 @@ function StaffTable() {
                                         </span>
 
                                         <span className='d-flex '>
-                                            <h5 className="fw-bolder pt-4" style={{fontSize:'6rem'}}>01</h5>
+                                            <h5 className="fw-bolder pt-4" style={{fontSize:'6rem'}}>{(inprogress).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}</h5>
                                     
                                             <div>
                                                 <img src={WorkProcessIcon} alt=""  style={{width:'6rem', alignSelf:'center'}}/>
@@ -81,7 +103,7 @@ function StaffTable() {
                                         </span>
 
                                         <span className='d-flex'>
-                                            <h5 className="fw-bolder pt-4" style={{fontSize:'6rem'}}>01</h5>
+                                            <h5 className="fw-bolder pt-4" style={{fontSize:'6rem'}}>{(completed).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}</h5>
                                     
                                             <div>
                                                 <img src={CompletedIcon} alt=""  style={{width:'6rem', alignSelf:'center'}}/>
@@ -94,8 +116,9 @@ function StaffTable() {
                             </td>
 
                         </tr>
-                    </>)
-                })}                         
+                    </>)}))
+                    : <Spinner/>
+                }                         
                 </tbody>
 
                 <tfoot>

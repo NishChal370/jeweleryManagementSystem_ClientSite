@@ -1,9 +1,28 @@
-import './staff.css'
-import React, { useState } from 'react'
+import './staff.css';
+import React, { useState, useEffect } from 'react';
+import { VerifyInputs } from '../../Components/Common/validation';
 import { ResigsterStaffModal, StaffTable } from '../../Components';
+import { Get_Staff_Detail, Post_Staff } from '../../API/UserServer';
+
 
 function StaffInfo() {
     const [showAddStaff, setShowsAddStaff] = useState(false);
+    const [staffDetail, setStaffDetail] = useState([]);
+
+    const saveHandler = (updatedStaffDetail)=>{
+        setStaffDetail(updatedStaffDetail)
+    }
+
+    const GetStaffDetail=()=>{
+        Get_Staff_Detail()
+            .then(function(response){
+                console.log(response);
+                setStaffDetail(response.data)
+            })
+            .catch(function(errror){
+
+            })
+    }
 
     const handleShowAddStaff=()=>{
         (showAddStaff)
@@ -11,6 +30,13 @@ function StaffInfo() {
             : setShowsAddStaff(true)
     }
     
+
+    useEffect(()=>{
+        GetStaffDetail();
+        VerifyInputs();
+    },[]);
+
+
     return (
         <div className="card background--none " id='staff-card'>
             <section style={{ display:'flex', justifyContent:'flex-end'}}>
@@ -22,9 +48,9 @@ function StaffInfo() {
                 </span>
             </section>
 
-            <StaffTable/>
+            <StaffTable staffDetail={staffDetail}/>
 
-            <ResigsterStaffModal handleClose={handleShowAddStaff} show={showAddStaff}/>
+            <ResigsterStaffModal handleClose={handleShowAddStaff} show={showAddStaff} saveHandler={saveHandler}/>
         </div>
     )
 
