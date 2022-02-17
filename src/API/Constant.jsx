@@ -20,9 +20,13 @@ const URL_POST_ORDER = 'place-order/';
 const URL_POST_ORDER_UPDATE = 'order/update';
 const URL_GET_ORDERS_SUMMARY = 'orders/summary/';
 
+const URL_GET_PENDING_ORDER_PRODUCT_BY_ID = 'orderProduct/pending/';
+
 const URL_GET_STAFF_DETAIL = 'staff/';
 const URL_POST_STAFF = 'staff/register/';
+const URL_GET_STAFF_NAME_LIST = 'staff/name/';
 const URL_DELETE_STAFF_BY_ID = 'staff/delete/';
+const URL_POST_ASSIGNED_WORK = 'staff/assign/work/';
 
 export { 
     AXIOS,
@@ -38,7 +42,10 @@ export {
     URL_GET_ORDER_BY_ID,
     URL_GET_ORDERS_SUMMARY,
     URL_POST_ORDER_UPDATE,
+    URL_GET_PENDING_ORDER_PRODUCT_BY_ID,
     URL_POST_STAFF,
     URL_GET_STAFF_DETAIL,
     URL_DELETE_STAFF_BY_ID,
+    URL_GET_STAFF_NAME_LIST,
+    URL_POST_ASSIGNED_WORK,
 }

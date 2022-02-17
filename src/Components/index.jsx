@@ -14,6 +14,8 @@ import InvoicePdf from "./Invoice/InvoicePdf";
 import SearchOrderTable from "./Order/SearchOrderTable";
 
 import StaffTable from "./Staff/StaffTable";
+import OrderProductTable from "./Staff/OrderProductTable";
+import OrderProductsModel from "./Staff/OrderProductsModel";
 import ResigsterStaffModal from "./Staff/ResigsterStaffModal";
 
 export {
@@ -23,5 +25,7 @@ export {
         Spinner,
         SearchOrderTable,
         StaffTable,
+        OrderProductsModel,
         ResigsterStaffModal,
+        OrderProductTable,
 }

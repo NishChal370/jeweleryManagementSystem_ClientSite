@@ -111,7 +111,7 @@ function StaffTable({staffDetail, saveHandler}) {
                                 <section className='staff-info d-flex gap-5' >
                                     <section >
                                         <img className='staff-avtar' src={StaffAvtar} alt="avtar"/>
-                                        <p className="assignwork-btn fw-bolder text-center " onClick={()=>history.push("/staff/assign")} >Assign work</p>
+                                        <p className="assignwork-btn fw-bolder text-center " onClick={()=>history.push({pathname:"/staff/assign", state:{staffId:staffId, staffName:staffName}})} >Assign work</p>
                                         <p className="resignwork-btn fw-bolder text-center " onClick={()=>{deleteHandler(staffId)}}>Resign</p>
 
                                     </section >

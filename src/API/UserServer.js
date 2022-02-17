@@ -1,4 +1,4 @@
-import { AXIOS, URL_DELETE_BILL_BY_ID, URL_DELETE_STAFF_BY_ID, URL_GET_ALL_RATES, URL_GET_BILLS_SUMMARY, URL_GET_BILL_BY_ID, URL_GET_ORDERS_SUMMARY, URL_GET_ORDER_BY_ID, URL_GET_RATE_BY_DATE, URL_GET_STAFF_DETAIL, URL_POST_BILL, URL_POST_ORDER, URL_POST_ORDER_UPDATE, URL_POST_SAVED_BILL, URL_POST_STAFF, URL_SET_RATE } from "./Constant"
+import { AXIOS, URL_DELETE_BILL_BY_ID, URL_DELETE_STAFF_BY_ID, URL_GET_ALL_RATES, URL_GET_BILLS_SUMMARY, URL_GET_BILL_BY_ID, URL_GET_ORDERS_SUMMARY, URL_GET_ORDER_BY_ID, URL_GET_PENDING_ORDER_BY_ID, URL_GET_PENDING_ORDER_PRODUCT_BY_ID, URL_GET_RATE_BY_DATE, URL_GET_STAFF_DETAIL, URL_GET_STAFF_NAME_LIST, URL_POST_ASSIGNED_WORK, URL_POST_BILL, URL_POST_ORDER, URL_POST_ORDER_UPDATE, URL_POST_SAVED_BILL, URL_POST_STAFF, URL_SET_RATE } from "./Constant"
 
 
 export const Fetch_Rate_By_Date = async (date)=>{
@@ -47,6 +47,10 @@ export const Fetch_Order_By_Id = async(orderId)=>{
     return await AXIOS.get(URL_GET_ORDER_BY_ID+orderId)
 }
 
+export const Fetch_Pending_Order_Product_By_Id = async(orderId)=>{
+    return await AXIOS.get(URL_GET_PENDING_ORDER_PRODUCT_BY_ID+orderId)
+}
+
 export const Post_Order_Update = async(editedOrder)=>{
     return await AXIOS.post(URL_POST_ORDER_UPDATE, editedOrder)
 }
@@ -62,6 +66,15 @@ export const Post_Staff = async(staff)=>{
 export const Delete_Staff_By_Id = async(staffId)=>{
     return await AXIOS.delete(URL_DELETE_STAFF_BY_ID+staffId)
 }
+
+export const Get_Staff_Names = async()=>{
+    return await AXIOS.get(URL_GET_STAFF_NAME_LIST)
+}
+
+export const POST_Staff_Assign_Work = async(workDetail)=>{
+    return await AXIOS.post(URL_POST_ASSIGNED_WORK, workDetail)
+}
+
 // tried to create sepreeate file for axios and this works
 // export const fetchTry = async ()=>{
 //     return await axios.get(`http://127.0.0.1:8000/api/rates/`)
