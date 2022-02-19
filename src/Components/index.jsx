@@ -14,6 +14,7 @@ import InvoicePdf from "./Invoice/InvoicePdf";
 import SearchOrderTable from "./Order/SearchOrderTable";
 
 import StaffTable from "./Staff/StaffTable";
+import WorkDetailTable from "./Staff/WorkDetailTable";
 import OrderProductTable from "./Staff/OrderProductTable";
 import OrderProductsModel from "./Staff/OrderProductsModel";
 import ResigsterStaffModal from "./Staff/ResigsterStaffModal";
@@ -28,4 +29,5 @@ export {
         OrderProductsModel,
         ResigsterStaffModal,
         OrderProductTable,
+        WorkDetailTable,
 }

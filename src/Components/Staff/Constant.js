@@ -9,7 +9,7 @@ const INITIAL_STAFF_WORK ={
     submittionDate : null,
     submittedWeight : null,
     finalProductWeight : null,
-    lossWeight : null,
+    lossWeight : 0,
     submittedDate : null,
     status : 'inprogress',
 }

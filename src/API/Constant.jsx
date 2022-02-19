@@ -27,6 +27,7 @@ const URL_POST_STAFF = 'staff/register/';
 const URL_GET_STAFF_NAME_LIST = 'staff/name/';
 const URL_DELETE_STAFF_BY_ID = 'staff/delete/';
 const URL_POST_ASSIGNED_WORK = 'staff/assign/work/';
+const URL_GET_STAFF_WORK = 'staff/work/';
 
 export { 
     AXIOS,
@@ -48,4 +49,5 @@ export {
     URL_DELETE_STAFF_BY_ID,
     URL_GET_STAFF_NAME_LIST,
     URL_POST_ASSIGNED_WORK,
+    URL_GET_STAFF_WORK,
 }

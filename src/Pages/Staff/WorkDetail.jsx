@@ -1,20 +1,50 @@
-import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import { HiSearch } from 'react-icons/hi'
-import { FaFilter, FaSortAmountUpAlt } from 'react-icons/fa'
-import { DatePickerComponent } from '@syncfusion/ej2-react-calendars'
+import { useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { HiSearch } from 'react-icons/hi';
+import { FaFilter, FaSortAmountUpAlt } from 'react-icons/fa';
+import { WorkDetailTable } from '../../Components';
+import { Get_Staff_Work } from '../../API/UserServer';
+import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
 
 
 
 function WorkDetail() {
     const history = useHistory();
+    const [staffWorkDetail, setStaffWorkDetail] = useState();
     const [showSearchInput, setShowSearchInput] = useState(false);
+
 
     const showHandler=()=>{
         (showSearchInput)
             ? setShowSearchInput(false)
             : setShowSearchInput(true)
     }
+
+
+    const FetchStaffWork =()=>{
+        Get_Staff_Work()
+            .then(function(response){
+                console.log(response.data);
+                setStaffWorkDetail(response.data);
+            })
+            .catch(function(error){
+                console.log(error.response.data)
+            })
+    }
+
+    const directToAssignWork=(selectedWork)=>{
+        let staffId = selectedWork.staff.staffId;
+        let orderId = selectedWork.orderProduct.orderId;
+
+        history.push({pathname:'/staff/assign', state:{orderId :orderId, staffId :staffId, staffWorkId :selectedWork.staffWorkId, workDetail :selectedWork}});
+    }
+
+
+    useEffect(()=>{
+        FetchStaffWork();
+    },[])
+
+
 
     return (
     <div className="card background--none " id='search-card'>
@@ -71,63 +101,7 @@ function WorkDetail() {
             </span>
         </section>
 
-        <section className='bill-table-card'>
-            <table className="table table-borderless">
-                <thead>
-                    <tr>
-                        <th scope="col"><span style={{fontSize:'1.2rem', cursor:'pointer'}}></span> Order No.</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Product Name</th>
-                        <th scope="col">Net Weight</th>
-                        <th scope="col">Total Weight</th>
-                        <th scope="col">Gems Name</th>
-                        <th scope="col">Size</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Assigned</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>gold</td>
-                        <td>Ring</td>
-                        <td>23</td>
-                        <td>30</td>
-                        <td>Muga</td>
-                        <td>12</td>
-                        <td>01</td>
-                        <td><span className='badge bg-info'>inprogress</span></td>
-                        <td>Ram</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>gold</td>
-                        <td>Ring</td>
-                        <td>23</td>
-                        <td>30</td>
-                        <td>Muga</td>
-                        <td>12</td>
-                        <td>01</td>
-                        <td><span className='badge bg-warning'>pending</span> </td>
-                        <td><a onClick={()=>history.push("/staff/assign")}>assign</a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>gold</td>
-                        <td>Ring</td>
-                        <td>23</td>
-                        <td>30</td>
-                        <td>Muga</td>
-                        <td>12</td>
-                        <td>01</td>
-                        <td><span className='badge bg-success'>completed</span> </td>
-                        <td>Ram</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
+        <WorkDetailTable staffWorkDetail={staffWorkDetail} directToAssignWork={directToAssignWork}/>
     </div>
   )
 }

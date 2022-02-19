@@ -85,7 +85,7 @@ function StaffTable({staffDetail, saveHandler}) {
                         <th scope="col">Email</th>
                         <th scope="col">Address</th>
                         <th scope="col">Registration date</th>
-                        <th scope="col">Resign date</th>
+                        {/* <th scope="col">Resign date</th> */}
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -101,7 +101,7 @@ function StaffTable({staffDetail, saveHandler}) {
                             <td>{(email === null || email === '' )?'-':email}</td>
                             <td>{address}</td>
                             <td>{registrationDate}</td>
-                            <td>{(resignDate === null)?'-':resignDate}</td>
+                            {/* <td>{(resignDate === null)?'-':resignDate}</td> */}
                             <td style={{fontSize:'1.6rem', margin:'0rem', padding:'0rem' }}><GiClick/></td>  
                         </tr>
                         <tr className={`staff-info--${(isDetailShow.index === index)?(isDetailShow)?'show':'hide':'hide'}`}>
@@ -113,7 +113,6 @@ function StaffTable({staffDetail, saveHandler}) {
                                         <img className='staff-avtar' src={StaffAvtar} alt="avtar"/>
                                         <p className="assignwork-btn fw-bolder text-center " onClick={()=>history.push({pathname:"/staff/assign", state:{staffId:staffId, staffName:staffName}})} >Assign work</p>
                                         <p className="resignwork-btn fw-bolder text-center " onClick={()=>{deleteHandler(staffId)}}>Resign</p>
-
                                     </section >
                                     {/* <section >
                                         <img className='staff-avtar' src={ResignIcon} alt="avtar"/>
