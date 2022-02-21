@@ -75,8 +75,8 @@ export const POST_Staff_Assign_Work = async(workDetail)=>{
     return await AXIOS.post(URL_POST_ASSIGNED_WORK, workDetail)
 }
 
-export const Get_Staff_Work = async()=>{
-    return await AXIOS.get(URL_GET_STAFF_WORK)
+export const Fetch_Staff_Work = async(param)=>{
+    return await AXIOS.get(URL_GET_STAFF_WORK+param)
 }
 
 // tried to create sepreeate file for axios and this works

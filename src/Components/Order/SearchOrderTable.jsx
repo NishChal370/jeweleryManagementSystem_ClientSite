@@ -46,7 +46,7 @@ function SearchTable({ordersSummary, changePagehandler, buttonHandler, sortButto
                                     <td>{advanceAmount}</td>
                                     
                                     <td >
-                                        <i className={(( new Date(submittionDate) - new Date(new Date().toJSON().slice(0,10)) ) < 0 && submittedDate === '-')? 'fw-bold text-danger': (( new Date(submittionDate) - new Date(new Date().toJSON().slice(0,10)) ) == 0)? 'fw-bold text-info':''}>{submittionDate}</i>
+                                        <i className={(( new Date(submittionDate) - new Date(new Date().toJSON().slice(0,10)) ) < 0 && submittedDate === '-')? 'fw-bold text-danger': ((submittedDate !== '-')?'':( new Date(submittionDate) - new Date(new Date().toJSON().slice(0,10)) ) == 0)? 'fw-bold text-info':''}>{submittionDate}</i>
                                     </td>
                                     <td>{submittedDate}</td>
                                     <td><span className={`badge bg-${(status === 'completed')?'success':( status === 'submitted')? 'primary':( status === 'inprogress')? 'secondary':'warning text-dark'}`}>{status}</span></td>

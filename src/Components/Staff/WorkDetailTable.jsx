@@ -1,19 +1,22 @@
 import React from 'react';
+import { BiSortAlt2 } from 'react-icons/bi';
 import { BsEye } from 'react-icons/bs';
 import { FiEdit } from 'react-icons/fi';
 
-function WorkDetailTable({staffWorkDetail, directToAssignWork}) {
+function WorkDetailTable({staffWorkDetail, directToAssignWork, sortButtonHandler}) {
     return (
         <section className='bill-table-card'>
             <table className="table table-borderless">
-                <thead style={{fontSize:'0.92rem'}}>
+                <thead style={{fontSize:'0.86rem'}}>
                     <tr>
-                        <th scope="col">Date</th>
-                        <th scope="col">Staff ID</th>
+                        {/* <th scope="col">Date</th> */}
+                        <th scope="col"><span onClick={sortButtonHandler} style={{fontSize:'1.2rem', cursor:'pointer'}}><BiSortAlt2/></span>Staff ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Phone</th>
+                        <th scope="col">Date</th>
                         <th scope="col">Order ID</th>
                         <th scope="col">Order P. ID</th>
+                        <th scope="col">Type</th>
                         <th scope="col">Product Name</th>
                         <th scope="col">Given Weight</th>
                         <th scope="col">KDM Weight</th>
@@ -28,13 +31,15 @@ function WorkDetailTable({staffWorkDetail, directToAssignWork}) {
                     {(staffWorkDetail !== undefined)&&(
                         staffWorkDetail.map((data, index)=>{
                             return(
-                                <tr>
-                                    <th scope="row">{data.date}</th>
-                                    <td>{data.staff.staffId}</td>
+                                <tr key={`${index}SWD`}>
+                                    {/* <th scope="row">{data.date}</th> */}
+                                    <th scope="row">{data.staff.staffId}</th>
                                     <td>{data.staff.staffName}</td>
                                     <td>{data.staff.phone}</td>
+                                    <td >{data.date}</td>
                                     <td>{data.orderProduct.orderId}</td>
                                     <td>{data.orderProduct.orderProductId}</td>
+                                    <td style={{color: (data.type === 'gold')? '#b36b00' : '#595959'}}>{data.type}</td>
                                     <td>{data.orderProduct.product.productName}</td>
                                     <td>{data.givenWeight}</td>
                                     <td>{data.KDMWeight}</td>
