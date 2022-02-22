@@ -212,7 +212,7 @@ function SearchOrder() {
 
         history.push({
             pathname: '/order/search',
-            search: (!location.search.includes('sorted')) ?`?sorted/?page=${filter.pageNumber}` :`?page=${filter.pageNumber}`
+            search: (!location.search.includes('sorted')) ?`?sorted&page=${filter.pageNumber}` :`?page=${filter.pageNumber}`
         });
     }
 
@@ -239,7 +239,7 @@ function SearchOrder() {
                     <section>
                         <span>
                             <p>Type</p>
-                            <select name="type" id="billType" className="dropdown-toggle" value={filter.type} onChange={changefilterInputHandler}>
+                            <select name="type" id="orderType" className="dropdown-toggle" value={filter.type} onChange={changefilterInputHandler}>
                                 <option value="all">All</option>
                                 <option value="gold">Gold</option>
                                 <option value="silver">Silver</option>
@@ -248,7 +248,7 @@ function SearchOrder() {
 
                         <span>
                             <p>Status</p>
-                            <select name="status" id="billType" className="dropdown-toggle" value={filter.status} onChange={changefilterInputHandler}>
+                            <select name="status" id="orderStatus" className="dropdown-toggle" value={filter.status} onChange={changefilterInputHandler}>
                                 <option value="all">All</option>
                                 <option value="submitted">Submitted</option>
                                 <option value="completed">Completed</option>

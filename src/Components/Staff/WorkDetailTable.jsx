@@ -1,11 +1,12 @@
 import React from 'react';
-import { BiSortAlt2 } from 'react-icons/bi';
+import { BiFirstPage, BiLastPage, BiSortAlt2 } from 'react-icons/bi';
 import { BsEye } from 'react-icons/bs';
 import { FiEdit } from 'react-icons/fi';
+import { Spinner } from '..';
 
-function WorkDetailTable({staffWorkDetail, directToAssignWork, sortButtonHandler}) {
+function WorkDetailTable({staffWorkDetail, directToAssignWork, sortButtonHandler, changePagehandler}) {
     return (
-        <section className='bill-table-card'>
+        <section className='table-card'>
             <table className="table table-borderless">
                 <thead style={{fontSize:'0.86rem'}}>
                     <tr>
@@ -27,9 +28,9 @@ function WorkDetailTable({staffWorkDetail, directToAssignWork, sortButtonHandler
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {(staffWorkDetail !== undefined)&&(
-                        staffWorkDetail.map((data, index)=>{
+                {(staffWorkDetail !== undefined)
+                    ?(<><tbody>
+                        {staffWorkDetail.results.map((data, index)=>{
                             return(
                                 <tr key={`${index}SWD`}>
                                     {/* <th scope="row">{data.date}</th> */}
@@ -51,9 +52,21 @@ function WorkDetailTable({staffWorkDetail, directToAssignWork, sortButtonHandler
                                     <td onClick={()=>directToAssignWork(data)}>{(data.status === 'completed')? <BsEye/> :<FiEdit/> }</td>
                                 </tr>
                             )
-                        })
-                    )}
-                </tbody>
+                        })}   
+                    </tbody>
+                    <tfoot>
+                        <tr className="text-end">
+                            <td colSpan="15" className="border-top">
+                                <>
+                                <span>{staffWorkDetail.pageIndex} &emsp;</span>
+                                <i className='hover--curser' onClick={()=>changePagehandler('previous')} style={{ visibility: (staffWorkDetail.previous === null)?'hidden': 'visible'}}><BiFirstPage/></i> 
+                                <i className='hover--curser' onClick={()=>changePagehandler('next')} style={{ visibility: (staffWorkDetail.next === null)?'hidden': 'visible'}}><BiLastPage/></i>
+                                </>
+                            </td>
+                        </tr>
+                    </tfoot>
+                    </>)
+                    :(<Spinner/>)}
             </table>
         </section>
     )

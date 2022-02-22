@@ -75,7 +75,7 @@ function StaffTable({staffDetail, saveHandler}) {
 
     
     return (
-        <section className='bill-table-card'>
+        <section className='table-card'>
             <table className="table table-borderless">
                 <thead>
                     <tr>

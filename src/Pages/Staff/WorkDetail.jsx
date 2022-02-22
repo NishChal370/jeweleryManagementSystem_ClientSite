@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { format } from 'date-fns';
 import { useHistory, useLocation } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
@@ -9,12 +10,22 @@ import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
 
 
 
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 800,
+    timerProgressBar: false,
+});
+
+
 function WorkDetail() {
     const history = useHistory();
     const location = useLocation();
     let [staffWorkDetail, setStaffWorkDetail] = useState();
     const [showSearchInput, setShowSearchInput] = useState(false);
-    const [filter, setFilter] = useState({orderId:'', type:'', status:'', date:'', staffInfo:{initial:'', confirm:''}})
+    const page = (location.search !== '') ?parseInt(location.search.slice(-1)) :1;
+    const [filter, setFilter] = useState({page:page, orderId:'', type:'', status:'', date:'', staffInfo:{initial:'', confirm:''}})
     
 
 
@@ -26,14 +37,19 @@ function WorkDetail() {
 
 
     const FetchStaffWork =()=>{
-        let {orderId, type, status, date, staffInfo} = filter;
-        Fetch_Staff_Work(`?submittionDate=${date}&staffInfo=${staffInfo.confirm}&orderId=${orderId}&type=${type}&workStatus=${status}`)
+        let {orderId, type, status, date, staffInfo, page} = filter;
+
+        Fetch_Staff_Work(`?submittionDate=${date}&staffInfo=${staffInfo.confirm}&orderId=${orderId}&type=${type}&workStatus=${status}&page=${page}`)
             .then(function(response){
-                console.log(response.data);
+                
                 setStaffWorkDetail(response.data);
             })
             .catch(function(error){
                 console.log(error.response.data)
+                Toast.fire({
+                    icon: 'error',
+                    title: "Not Found !!",
+                });
             })
     }
 
@@ -59,23 +75,26 @@ function WorkDetail() {
         else{
             filter[name] = value;
         }
-        
+
+        filter.page = 1;
+
         setFilter({...filter});
     }
 
 
     const buttonClickHandler=()=>{
-        filter.staffInfo.confirm = filter.staffInfo.initial
+        filter.staffInfo.confirm = filter.staffInfo.initial;
+
         setFilter({...filter});
     }
 
     const sortButtonHandler = () =>{
-        console.log(staffWorkDetail);
-        staffWorkDetail = (!location.search.includes('sorted'))
-                                    ?  staffWorkDetail.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0))
-                                    :  staffWorkDetail.sort((a,b) => (a.date < b.date) ? 1 : ((b.date < a.date) ? -1 : 0))
-        console.log(staffWorkDetail);
-        // setStaffWorkDetail({...staffWorkDetail});
+        console.log(staffWorkDetail.results);
+        staffWorkDetail.results = (!location.search.includes('sorted'))
+                                    ?  staffWorkDetail.results.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0))
+                                    :  staffWorkDetail.results.sort((a,b) => (a.date < b.date) ? 1 : ((b.date < a.date) ? -1 : 0))
+
+        setStaffWorkDetail({...staffWorkDetail});
 
         history.push({
             pathname: '/staff/work',
@@ -83,10 +102,27 @@ function WorkDetail() {
         });
     }
 
+    const changePagehandler =(btnName)=>{
+        if(staffWorkDetail.next !== null && btnName === 'next'){
+            filter.page = filter.page +1;
+
+            setFilter({...filter});
+        }
+        else if(staffWorkDetail.previous !== null && btnName === 'previous'){
+            filter.page = filter.page -1;
+
+            setFilter({...filter});
+        }
+    }
+
     useEffect(()=>{
+        history.push({
+            pathname: '/staff/work',
+            search: `?page=${ filter.page }`
+        });
 
         FetchStaffWork();
-    },[filter.orderId, filter.date, filter.status, filter.staffInfo.confirm, filter.type])
+    },[filter.orderId, filter.date, filter.status, filter.staffInfo.confirm, filter.type, filter.page])
 
 
     return (
@@ -102,12 +138,12 @@ function WorkDetail() {
                     <section>
                         <span>
                             <p>Order No</p>
-                            <input type="number" name='orderId' className="form-control" value={filter.orderId} onChange={inputChangeHandler} style={{width:'3rem', padding:'0rem'}}/>
+                            <input type="number" name='orderId' id='orderId' min={0} className="form-control" value={filter.orderId} onChange={inputChangeHandler} style={{width:'3rem', padding:'0rem'}}/>
                         </span>
 
                         <span>
                             <p>Type</p>
-                            <select name="type" id="billType" className="dropdown-toggle" value={filter.type} onChange={inputChangeHandler}>
+                            <select name="type" id="workType" className="dropdown-toggle" value={filter.type} onChange={inputChangeHandler}>
                                 <option value="">All</option>
                                 <option value="gold">Gold</option>
                                 <option value="silver">Silver</option>
@@ -116,7 +152,7 @@ function WorkDetail() {
 
                         <span>
                             <p>Status</p>
-                            <select name="status" id="billType" className="dropdown-toggle" value={filter.status} onChange={inputChangeHandler}>
+                            <select name="status" id="workStatus" className="dropdown-toggle" value={filter.status} onChange={inputChangeHandler}>
                                 <option value="">All</option>
                                 <option value="completed">Completed</option>
                                 <option value="inprogress">Inprogress</option>
@@ -142,7 +178,7 @@ function WorkDetail() {
             </span>
         </section>
 
-        <WorkDetailTable staffWorkDetail={staffWorkDetail} directToAssignWork={directToAssignWork} sortButtonHandler={sortButtonHandler}/>
+        <WorkDetailTable staffWorkDetail={staffWorkDetail} directToAssignWork={directToAssignWork} sortButtonHandler={sortButtonHandler} changePagehandler={changePagehandler}/>
     </div>
   )
 }

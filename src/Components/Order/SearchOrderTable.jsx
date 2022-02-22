@@ -8,7 +8,7 @@ import { BiFirstPage, BiLastPage, BiSortAlt2 } from 'react-icons/bi';
 
 function SearchTable({ordersSummary, changePagehandler, buttonHandler, sortButtonHandler}) {
   return (
-    <section className='bill-table-card'>
+    <section className='table-card'>
         {(ordersSummary !== undefined) 
             ?(
                 <table className="table table-borderless" >

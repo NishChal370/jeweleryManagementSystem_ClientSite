@@ -75,7 +75,7 @@ function SearchBillTable({billSummary, changePagehandler, DeleteBillById, sortBu
 
 
     return(
-        <section className='bill-table-card'>
+        <section className='table-card'>
         {(billSummary !== undefined) 
             ?(
                 <table className="table table-borderless">

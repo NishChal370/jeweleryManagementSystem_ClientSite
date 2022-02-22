@@ -51,7 +51,8 @@
   color: #012970;
   cursor: pointer;
 }
-#billType{
+
+#billType, #orderType, #orderStatus, #workType, #workStatus, #orderId{
     border: none !important;
     background: none !important;
     border-bottom: 1px solid black !important;
@@ -108,54 +109,54 @@ select> option{
 }
 
 
-.bill-table-card{
+.table-card{
     margin-top: 1.6rem;
     border-radius: 5px;
 }
 
 @media (max-width: 1861px) {
   /* @media (max-width: 1360px) { */
-    .bill-table-card{
+    .table-card{
         /* background: #ee82ee;
         width: 100%; */
         overflow-y: hidden !important;
         /* text-overflow: none !important; */
         
     }
-    .bill-table-card > table{
+    .table-card > table{
        overflow: scoll;
        border-collapse: collapse;
     }
 }
 
-.bill-table-card > table{
+.table-card > table{
   border-collapse: separate;
   border-spacing: 0px 0.6rem;
   text-align: center;
 }
 
-/* .bill-table-card > table > thead{
+/* .table-card > table > thead{
     border-radius: 0.6rem;
     box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
 } */
 
-.bill-table-card > table > tbody> tr{
+.table-card > table > tbody> tr{
     cursor: pointer;
     /* color: red; */
     transition: transform .2s;
     box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
 }
-/* .bill-table-card > table > tbody> tr> th, .bill-table-card > table > tbody> tr> td{
+/* .table-card > table > tbody> tr> th, .table-card > table > tbody> tr> td{
     padding: 5px !important;
 } */
 
-.bill-table-card > table > tbody> tr:hover{
+.table-card > table > tbody> tr:hover{
     -ms-transform: scale(1.04); /* IE 9 */
     -webkit-transform: scale(1.04); /* Safari 3-8 */
     transform: scale(1.04); 
 }
 
-.bill-table-card > table thead th:nth-child(1),.bill-table-card > table tbody th:nth-child(1){
+.table-card > table thead th:nth-child(1),.table-card > table tbody th:nth-child(1){
     width: fit-content;
 }
 
