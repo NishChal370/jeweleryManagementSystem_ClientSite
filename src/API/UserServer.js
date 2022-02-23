@@ -1,4 +1,4 @@
-import { AXIOS, URL_DELETE_BILL_BY_ID, URL_DELETE_STAFF_BY_ID, URL_GET_ALL_RATES, URL_GET_BILLS_SUMMARY, URL_GET_BILL_BY_ID, URL_GET_ORDERS_SUMMARY, URL_GET_ORDER_BY_ID, URL_GET_PENDING_ORDER_BY_ID, URL_GET_PENDING_ORDER_PRODUCT_BY_ID, URL_GET_RATE_BY_DATE, URL_GET_RATE_REPORT, URL_GET_STAFF_DETAIL, URL_GET_STAFF_NAME_LIST, URL_GET_STAFF_WORK, URL_POST_ASSIGNED_WORK, URL_POST_BILL, URL_POST_ORDER, URL_POST_ORDER_UPDATE, URL_POST_SAVED_BILL, URL_POST_STAFF, URL_SET_RATE } from "./Constant"
+import { AXIOS, URL_CUSTOMER_ADDRESS_REPORT, URL_DELETE_BILL_BY_ID, URL_DELETE_STAFF_BY_ID, URL_GET_ALL_RATES, URL_GET_BILLS_SUMMARY, URL_GET_BILL_BY_ID, URL_GET_ORDERS_SUMMARY, URL_GET_ORDER_BY_ID, URL_GET_PENDING_ORDER_BY_ID, URL_GET_PENDING_ORDER_PRODUCT_BY_ID, URL_GET_RATE_BY_DATE, URL_GET_RATE_REPORT, URL_GET_STAFF_DETAIL, URL_GET_STAFF_NAME_LIST, URL_GET_STAFF_WORK, URL_POST_ASSIGNED_WORK, URL_POST_BILL, URL_POST_ORDER, URL_POST_ORDER_UPDATE, URL_POST_SAVED_BILL, URL_POST_STAFF, URL_SET_RATE } from "./Constant"
 
 
 export const Fetch_Rate_By_Date = async (date)=>{
@@ -13,6 +13,10 @@ export const Fetch_All_Rates = async ()=>{
 
 export const Post_Rate = async (currentRate)=>{
     return await AXIOS.post(URL_SET_RATE, currentRate);
+}
+
+export const Fetch_Rate_Report = async(param)=>{
+    return await AXIOS.get(URL_GET_RATE_REPORT+param)
 }
 
 export const Post_Bill = async(newBill)=>{
@@ -79,8 +83,8 @@ export const Fetch_Staff_Work = async(param)=>{
     return await AXIOS.get(URL_GET_STAFF_WORK+param)
 }
 
-export const Fetch_Rate_Report = async(param)=>{
-    return await AXIOS.get(URL_GET_RATE_REPORT+param)
+export const Fetch_Customer_Address_Report = async()=>{
+    return await AXIOS.get(URL_CUSTOMER_ADDRESS_REPORT)
 }
 
 // tried to create sepreeate file for axios and this works

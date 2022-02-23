@@ -5,6 +5,7 @@ import { DataTable, Spinner } from '../../Components/index';
 import { Fetch_All_Rates } from '../../API/UserServer';
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
 import RateChart from '../../Components/Dasboard/RateChart';
+import CustomerChart from '../../Components/Dasboard/CustomerChart';
 
 function Dashboard() {
     const history = useHistory();
@@ -137,7 +138,7 @@ function Dashboard() {
                     </div>
 
                     <RateChart/>
-
+                    <CustomerChart/>
                 </div>
             </div>   
         </section>

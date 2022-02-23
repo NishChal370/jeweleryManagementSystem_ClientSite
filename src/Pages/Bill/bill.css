@@ -116,14 +116,14 @@ select> option{
 
 @media (max-width: 1861px) {
   /* @media (max-width: 1360px) { */
-    .table-card{
+    .table-card, .data-table-card{
         /* background: #ee82ee;
         width: 100%; */
         overflow-y: hidden !important;
         /* text-overflow: none !important; */
         
     }
-    .table-card > table{
+    .table-card > table, .data-table-card> table{
        overflow: scoll;
        border-collapse: collapse;
     }

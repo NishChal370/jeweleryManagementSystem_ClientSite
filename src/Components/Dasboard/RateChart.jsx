@@ -1,6 +1,5 @@
 import { Spinner } from '..';
 import { FaFileExport } from 'react-icons/fa';
-import { TiExportOutline } from 'react-icons/ti';
 import React, { useEffect, useState } from 'react';
 import { Fetch_Rate_Report } from '../../API/UserServer';
 import { Bar, CartesianGrid, ComposedChart, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
@@ -15,7 +14,6 @@ function RateChart() {
     Fetch_Rate_Report(filter)
       .then(function (response) {
         // handle success
-        console.log(response);
         setData(response.data)
       })
       .catch(function (error) {
@@ -41,9 +39,9 @@ function RateChart() {
               
             </li>
 
-            <li><a className="dropdown-item" href="#" onClick={()=>setFilter('weekly')}>This Week</a></li>
-            <li><a className="dropdown-item" href="#" onClick={()=>setFilter('monthly')}>This Month</a></li>
-            <li><a className="dropdown-item" href="#" onClick={()=>setFilter('yearly')}>This Year</a></li>
+            <li><i className="dropdown-item" onClick={()=>setFilter('weekly')}>This Week</i></li>
+            <li><i className="dropdown-item" onClick={()=>setFilter('monthly')}>This Month</i></li>
+            <li><i className="dropdown-item" onClick={()=>setFilter('yearly')}>This Year</i></li>
           </ul>
         </div>
 

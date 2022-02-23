@@ -52,8 +52,7 @@ function DataTable({name}) {
     const FetchStaffWork =()=>{
         Fetch_Staff_Work(`?submittionDate=${filter.date}&staffInfo=${''}&orderId=${''}&type=${''}&workStatus=${''}&page=1`)
             .then(function(response){
-                console.log("Check")
-                console.log(response.data.results.slice(0,10));
+
                 setSummary(response.data.results.slice(0,10))
             })
             .catch(function(error){
@@ -131,7 +130,7 @@ function DataTable({name}) {
 
             <div className="card-body">
                 <h5 className="card-title">{name} <span>| {filter.type}</span></h5>
-
+                <section className='data-table-card'>
                 <table className="table table-borderless datatable" style={{textAlign:'center'}}>
                     <thead>
                         <tr style={{fontSize:`${(name=== 'Staff Works')&&'0.81rem'}`}}>
@@ -229,7 +228,7 @@ function DataTable({name}) {
                     }
                     
                 </table>
-
+                </section>
             </div>     
         </div>
     </div>
