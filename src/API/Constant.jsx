@@ -32,7 +32,7 @@ const URL_DELETE_STAFF_BY_ID = 'staff/delete/';
 const URL_POST_ASSIGNED_WORK = 'staff/assign/work/';
 
 const URL_CUSTOMER_ADDRESS_REPORT = '/customer/report/';
-
+const URL_GET_INCREMENT_REPORT = '/bill-order-staffwork/increment/report/';
 export { 
     AXIOS,
     URL_SET_RATE, 
@@ -55,5 +55,6 @@ export {
     URL_GET_STAFF_NAME_LIST,
     URL_POST_ASSIGNED_WORK,
     URL_GET_STAFF_WORK,
+    URL_GET_INCREMENT_REPORT,
     URL_CUSTOMER_ADDRESS_REPORT,
 }
