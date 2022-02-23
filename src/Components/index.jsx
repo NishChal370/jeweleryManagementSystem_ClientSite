@@ -19,6 +19,9 @@ import OrderProductTable from "./Staff/OrderProductTable";
 import OrderProductsModel from "./Staff/OrderProductsModel";
 import ResigsterStaffModal from "./Staff/ResigsterStaffModal";
 
+import RateChart from "./Dasboard/RateChart";
+import DataTable from "./Dasboard/DataTable";
+
 export {
         Header, SideNav, Main, 
         InputField, TotalCard, InvoicePdf,
@@ -30,4 +33,7 @@ export {
         ResigsterStaffModal,
         OrderProductTable,
         WorkDetailTable,
+        RateChart,
+        DataTable,
+        // Table,
 }
