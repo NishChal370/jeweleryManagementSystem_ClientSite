@@ -31,8 +31,14 @@ const URL_GET_STAFF_NAME_LIST = 'staff/name/';
 const URL_DELETE_STAFF_BY_ID = 'staff/delete/';
 const URL_POST_ASSIGNED_WORK = 'staff/assign/work/';
 
+
+const URL_GET_SALES_REPORT ='/sales/report/?date=';
 const URL_CUSTOMER_ADDRESS_REPORT = '/customer/report/';
 const URL_GET_INCREMENT_REPORT = '/bill-order-staffwork/increment/report/';
+const URL_GET_BILL_PRODUCTS_REPORT_MONTHLY = '/bill-product/monthly/report/?date=';
+
+
+
 export { 
     AXIOS,
     URL_SET_RATE, 
@@ -57,4 +63,6 @@ export {
     URL_GET_STAFF_WORK,
     URL_GET_INCREMENT_REPORT,
     URL_CUSTOMER_ADDRESS_REPORT,
+    URL_GET_BILL_PRODUCTS_REPORT_MONTHLY,
+    URL_GET_SALES_REPORT,
 }

@@ -1,13 +1,9 @@
-// import { DoughnutController } from 'chart.js'
-import React from 'react'
-// import { Tooltip, Title, ArcElement, Legend } from 'recharts'
-// import {Doughnut, Pie} from 'react-chartjs-2'
-import { useState } from 'react';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js'
-import { Doughnut } from 'react-chartjs-2'
-import { Fetch_Customer_Address_Report } from '../../API/UserServer';
-import { useEffect } from 'react';
 import { Spinner } from '..';
+import React, { useState, useEffect } from 'react';
+import { Doughnut } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
+import { Fetch_Customer_Address_Report } from '../../API/UserServer';
+
 
 ChartJS.register(
     Tooltip, 
@@ -46,7 +42,8 @@ function CustomerChart() {
                         borderWidth: 1,
                       },
                     ],
-                  };
+                };
+
                 setData({...dataa});
             })
             .catch(function(error){
@@ -63,29 +60,17 @@ function CustomerChart() {
         <div className="col-12" >
             <div className="card rate">
                 <div className="card-body">
-                <h5 className="card-title">Customers <span>| Address</span></h5>
-                {(data !== undefined)
-                    ? <Doughnut data={data} />
-                    : <Spinner/>
-                }
-                
-                
+                    <h5 className="card-title">Customers <span>| Address</span></h5>
+                    
+                    {(data !== undefined)
+                        ? <Doughnut data={data} />
+                        : <Spinner/>
+                    }
                 </div>     
             </div>
-
         </div>
     )
       
 }
 
 export default CustomerChart
-
-// /***<><h1>HELloo</h1>
-//           <Pie data={data}/> */
-//           <Doughnut
-//             data={data}
-//             height={200}
-//             // options={options}
-//           />
-//           </>
-//   ) **/

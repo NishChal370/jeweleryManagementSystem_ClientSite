@@ -1,11 +1,14 @@
 
 import { useHistory } from 'react-router-dom';
 import React, {useState, useEffect} from 'react';
+import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
 import { Fetch_All_Rates, Fetch_Increment_Report } from '../../API/UserServer';
 import { DataTable, Spinner } from '../../Components/index';
 import RateChart from '../../Components/Dasboard/RateChart';
+import SalesChart from '../../Components/Dasboard/SalesChart';
 import CustomerChart from '../../Components/Dasboard/CustomerChart';
-import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
+import BillProductChart from '../../Components/Dasboard/BillProductChart';
+
 
 
 
@@ -26,6 +29,8 @@ function Dashboard() {
             })
     }
 
+
+
     //get staffwork, order, bill total of this month with total increment
     const fetchIncrementReport=()=>{
         Fetch_Increment_Report()
@@ -39,10 +44,13 @@ function Dashboard() {
     }
 
 
+
     useEffect(() => {
         fetchRates();
         fetchIncrementReport()
     }, [])
+
+    
 
     return (
         <section className="section dashboard">
@@ -80,7 +88,7 @@ function Dashboard() {
                                                     </div>
 
                                                     <div className="ps-3">
-                                                        <h6>{(item.report !== undefined)?item.report.total: 'Null'}</h6>
+                                                        <h6>{(item.report !== undefined) ?(item.report.total<10)?'0'+item.report.total:item.report.total :'Null'}</h6>
                                                         <span className="text-success small pt-1 fw-bold">{(item.report !== undefined)?item.report.increment: 'Null'}</span> <span className="text-muted small pt-2 ps-1">increase</span>
                                                     </div>
                                                 </div>
@@ -98,6 +106,10 @@ function Dashboard() {
                         <DataTable name='Orders'/>
                         <DataTable name='Bills'/>
                         <DataTable name='Staff Works'/>
+
+                        <BillProductChart/>  
+
+                                          
                     </div>
                     
                 </div>
@@ -111,7 +123,7 @@ function Dashboard() {
                             <h4 className="card-title fs-5 p-2 m-0 curser--on-hover" onClick={()=>{history.push('/rate')}}>Rates</h4>
 
                             <span className='rate-datepicker'>
-                                <DatePickerComponent format="MMM dd yyyy" value= {new Date()} style={{fontFamily:'Poppins sans-serif', fontSize:'1rem', width:'10rem', paddingTop:'0.3rem', textAlign:'center'}}></DatePickerComponent>
+                                <DatePickerComponent format="MMM dd yyyy" disabled={true} value= {new Date()} style={{fontFamily:'Poppins sans-serif', fontSize:'1rem', width:'10rem', paddingTop:'0.3rem', textAlign:'center'}}></DatePickerComponent>
                             </span>
                             
                         </div> 
@@ -154,7 +166,10 @@ function Dashboard() {
 
                     <RateChart/>
 
+                    <SalesChart/> 
+
                     <CustomerChart/>
+ 
                 </div>
             </div>   
         </section>

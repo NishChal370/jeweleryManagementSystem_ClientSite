@@ -49,25 +49,33 @@ function RateChart() {
           {(data !== undefined)
               ?(<>
                 <h5 className="card-title">Rate <span>| This {(filter==='monthly')?'Month':(filter==='weekly')?"Week":"Year"}</span></h5>
-                <ResponsiveContainer width="100%" aspect={2}>
-                  <ComposedChart
-                    // width={500} 
-                    height={500}
-                    data={data}
-                    margin={{ left: 0}}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="index" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar  dataKey={(filter === 'weekly')?"hallmarkRate": "avgHallmarkRate"} fill="#8884d8" />
-                    <Bar  dataKey={(filter === 'weekly')?"tajabiRate" :"avgTajabiRate"} fill="#82ca9d" />
-                    <Bar  dataKey={(filter === 'weekly')?"silverRate" :"avgSilverRate"} fill="#eba165" />
-                  </ComposedChart>
-                </ResponsiveContainer>
-                </>)
-              :(<Spinner/>)}
+                {(data.length>0)
+                  ?(<>
+                    
+                    <ResponsiveContainer width="100%" aspect={2}>
+                      <ComposedChart
+                        // width={500} 
+                        height={500}
+                        data={data}
+                        margin={{ left: 0}}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="index" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar  dataKey={(filter === 'weekly')?"hallmarkRate": "avgHallmarkRate"} fill="#256ec2a6" />
+                        <Bar  dataKey={(filter === 'weekly')?"tajabiRate" :"avgTajabiRate"} fill="#68de9398" />
+                        <Bar  dataKey={(filter === 'weekly')?"silverRate" :"avgSilverRate"} fill="#e6914cc9" />
+                      </ComposedChart>
+                    </ResponsiveContainer>
+                    </>)
+                  :<h4 style={{textAlign:'center', color:'red', fontWeight:'bold', padding:'4rem 0rem'}}>No data to Show</h4>
+                }
+                </>
+              )  
+              :(<Spinner/>)
+          }
           
         </div>     
       </div>
