@@ -48,7 +48,7 @@ function RateChart() {
         <div className="card-body">
           {(data !== undefined)
               ?(<>
-                <h5 className="card-title">Rate <span>| This {(filter==='monthly')?'Month':(filter==='weekly')?"Week":"Year"}</span></h5>
+                <h5 className="card-title">Rate <span>| This {(filter==='monthly')?'Month':(filter==='weekly')?"Week":"Year"}<p className='p-0 m-0'>Gold : in thousands</p> <p className='p-0 m-0'>Silve : in hundreds</p></span></h5>
                 {(data.length>0)
                   ?(<>
                     

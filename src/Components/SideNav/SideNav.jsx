@@ -2,7 +2,7 @@ import { useHistory } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { IoReceiptOutline } from 'react-icons/io5';
 import { GiFlatHammer, GiPriceTag, GiTeamIdea } from 'react-icons/gi';
-import { FaUsers, FaUsersCog } from 'react-icons/fa';
+import { FaUserTie } from 'react-icons/fa';
 import { HiOutlineUserGroup } from 'react-icons/hi';
 
 
@@ -131,6 +131,28 @@ function SideNav({isDisplay}) {
                         <li onClick={()=>history.push('/staff/assign')}>
                             <a>
                                 <i className="bi bi-circle"style={{backgroundColor: (fullLocation !== '/staff/assign')? 'white': 'blue' }}></i><span>Assign Work</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li className="nav-item">
+                    <a className={`nav-link ${(currentLocation !== 'admin')? 'collapsed': ""}`} data-bs-target="#admin-nav" data-bs-toggle="collapse" href="#" arial-aria-expanded="true">
+                        <i><FaUserTie/></i>
+                        <span>Admin</span>
+                        <i className="bi bi-chevron-down ms-auto"></i>
+                    </a>
+
+                    <ul id="admin-nav" className={`nav-content  curser--on-hover ${(currentLocation !== 'admin')? 'collapse': "collapse show"}`} data-bs-parent="#sidebar-nav" >
+                        <li onClick={()=>history.push('/admin')}>
+                            <a >
+                                <i className="bi bi-circle" style={{backgroundColor: (fullLocation !== '/admin')? 'white': 'blue' }}></i><span>Profile</span>
+                            </a>
+                        </li>
+
+                        <li onClick={()=>history.push('/admin/setting')}>
+                            <a >
+                                <i className="bi bi-circle" style={{backgroundColor: (fullLocation !== '/admin/setting')? 'white': 'blue' }}></i><span>Change Password</span>
                             </a>
                         </li>
                     </ul>

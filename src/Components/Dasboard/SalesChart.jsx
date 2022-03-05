@@ -41,7 +41,6 @@ function SalesChart() {
 
 
     const FetchSalesReport=()=>{
-        console.log(date);
         Fetch_Sales_Report(date)
             .then(function (response) {
                 // handle success
@@ -82,7 +81,7 @@ function SalesChart() {
                 <input type="date" value={date} onChange={datePickerHandler} style={{fontFamily:'Poppins sans-serif', fontSize:'1rem', width:'9rem', paddingTop:'0.3rem', textAlign:'center', border:'none', borderBottom:'1px solid #012970'}}/>
             </div>
             <div id='product-sales-report' className="card-body">
-                <h5 className="card-title mb-0 pb-0">Sales <span>| {months[new Date(date).getMonth()]+", "+new Date(date).getFullYear()}<p>in thousands</p></span></h5>
+                <h5 className="card-title mb-0 pb-0">Sales <span>| {months[new Date(date).getMonth()]+", "+new Date(date).getFullYear()}</span></h5>
 
                 {(data !== undefined)
                     ? <Line data={data}/>

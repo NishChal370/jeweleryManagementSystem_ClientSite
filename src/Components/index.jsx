@@ -22,6 +22,12 @@ import ResigsterStaffModal from "./Staff/ResigsterStaffModal";
 import RateChart from "./Dasboard/RateChart";
 import DataTable from "./Dasboard/DataTable";
 
+
+import ProfileCard from "./Admin/ProfileCard";
+import EditProfile from "./Admin/EditProfile";
+import ChangePassword from "./Admin/ChangePassword";
+
+
 export {
         Header, SideNav, Main, 
         InputField, TotalCard, InvoicePdf,
@@ -35,5 +41,9 @@ export {
         WorkDetailTable,
         RateChart,
         DataTable,
+
+        ProfileCard,
+        EditProfile,
+        ChangePassword,
         // Table,
 }

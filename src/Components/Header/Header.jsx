@@ -5,6 +5,7 @@ import { setLatestRate } from '../../Redux/Action';
 import { useSelector, useDispatch } from 'react-redux';
 import { Fetch_All_Rates } from '../../API/UserServer';
 import { ShopLogo, ProfileImage } from '../../Assets/img/index';
+import { RiSettings4Line } from 'react-icons/ri';
 
 
 const Toast = Swal.mixin({
@@ -93,7 +94,7 @@ function Header({isDisplayed, showSideBarHandler}) {
                         {/*  Profile Dropdown Items */}
                         <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                             <li className="dropdown-header">
-                                <h6>Kevin Anderson</h6>
+                                <h6>Nirmal Bishwokarma</h6>
                                 <span>Shop Owner</span>
                             </li>
 
@@ -102,14 +103,14 @@ function Header({isDisplayed, showSideBarHandler}) {
                             </li>
 
                             {
-                                ['My Profile', 'Account Settings', 'Need Help?', 'Sign Out'].map(
-                                    (item, index)=>{
+                                [{name:'My Profile', link:'/admin', icon:'bi-person'}, {name:'Settings', link:'/admin/setting', icon:'bi-gear'}, {name:'Sign Out', link:'', icon:'bi-box-arrow-right'}].map(
+                                    ({name, link, icon}, index)=>{
                                         return (
                                             <span key={index+"profileDropDown"}>
                                                 <li>
-                                                    <a className="dropdown-item d-flex align-items-center">
-                                                        <i className="bi bi-person"></i>
-                                                        <span>{item}</span>
+                                                    <a className="dropdown-item d-flex align-items-center" onClick={()=>{history.push(link)}}>
+                                                        <i className={`bi ${icon}`}></i>
+                                                        <span>{name}</span>
                                                     </a>
                                                 </li>
 
