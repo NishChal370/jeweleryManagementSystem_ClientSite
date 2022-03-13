@@ -17,7 +17,7 @@ const Toast = Swal.mixin({
 });
 
 
-function Header({isDisplayed, showSideBarHandler}) {
+function Header({isDisplayed, showSideBarHandler, logoutHandler}) {
 
     const history = useHistory();  
     const[todaysRate, setTodaysRate] = useState();  
@@ -103,7 +103,7 @@ function Header({isDisplayed, showSideBarHandler}) {
                             </li>
 
                             {
-                                [{name:'My Profile', link:'/admin', icon:'bi-person'}, {name:'Settings', link:'/admin/setting', icon:'bi-gear'}, {name:'Sign Out', link:'', icon:'bi-box-arrow-right'}].map(
+                                [{name:'My Profile', link:'/admin', icon:'bi-person'}, {name:'Settings', link:'/admin/setting', icon:'bi-gear'}, {name:'Sign Out', link:logoutHandler, icon:'bi-box-arrow-right'}].map(
                                     ({name, link, icon}, index)=>{
                                         return (
                                             <span key={index+"profileDropDown"}>

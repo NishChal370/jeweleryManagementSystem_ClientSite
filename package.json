@@ -22,6 +22,7 @@
     "react-to-print": "^2.14.4",
     "recharts": "^2.1.9",
     "sweetalert2": "^11.3.5",
+    "universal-cookie": "^4.0.4",
     "web-vitals": "^2.1.3"
   },
   "scripts": {

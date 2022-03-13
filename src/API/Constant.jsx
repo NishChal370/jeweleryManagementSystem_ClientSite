@@ -1,7 +1,16 @@
 import axios from "axios";
+import Cookies from "universal-cookie";
+
+const cookies = document.cookie.split(';')[0];
 
 const AXIOS = axios.create({
     baseURL: "http://127.0.0.1:8000/api/",
+    headers: {
+    "Content-Type": "application/json",
+    "X-CSRFToken": document.cookie.split(';')[0].split('csrftoken=')[1]
+    },
+    withCredentials: true,
+    credentials: "include",
 });
 
 
@@ -38,6 +47,7 @@ const URL_GET_INCREMENT_REPORT = '/bill-order-staffwork/increment/report/';
 const URL_GET_BILL_PRODUCTS_REPORT_MONTHLY = '/bill-product/monthly/report/?date=';
 
 
+const URL_login ='login/';
 
 export { 
     AXIOS,
@@ -65,4 +75,5 @@ export {
     URL_CUSTOMER_ADDRESS_REPORT,
     URL_GET_BILL_PRODUCTS_REPORT_MONTHLY,
     URL_GET_SALES_REPORT,
+    URL_login,
 }

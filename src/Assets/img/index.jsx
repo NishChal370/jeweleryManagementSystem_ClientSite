@@ -12,9 +12,10 @@ import PancardIcon from './pancard-icon.png'
 import ProfileImage from './profile-img.jpg'
 import ProfileImage2 from './messages-1.jpg';
 import InternetIcon from './internet-icon.png'
+import LoginImg from './login-img.png'
 import WorkProcessIcon from './work-process.png'
 import SignitureSampleIcon from './signiture-sample.png'
 
 import NotFound3 from './not-found.gif'
 
-export { NotFound, ProfileImage2, NotFound2, NotFound3, ShopLogo, ProfileImage, PhoneIcon, PancardIcon, InternetIcon, SignitureSampleIcon, AddIconGif, AddIconGif2, StaffAvtar, TotalWorkIcon, WorkProcessIcon, CompletedIcon, ResignIcon }
+export { NotFound, LoginImg, ProfileImage2, NotFound2, NotFound3, ShopLogo, ProfileImage, PhoneIcon, PancardIcon, InternetIcon, SignitureSampleIcon, AddIconGif, AddIconGif2, StaffAvtar, TotalWorkIcon, WorkProcessIcon, CompletedIcon, ResignIcon }
