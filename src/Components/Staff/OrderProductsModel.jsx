@@ -41,13 +41,11 @@ function OrderProductsModel({show, handleClose, selectedOrderId, handlerOrderPro
         >
             <Modal.Header closeButton>
                 <h2 style={{color:'#012970', fontWeight:'bold'}}>Order Products'</h2>
-                {/* <h1 className='fw-bolder' style={{color:'#012970'}}>Register staff</h1> */}
+
             </Modal.Header>
 
             <Modal.Body closeButton>
-            {/* <section className="card-body box--shadow" style={{backgroundColor:'rgba(255, 255, 255, 0.822)'}}> */}
             <section className="card-body">
-                        {/* <h5 className="card-title">Order Products' Detail</h5> */}
                         <table className="table table-hover" style={{textAlign:'center'}}>
                             <thead>
                                 <tr>
@@ -65,7 +63,7 @@ function OrderProductsModel({show, handleClose, selectedOrderId, handlerOrderPro
                                    ? orderProducts.map((orderProduct, index)=>{
                                     // ? orderProducts.map(({orderProductId, product, totalWeight, quantity}, index)=>{
                                         return(
-                                        <tr style={{cursor:'pointer'}} onClick={()=>{ handleClose(); handlerOrderProductSelect([orderProduct])}}>
+                                        <tr style={{cursor:'pointer'}} key={`OPAW${index}`} onClick={()=>{ handleClose(); handlerOrderProductSelect([orderProduct])}}>
                                             <td>{orderProduct.orderProductId}</td>
                                             <td>{orderProduct.product.productName}</td>
                                             <td>{(orderProduct.product.netWeight === null || orderProduct.product.netWeight==='') ?'-' :orderProduct.product.netWeight}</td>

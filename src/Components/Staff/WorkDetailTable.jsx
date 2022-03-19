@@ -8,7 +8,7 @@ function WorkDetailTable({staffWorkDetail, directToAssignWork, sortButtonHandler
     return (
         <section className='table-card'>
             <table className="table table-borderless">
-                <thead style={{fontSize:'0.86rem'}}>
+                <thead style={{fontSize:'0.84rem'}}>
                     <tr>
                         {/* <th scope="col">Date</th> */}
                         <th scope="col"><span onClick={sortButtonHandler} style={{fontSize:'1.2rem', cursor:'pointer'}}><BiSortAlt2/></span>Staff ID</th>

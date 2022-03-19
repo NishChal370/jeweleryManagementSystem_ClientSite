@@ -21,7 +21,7 @@ function OrderProductTable({selectedOrderProductDetail}) {
                             {(selectedOrderProductDetail !== undefined)&&(
                                 selectedOrderProductDetail.map(({orderProductId, product, totalWeight, quantity}, index)=>{
                                     return(
-                                    <tr style={{cursor:'pointer'}}>
+                                    <tr style={{cursor:'pointer'}} key={`OPD${index}`}>
                                         <td>{orderProductId}</td>
                                         <td>{product.productName}</td>
                                         <td>{(product.netWeight === null || product.netWeight==='') ?'-' :product.netWeight}</td>

@@ -5,7 +5,7 @@ import { FaUnlockAlt, FaLock } from 'react-icons/fa';
 import { useLocation, useHistory } from 'react-router-dom';
 import { Post_Order, Post_Order_Update } from '../../API/UserServer';
 import { InputField, ProductTable, TotalCard } from '../../Components';
-import { removeResetValidation, VerifyInputs } from '../../Components/Common/validation';
+import { removeResetOrderValidation, isNewOrderValid, isOrderProductAddValid } from '../../Components/Common/validation';
 import { INITIAL_CUSTOMER, INITIAL_ORDER, INITIAL_ORDER_PRODUCT, INITIAL_ORDER_PRODUCT_LIST, INITIAL_PRODUCT } from '../../Components/Order/Constant';
 
 
@@ -30,17 +30,37 @@ function PlaceOrder() {
   const [orderProductList, setOrderProductList] = useState(INITIAL_ORDER_PRODUCT_LIST);
   const [editingBillProductIndex, setEditingBillProductIndex] = useState();
 
+  const clearErrorMessage=(inputName)=>{
+    document.getElementsByName(inputName)[0].style.color ='black';
+    if(!['submittionDate', 'customerProductWeight', 'advanceAmount', 'remark'].includes(inputName)){ 
+
+      document.getElementsByClassName(`${inputName}-tooltip`)[0].hidden = true;
+    }
+
+    document.getElementsByName(inputName)[0].style.borderColor ='rgb(206, 212, 218)';
+
+    if (inputName === 'netWeight' ||  inputName === 'totalWeight'){
+      document.getElementsByName((inputName === 'netWeight')? 'totalWeight': 'netWeight')[0].style.color ='black';
+      document.getElementsByClassName(`${(inputName === 'netWeight')? 'totalWeight': 'netWeight'}-tooltip`)[0].hidden = true;
+      document.getElementsByName((inputName === 'netWeight')? 'totalWeight': 'netWeight')[0].style.borderColor ='rgb(206, 212, 218)';
+    }
+  }
+
+
   const inputChangeHandler= ({target}) =>{
     let value = target.value;
     let inputName = target.name;
-  
+
+    clearErrorMessage(inputName) 
+
     if(product.hasOwnProperty(inputName)){
+      
       if(['netWeight', 'size'].includes(inputName)){
         if(value === ''){
           value = null;
         }
       }
-
+      
       setProduct((prevState) => ({ ...prevState, [inputName]: value }));
     }
     else if(orderProduct.hasOwnProperty(inputName)){
@@ -56,7 +76,7 @@ function PlaceOrder() {
             value = null;
           }
         }
-
+        
         setOrderProduct((prevState) => ({ ...prevState, [inputName]: value }));
       }
       
@@ -66,9 +86,8 @@ function PlaceOrder() {
       setCustomer((prevState) => ({ ...prevState, [inputName]: value }));
     }
     else if(order.hasOwnProperty(inputName)){
-      document.getElementsByName("submittionDate")[0].style.borderColor ='black';
-
       order[inputName] = value;
+
       if(inputName === 'type'){
         let rate = (order['type'] === 'gold')? latestRate.hallmarkRate : latestRate.silverRate;
         order['rate'] = rate;
@@ -82,7 +101,9 @@ function PlaceOrder() {
 
       setOrder({...order});
     }
+
   }
+
 
   const buttonClickHandler = (e)=>{
     e.preventDefault();
@@ -94,19 +115,27 @@ function PlaceOrder() {
     }
     else if(buttonName === 'Add' || e.type === 'submit'){
 
-      VerifyInputs();
-      addButtonHandler();
+      if(isOrderProductAddValid(product, orderProduct)){
+
+        addButtonHandler();
+      }
+      else{
+
+        console.log("EMPRY LINE 122")
+      }
+      
     }
     else if(buttonName === 'Clear'){
-      alert("Clear");
+
       clearButtonHandler();
     }
     else if(buttonName === 'Reset'){
-      alert("Reset");
+
       resetButtonHandler();
     }
 
   }
+
 
   const addButtonHandler=()=>{
     orderProduct.product = product;
@@ -130,8 +159,9 @@ function PlaceOrder() {
     });
 
     clearButtonHandler();
-    removeResetValidation();
+    removeResetOrderValidation();
   }
+
 
   const deleteAddedProductHandler=(index)=>{
     Swal.fire({
@@ -159,35 +189,18 @@ function PlaceOrder() {
   
   
   const saveButtonHandler = ()=>{
-    if(orderProductList.length > 0){
-      if(order.submittionDate === null || order.submittionDate === ''){
-        document.getElementsByName("submittionDate")[0].style.borderColor ='red';
-        Toast.fire({
-          icon: 'error',
-          title: 'Submittion date missing'
-        });
-      }
-      else{
-        order.orderProducts = orderProductList;
-        (!isRateFixed)&&(order.rate = null);
-        customer.orders = [order];
+    if(isNewOrderValid(customer, order, orderProductList)){
+      order.orderProducts = orderProductList;
 
-        (searchedOrder === undefined)
-          ? PostOrder(customer)
-          : PostOrderUpdate(customer); //old
-          
-        clearButtonHandler();
-        resetButtonHandler();
-      }
-      
-    }
-    else{
-      Toast.fire({
-        icon: 'error',
-        title: 'Product missing '
-      });
-    }
-    
+      (!isRateFixed)&&(order.rate = null);
+
+      customer.orders = [order];
+
+      (searchedOrder === undefined)
+        ? PostOrder(customer)
+        : PostOrderUpdate(customer); //old
+                
+    }  
   }
 
   const editAddedProductHandler=(index, orderProduct)=>{
@@ -214,7 +227,7 @@ function PlaceOrder() {
     setOrderProductList([...INITIAL_ORDER_PRODUCT_LIST]);
 
     clearHistory();
-    removeResetValidation();
+    removeResetOrderValidation();
   }
 
   const clearHistory =()=>{
@@ -227,7 +240,7 @@ function PlaceOrder() {
     setOrderProduct({...INITIAL_ORDER_PRODUCT});
     setProduct({...INITIAL_PRODUCT});
 
-    removeResetValidation();
+    removeResetOrderValidation();
   }
 
   const convertIntoTwoDArray =(object)=>{
@@ -241,7 +254,7 @@ function PlaceOrder() {
 
     }
 
-    //[['customerName', 'Phpne'],['address','email']]
+    //[['customerName', 'Phone'],['address','email']]
     return twoDArray;
   }
 
@@ -254,11 +267,14 @@ function PlaceOrder() {
       .then(function (response) {
           // handle success
           Swal.fire('Saved !', '', 'success'); 
+
+          clearButtonHandler();
+          resetButtonHandler();
       })
       .catch(function (error) {
           // handle error
           console.log(error);
-          Swal.fire("Error occur in Post order !", 'error')
+          Swal.fire("Error occur in Post order !", 'error');
       });
   }
 
@@ -266,9 +282,10 @@ function PlaceOrder() {
     Post_Order_Update(editedOrder)
       .then(function (response) {
         // handle success
-        console.log("Updated")
-        console.log(response.data);
-        Swal.fire('Saved !', '', 'success'); 
+        Swal.fire('Order Updated!', '', 'success'); 
+
+        clearButtonHandler();
+        resetButtonHandler();
       })
       .catch(function (error) {
         // handle error
@@ -292,19 +309,6 @@ function PlaceOrder() {
     setOrderProductList([...oldOrderProductList]);
   }
 
-
-  /* verify inputs */
-  useEffect(()=>{
-    // console.log("called1");
-    if(searchedOrder !== undefined){
-      setEditingOrder();
-    }
-    else{
-      delete customer.orders
-    }
-    
-    VerifyInputs();
-  },[]);
 
   const [initial, setInitial] = useState(true);
   const setRate = ()=>{ 
@@ -334,6 +338,17 @@ function PlaceOrder() {
 
 
   useEffect(()=>{
+    if(searchedOrder !== undefined){
+      setEditingOrder();
+    }
+    else{
+      delete customer.orders
+    }
+
+  },[]);
+
+
+  useEffect(()=>{
     setRate();
   },[latestRate, order]);
 
@@ -353,7 +368,7 @@ function PlaceOrder() {
           </select>
         </span>
 
-        <form className="row g-4 pt-3 needs-validation" noValidate onSubmit={buttonClickHandler}>
+        <form className="row g-4 pt-3" onSubmit={buttonClickHandler}>
           <section className='col mb-2'>
             <div className="col-md-5 d-flex gap-3">
               <label htmlFor="validationTooltip01">Rate: </label>
@@ -374,7 +389,7 @@ function PlaceOrder() {
                           value={customer[key]}
                           changehandler={(e)=>inputChangeHandler(e)}
                           isReadonly = {false}
-                          type={(key==='email') ? "email" : (key==='phone')? "number":"text"}
+                          type={(key==='email') ? "email" : (key==='phone')? "tel":"text"}
                         />
                       )
                     }
@@ -386,6 +401,10 @@ function PlaceOrder() {
           }
 
           <div className='scroll--table bill-product-table'>
+            <div className='card-title p-0 m-0  d-flex justify-content-end'>
+              <p className='px-2 py-0 m-0 text-muted'>Weight: in lal</p>
+            </div>
+
             <ProductTable
               productsList={orderProductList}
               editAddedProductHandler={editAddedProductHandler}
@@ -393,7 +412,6 @@ function PlaceOrder() {
             />
           </div>
 
-          {/* <button className="ri-add-circle-fill add-btn" name='Add'></button> */}
           <button className="ri-add-circle-fill add-btn" name='Add' ></button>
           <section className='generate-bill-product-detail'>
             <div className="card">

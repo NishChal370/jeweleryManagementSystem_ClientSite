@@ -39,6 +39,34 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
+#invalid-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+#invalid-tooltip {
+  min-width: 120px;
+  max-width: fit-content;
+  background-color: rgba(235, 65, 65, 0.788);
+  border: 1px solid rgb(51, 50, 50);
+  color: white;
+  font-size: 1.2rem;
+  text-align: center;
+  border-radius: 0.2rem;
+  padding: 0rem 0.2rem !important;
+  font-family: "Nunito", sans-serif;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+#invalid-tooltip>p{
+  padding: 0rem !important;
+  margin: 0rem !important;
+}
+
+
 /* Scroll able off in number type input */
 /* Chrome, Safari, Edge, Opera */
 .scroll-off span input::-webkit-outer-spin-button,

@@ -143,7 +143,7 @@ function DataTable({name}) {
                 <div className="card-body">
                     <h5 className="card-title">{name} <span>| {filter.type}</span></h5>
                     <section className='data-table-card'>
-                    <table className="table table-borderless datatable" style={{textAlign:'center'}}>
+                    <table className="table table-borderless datatable" style={{textAlign:'center', minHeight:'7rem'}}>
                         <thead>
                             <tr style={{fontSize:`${(name=== 'Staff Works')&&'0.81rem'}`}}>
                             {(heading !== undefined)&&(

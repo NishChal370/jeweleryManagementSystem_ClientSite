@@ -120,7 +120,8 @@ function AssignWork() {
         })
 
         document.getElementById('orderId').value = undefined;
-        document.getElementById('staff').value = "---";
+        // document.getElementById('staff').value = "---";
+        // document.getElementById('staff').value = "---";
 
         // to clear location state
         location.state = undefined;
@@ -236,15 +237,15 @@ function AssignWork() {
                         
                         {console.log("HERE")}
                         {console.log(selectedOrderId)}
-                            <input type="number" id='orderId' min={1} value={(selectedOrderId=== undefined)?"":selectedOrderId} onChange={({target})=>{setSelectOrderId(target.value)}} className="form-control" min='0' disabled={(location.state !== undefined)?(location.state.staffWorkId !== undefined)? true: false : false} style={{ textAlign:'center', fontSize:'1rem', height:'1.6rem', width:'4rem', padding:'0rem', borderRadius:'0rem', boxShadow:'none', border:'none', borderBottom:'1px solid gray', backgroundColor:'rgba(255, 255, 255, 0)'}}/>
+                            <input type="number" id='orderId' min={1} value={(selectedOrderId=== undefined)?"":selectedOrderId} onChange={({target})=>{setSelectOrderId(target.value)}} className="form-control" disabled={(location.state !== undefined)?(location.state.staffWorkId !== undefined)? true: false : false} style={{ textAlign:'center', fontSize:'1rem', height:'1.6rem', width:'4rem', padding:'0rem', borderRadius:'0rem', boxShadow:'none', border:'none', borderBottom:'1px solid gray', backgroundColor:'rgba(255, 255, 255, 0)'}}/>
                             <button onClick={(selectedOrderId>0)?(handleShowOrderProductModel):()=>{}} type="button" className="btn btn-primary search-btn" disabled={(location.state !== undefined)?(location.state.staffWorkId !== undefined)? true: false : false} style={{fontSize:'0.9rem',width:'1.6rem',height:'1.6rem', padding:'0rem', borderRadius:'0rem', boxShadow:'none'}}>
                                 <i style={{fontSize:'1rem',width:'2rem', height:'1.9rem', padding:'0rem', borderRadius:'0rem'}}><HiSearch/></i>
                             </button>
                         </section> 
                         
                         <section className='d-flex mt-1'>:
-                            <select id="staffs" id='staff' name="staff" value={(location.state !== undefined)?(location.state.staffId):(workDetail.staff ===null)?"":workDetail.staff} onChange={inputChangeHandler}  disabled={(location.state !== undefined)?(location.state.staffWorkId !== undefined)? true: false : false} style={{fontSize:'1rem', height:'1.6rem', width:'fit-containt', borderRadius:'0rem', boxShadow:'none', borderRadius:'0rem', border:'none', borderBottom:'1px solid gray', textAlign:'center'}}>
-                                <option  id={null} value={null}>---</option>
+                            <select id="staffs" name="staff" value={(location.state !== undefined)?(location.state.staffId):(workDetail.staff ===null)?"":workDetail.staff} onChange={inputChangeHandler}  disabled={(location.state !== undefined)?(location.state.staffWorkId !== undefined)? true: false : false} style={{fontSize:'1rem', height:'1.6rem', width:'fit-containt', borderRadius:'0rem', boxShadow:'none', borderRadius:'0rem', border:'none', borderBottom:'1px solid gray', textAlign:'center'}}>
+                                <option  id={null} value={"---"}>---</option>
                                 {(stafffNameList !== undefined)&&(
                                     stafffNameList.map(({staffId, staffName},index)=>{
                                         return <option key={`staffName${index}`} id={staffId} value={staffId}>{staffName}</option>
@@ -262,81 +263,81 @@ function AssignWork() {
                             
                 <section className='d-flex gap-5' >
                     <div className="card-body box--shadow" style={{backgroundColor:'rgba(255, 255, 255, 0.822)'}}>
-                        <h5 class="card-title">Assign Work</h5>
+                        <h5 className="card-title">Assign Work</h5>
 
                         {/* <!-- Horizontal Form --> */}
                         <form id='assign-work' onSubmit={submitButtonHandler}>
-                            <div class="row mb-3">
-                                <label for="inputGivenweight" class="col-sm-3 col-form-label">Given weight</label>
+                            <div className="row mb-3">
+                                <label htmlFor="inputGivenweight" className="col-sm-3 col-form-label">Given weight</label>
 
-                                <div class="col-sm-9">
-                                    <input type="number" min={0} class="form-control" id="inputGivenWeight" name="givenWeight" value={(workDetail.givenWeight === null)?'':workDetail.givenWeight} onChange={inputChangeHandler}/>
+                                <div className="col-sm-9">
+                                    <input type="number" min={0} className="form-control" id="inputGivenWeight" name="givenWeight" value={(workDetail.givenWeight === null)?'':workDetail.givenWeight} onChange={inputChangeHandler}/>
                                 </div>
                             </div>
 
-                            <div class="row mb-3">
-                                <label for="inputKdmWeight" class="col-sm-3 col-form-label">KDM Weight</label>
+                            <div className="row mb-3">
+                                <label htmlFor="inputKdmWeight" className="col-sm-3 col-form-label">KDM Weight</label>
 
-                                <div class="col-sm-9">
-                                    <input type="number" min={0} class="form-control" id="inputKdmWeight" name="KDMWeight" value={(workDetail.KDMWeight === null)?'':workDetail.KDMWeight} onChange={inputChangeHandler}/>
+                                <div className="col-sm-9">
+                                    <input type="number" min={0} className="form-control" id="inputKdmWeight" name="KDMWeight" value={(workDetail.KDMWeight === null)?'':workDetail.KDMWeight} onChange={inputChangeHandler}/>
                                 </div>
                             </div>
 
-                            <div class="row mb-3">
-                                <label for="inputSubmittionDate" class="col-sm-3 col-form-label">Submittion Date</label>
+                            <div className="row mb-3">
+                                <label htmlFor="inputSubmittionDate" className="col-sm-3 col-form-label">Submittion Date</label>
 
-                                <div class="col-sm-9">
-                                    <input type="date" class="form-control" id="inputSubmittionDate" name="submittionDate" value={(workDetail.submittionDate === null)?'':workDetail.submittionDate} onChange={inputChangeHandler}/>
+                                <div className="col-sm-9">
+                                    <input type="date" className="form-control" id="inputSubmittionDate" name="submittionDate" value={(workDetail.submittionDate === null)?'':workDetail.submittionDate} onChange={inputChangeHandler}/>
                                 </div>
                             </div>
 
-                            <div class="d-flex justify-content-end flex-cloumn gap-2">
-                                <button type="submit" class="btn btn-success">Submit</button>
-                                <button type="reset" class="btn btn-warning" onClick={resetButtonHandler}>Reset</button>
+                            <div className="d-flex justify-content-end flex-cloumn gap-2">
+                                <button type="submit" className="btn btn-success">Submit</button>
+                                <button type="reset" className="btn btn-warning" onClick={resetButtonHandler}>Reset</button>
                             </div>
                         </form>
                         {/* <!-- End Horizontal Form --> */}
                     </div>
 
                     <aside className="card-body box--shadow" style={{backgroundColor:'rgba(255, 255, 255, 0.822)'}}>
-                        <h5 class="card-title">Submit Work</h5>
+                        <h5 className="card-title">Submit Work</h5>
 
                         {/* <!-- Horizontal Form --> */}
                         <form id='submit-work' onSubmit={submitButtonHandler}>
-                            <div class="row mb-3">
-                                <label for="inputProductWeight" class="col-sm-3 col-form-label">Product Weight</label>
+                            <div className="row mb-3">
+                                <label htmlFor="inputProductWeight" className="col-sm-3 col-form-label">Product Weight</label>
 
-                                <div class="col-sm-9">
-                                    <input type="number" min={0} name='finalProductWeight' class="form-control" id="inputProductWeight" value={(workDetail.finalProductWeight === null)?'':workDetail.finalProductWeight} onChange={inputChangeHandler} />
+                                <div className="col-sm-9">
+                                    <input type="number" min={0} name='finalProductWeight' className="form-control" id="inputProductWeight" value={(workDetail.finalProductWeight === null)?'':workDetail.finalProductWeight} onChange={inputChangeHandler} />
                                 </div>
                             </div>
 
-                            <div class="row mb-3">
-                                <label for="inputSubmittedWeight" class="col-sm-3 col-form-label">Submitted Weight</label>
+                            <div className="row mb-3">
+                                <label htmlFor="inputSubmittedWeight" className="col-sm-3 col-form-label">Submitted Weight</label>
 
-                                <div class="col-sm-9">
-                                    <input type="number" min={0} name='submittedWeight' class="form-control" id="inputSubmittedWeight" value={(workDetail.submittedWeight === null)?'':workDetail.submittedWeight} onChange={inputChangeHandler} />
+                                <div className="col-sm-9">
+                                    <input type="number" min={0} name='submittedWeight' className="form-control" id="inputSubmittedWeight" value={(workDetail.submittedWeight === null)?'':workDetail.submittedWeight} onChange={inputChangeHandler} />
                                 </div>
                             </div>
 
-                            <div class="row mb-3">
-                                <label for="inputLossWeight" class="col-sm-3 col-form-label">Loss Weight</label>
+                            <div className="row mb-3">
+                                <label htmlFor="inputLossWeight" className="col-sm-3 col-form-label">Loss Weight</label>
 
-                                <div class="col-sm-9">
-                                    <input type="number" name='lossWeight' class="form-control" id="inputLossWeight" value={(workDetail.lossWeight === null)?'':workDetail.lossWeight} onChange={inputChangeHandler} />
+                                <div className="col-sm-9">
+                                    <input type="number" name='lossWeight' className="form-control" id="inputLossWeight" value={(workDetail.lossWeight === null)?'':workDetail.lossWeight} onChange={inputChangeHandler} />
                                 </div>
                             </div>
 
-                            <div class="row mb-3">
-                                <label for="inputSubmittedDate" class="col-sm-3 col-form-label">Submitted Date</label>
+                            <div className="row mb-3">
+                                <label htmlFor="inputSubmittedDate" className="col-sm-3 col-form-label">Submitted Date</label>
 
-                                <div class="col-sm-9">
-                                    <input type="date" name='submittedDate' class="form-control" id="inputSubmittedDate" value={(workDetail.submittedDate === null)?'':workDetail.submittedDate} onChange={inputChangeHandler} />
+                                <div className="col-sm-9">
+                                    <input type="date" name='submittedDate' className="form-control" id="inputSubmittedDate" value={(workDetail.submittedDate === null)?'':workDetail.submittedDate} onChange={inputChangeHandler} />
                                 </div>
                             </div>
 
-                            <div class="d-flex justify-content-end flex-cloumn gap-2">
-                                <button type="submit" class="btn btn-success">Submit</button>
+                            <div className="d-flex justify-content-end flex-cloumn gap-2">
+                                <button type="submit" className="btn btn-success">Submit</button>
                             </div>
                         </form>
                         {/* <!-- End Horizontal Form --> */}
