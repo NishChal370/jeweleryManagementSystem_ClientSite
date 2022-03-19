@@ -206,7 +206,7 @@ const isOrderProductAddValid=(product, orderProduct)=>{
         }
         else if( (product.size !== '' || product.size !== undefined || product.size !== null) && (!NUMBER_REGEX.test(product.size)) ){
 
-            return invalidMessage({emptyFieldName: 'size', errorMessage: 'Invalid ! hould not be negative'});
+            return  invalidMessage({emptyFieldName: 'size', errorMessage: 'Invalid ! hould not be negative'});
         }
 
     }
