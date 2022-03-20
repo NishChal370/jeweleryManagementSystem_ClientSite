@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { Post_Rate } from '../../API/UserServer';
 import { setLatestRate } from '../../Redux/Action';
-import { VerifyInputs } from '../../Components/Common/validation';
+import { isRateValid, rateValidation, removeResetRateValidation, VerifyInputs } from '../../Components/Common/validation';
 
 let rate = {
     'hallmarkRate': 0,
@@ -44,12 +44,15 @@ function ChangeRate() {
     const submitHandler=(e)=>{
         e.preventDefault();
 
-        setCurrentRateHandler();
-        
+        if( isRateValid(currentRate) ){
+            setCurrentRateHandler();
+        }
     };
 
     const resetHandler=(e)=>{
         setCurrentRate({...initalRate});
+        
+        removeResetRateValidation();
     }
 
     //set current rate to DB
@@ -108,27 +111,28 @@ function ChangeRate() {
         
     }, [latestRate]);
 
-    useEffect(() => {
-        VerifyInputs();
-    }, []);
+    // useEffect(() => {
+    //     VerifyInputs();
+    // }, []);
 
 
     return (
         <div className="card">
             <div className="card-body">
-                <form className='mt-5 ms-5 fs-3 needs-validation' onSubmit={submitHandler} noValidate>
+                <form className='mt-5 ms-5 fs-3' onSubmit={submitHandler}>
+                {/* <form className='mt-5 ms-5 fs-3 needs-validation' onSubmit={submitHandler} noValidate> */}
                     {
                         Object.keys(currentRate).map((rateTitle,index) => 
                             <div className="row mb-3" key={index+'rateInput'}>
                                 <label className="col-sm-2 col-form-label rate--title">{rateTitle.charAt(0).toUpperCase() + rateTitle.slice(1, rateTitle.indexOf('R'))}</label>
                                 <div className="col-sm-10 position-relative">
-                                    <input type="text" name= {rateTitle} className="form-control w-50 " id="inputText" required
+                                    <input type="text" name= {rateTitle} className="form-control w-50 " id="inputText"
                                         value={currentRate[rateTitle]}
                                         onChange={inputChangeHandler}
                                     />
 
-                                    <div className="invalid-tooltip">
-                                        Invalid Price.
+                                    <div id='invalid-tooltip' className={`${rateTitle}-tooltip`} hidden={true}>
+                                        Invalid Rate !
                                     </div>
                                 </div>
                             </div>

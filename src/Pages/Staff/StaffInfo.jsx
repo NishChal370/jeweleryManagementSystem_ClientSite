@@ -25,7 +25,7 @@ function StaffInfo() {
     const GetStaffDetail=()=>{
         Get_Staff_Detail()
             .then(function(response){
-                console.log(response);
+
                 setStaffDetail(response.data)
             })
             .catch(function(error){

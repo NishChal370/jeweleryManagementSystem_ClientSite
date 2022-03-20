@@ -5,7 +5,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import { InputField, InvoicePdf, ProductTable, TotalCard } from '../../Components';
 import { Fetch_Bill_By_Id, Post_Bill, Post_Edited_Bill } from '../../API/UserServer';
-import { removeResetValidation, VerifyInputs } from '../../Components/Common/validation';
+import { clearErrorMessage, isBillProductAddValid, isNewBillValid, removeResetBillValidation, removeResetValidation, VerifyInputs } from '../../Components/Common/validation';
 import { INITIAL_BILL, INITIAL_BILL_PRODUCT, INITIAL_BILL_PRODUCT_LIST, INITIAL_CUSTOMER, INITIAL_PRODUCT  } from '../../Components/Bill/Constant';
 import { calculateFinalWeightAndAmount, calculateGrandTotalAmount, calculatePerProductAmount, calculateRatePerLal, calculateRemaingAmount } from '../../Components/Bill/billCalculation';
 
@@ -21,6 +21,7 @@ const Toast = Swal.mixin({
 
 function GenerateBill() {
     let history = useHistory();
+    const location = useLocation();
     const componentRef = useRef();
     let updatingBill = useLocation().state;
     const latestRate = useSelector(state => state.latestRateReducer.data);
@@ -39,6 +40,10 @@ function GenerateBill() {
         let value = e.target.value;
         let inputName = e.target.name;
 
+        if(inputName !== 'billType'){
+            clearErrorMessage(inputName, location);
+        }
+        
         if(product.hasOwnProperty(inputName)){
 
             setProduct((prevState) => ({ ...prevState, [inputName]: value }));
@@ -115,7 +120,7 @@ function GenerateBill() {
             setSave(false);
         }
     },[saved])
-//
+
     
     const PostEditedBill = (editedBill, saveAs)=>{
         Post_Edited_Bill(editedBill)
@@ -176,8 +181,8 @@ function GenerateBill() {
         else{
             Toast.fire({
                 icon: 'error',
-                title: 'Bill is empty !!',
-                text: 'click add to add first'
+                title: 'Bill product is missing !!',
+                // text: 'click add to add first'
             })
         }
     };
@@ -228,7 +233,8 @@ function GenerateBill() {
         setProduct({...INITIAL_PRODUCT});
         setBillProduct(billProduct);
 
-        removeResetValidation();
+        // removeResetValidation();
+        removeResetBillValidation();
     }
     
     const clearHistory =()=>{
@@ -236,6 +242,7 @@ function GenerateBill() {
         delete oldHistory.state
         delete oldHistory.search
         history.replace({ ...oldHistory });
+        
     }
 
     const resetHandler=()=>{  
@@ -248,7 +255,8 @@ function GenerateBill() {
         setBillProduct({...INITIAL_BILL_PRODUCT});
         setBillProductList([...INITIAL_BILL_PRODUCT_LIST]);
 
-        removeResetValidation();
+        // removeResetValidation();
+        removeResetBillValidation();
     }
 
     const buttonClickHandler=(e)=>{
@@ -258,13 +266,17 @@ function GenerateBill() {
 
         if(buttonName === 'Save'){
 
-            saveButtonHandler(buttonName);
+            ( isNewBillValid(customer, bill, billProductList, location) ) && ( 
+                saveButtonHandler(buttonName) 
+            );
         }
         else if (buttonName === 'Add' || e.type === 'submit'){
 
-            VerifyInputs();
-
-            addButtonHandler();
+            //VerifyInputs();-->>>>>>>>>>>>>>>>>>>>>>>>>>>
+            (isBillProductAddValid(product, billProduct)) && ( 
+                addButtonHandler() 
+            );
+            
         }
         else if(buttonName === 'Draft'){
 
@@ -417,8 +429,8 @@ function GenerateBill() {
 
     /* verify inputs */
     useEffect(()=>{
-        VerifyInputs();
-
+        // VerifyInputs();->>>>>>>>>>>>>>>>>>>>>
+        
         setUpdatingBill();
     },[]);
 
@@ -453,7 +465,8 @@ function GenerateBill() {
 
 
 
-                <form className="row g-4 pt-3 needs-validation" noValidate onSubmit={buttonClickHandler}>
+                {/* <form className="row g-4 pt-3 needs-validation" noValidate onSubmit={buttonClickHandler}> */}
+                <form className="row g-4 pt-3" onSubmit={buttonClickHandler}>
                     <section className='col mb-2'>
                         <div className="col-md-5 d-flex gap-3">
                             <label htmlFor="validationTooltip01">Rate: </label>

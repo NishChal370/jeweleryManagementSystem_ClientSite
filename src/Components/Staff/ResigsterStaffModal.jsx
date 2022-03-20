@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import { HiSaveAs } from 'react-icons/hi';
 import { AiOutlineClear } from 'react-icons/ai';
 import { Post_Staff } from '../../API/UserServer';
+import { isRegisterStaffValid,resetRegisterStaffValidation,clearRegisterStaffErrorMessage } from '../Common/validation';
 
 
 const INSTANCE_STAFF = {staffName:'', phone:'', address:'', email:''}
@@ -12,7 +13,7 @@ function ResigsterStaffModal({show, handleClose, saveHandler}) {
     const [newStaffDetail, setNewStaffDetail] = useState(INSTANCE_STAFF);
 
     const inputChangeHandler=(e)=>{
-        clearInvalidMessage(e);
+        clearRegisterStaffErrorMessage(e.target.name);
 
         newStaffDetail[e.target.name] = e.target.value;
 
@@ -37,69 +38,18 @@ function ResigsterStaffModal({show, handleClose, saveHandler}) {
     const submitHandler=(e)=>{
         e.preventDefault();
 
-        (validateInput("submit"))
+        (isRegisterStaffValid(newStaffDetail))
             &&(PostStaff(newStaffDetail) )
     }
 
-    const validateInput=(btnName)=>{
-        let isvalid = true;
-        let inputs = [...document.forms["staff-registration"].getElementsByTagName("input")];
-        
-        inputs.forEach((input)=>{
-            if(['staffName', 'address', 'phone'].includes(input.name)){
-                if(input.value === null || input.value === ''){
-                    input.style.borderColor = 'red';
-                    input.placeholder = 'you missed me...';
-
-                    isvalid= false;
-                }
-            }   
-        })
-
-        if(btnName==='submit'){
-            inputs.forEach((input)=>{
-                if(['staffName', 'address'].includes(input.name)){
-                    if(input.value.match("[0-9]+")){
-                        input.style.borderColor = 'red';
-                        input.title = 'Invalid...';
-    
-                        isvalid= false;
-                    }
-                } 
-                else if(['phone'].includes(input.name)){
-                    if(!input.value.match("[0-9]+")){
-                        input.style.borderColor = 'red';
-                        input.title = 'Invalid phone number ';
-                        
-                        isvalid= false;
-                    }
-                } 
-            })
-        }
-    
-        return isvalid;
-    }
-
-    const removeInvalidMessage=()=>{
-        let inputs = [...document.forms["staff-registration"].getElementsByTagName("input")];
-        
-        inputs.forEach((input)=>{
-            input.title = ''; 
-            input.placeholder = ''; 
-            input.style.borderColor = '';
-        })
-    }
-
-    const clearInvalidMessage=(e)=>{
-        e.target.title = '';
-        e.target.placeholder = '';
-        e.target.style.borderColor = '';
-    }
-
     const resetHandler=()=>{
-        removeInvalidMessage();
+        resetRegisterStaffValidation();
 
-        setNewStaffDetail({...INSTANCE_STAFF})
+        INSTANCE_STAFF.address = '';
+        INSTANCE_STAFF.email = '';
+        INSTANCE_STAFF.phone = '';
+        INSTANCE_STAFF.staffName = '';
+        setNewStaffDetail({...INSTANCE_STAFF});
     }
 
     return (
@@ -121,11 +71,17 @@ function ResigsterStaffModal({show, handleClose, saveHandler}) {
                             <span>
                                 <p>Name:</p>
                                 <input type="text" name='staffName' className="form-control"  id="validationTooltip01" value={newStaffDetail.staffName} onChange={inputChangeHandler} required={true}/>
+                                <div id='invalid-tooltip' className={`staffName-tooltip`} hidden={true}>
+                                    <p>You missed me !</p> 
+                                </div>
                             </span>
 
                             <span>
                                 <p>Phone:</p>
                                 <input type="number" name='phone' className="form-control"  id="validationTooltip01" value={newStaffDetail.phone} onChange={inputChangeHandler} required={true}/>
+                                <div id='invalid-tooltip' className={`phone-tooltip`} hidden={true}>
+                                    <p>You missed me !</p> 
+                                </div>
                             </span>
                         </section>
                         
@@ -133,11 +89,17 @@ function ResigsterStaffModal({show, handleClose, saveHandler}) {
                             <span>
                                 <p>Address:</p>
                                 <input type="text" name='address' className="form-control"  id="validationTooltip01" value={newStaffDetail.address} onChange={inputChangeHandler} required={true}/>
+                                <div id='invalid-tooltip' className={`address-tooltip`} hidden={true}>
+                                    <p>You missed me !</p> 
+                                </div>
                             </span>
 
                             <span>
                                 <p>Email</p>
                                 <input type="email" name='email' className="form-control"  id="validationTooltip01" value={newStaffDetail.email} onChange={inputChangeHandler} required={true}/>
+                                <div id='invalid-tooltip' className={`email-tooltip`} hidden={true}>
+                                    <p>You missed me !</p> 
+                                </div>
                             </span> 
                         </section>
 

@@ -5,7 +5,15 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { INITIAL_STAFF_WORK } from '../../Components/Staff/Constant';
 import { OrderProductsModel, OrderProductTable } from '../../Components';
 import { Get_Staff_Names, POST_Staff_Assign_Work } from '../../API/UserServer';
+import { clearAssignWorkErrorMessage, isAssignWorkValid, removeResetAssignWorkValidation } from '../../Components/Common/validation';
 
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 800,
+    timerProgressBar: false,
+});
 
 
 function AssignWork() {
@@ -46,7 +54,10 @@ function AssignWork() {
 
 
     const inputChangeHandler=({target})=>{
-        removeInvalidMessage(target);
+        // removeInvalidMessage(target);->
+        console.log(target.name);
+
+        clearAssignWorkErrorMessage(target.name);
 
         (target.type !== 'date')
             ?workDetail[target.name] = parseFloat(target.value)
@@ -57,9 +68,20 @@ function AssignWork() {
 
 
     const handleShowOrderProductModel=()=>{
-        (showOrderProductModel)
-            ? setShowOrderProductModel(false)
-            : setShowOrderProductModel(true)
+        const NUMBER_REGEX = new RegExp('^$|^[1-9]*$');
+
+        if( (selectedOrderId>0 && selectedOrderId !== '') && NUMBER_REGEX.test(selectedOrderId)){
+            (showOrderProductModel)
+                ? setShowOrderProductModel(false)
+                : setShowOrderProductModel(true)
+        }
+        else{
+            Toast.fire({
+                icon: 'error',
+                title: 'OrderId is empty / invalid !'
+            });
+        }
+        
     }
 
 
@@ -73,8 +95,9 @@ function AssignWork() {
 
     const submitButtonHandler=(e)=>{
         e.preventDefault();
-
-        if(verifyInputs(e.target.id)){
+        console.log("IN");
+        let btnId = e.target.id;
+        if(isAssignWorkValid(workDetail, selectedOrderProductDetail, btnId )){
             workDetail['totalWeight'] = workDetail['givenWeight'] + workDetail['KDMWeight'];
             
             if(e.target.id === 'submit-work'){
@@ -87,37 +110,8 @@ function AssignWork() {
     }
 
 
-    const verifyInputs = (inputId)=>{
-        let isValid = true;
-
-        let inputs = [...document.forms[inputId].getElementsByTagName("input")];
-
-        inputs.forEach((input)=>{
-            if((input.value<=0 || input.value === '') &&(input.id !=='inputLossWeight' &&input.id !=='inputSubmittedDate')){
-            input.style.borderColor = 'red';
-            input.placeholder = 'you missed me...';
-
-            isValid = false;
-        }
-           
-        })
-
-        return isValid;
-    }
-
-
-    const removeInvalidMessage=(input)=>{
-        input.placeholder = '';
-        input.style.borderColor = '';
-    }
-
-    
     const resetButtonHandler=()=>{
-        let inputs = [...document.forms['assign-work'].getElementsByTagName("input")];
-        
-        inputs.forEach((input)=>{
-            removeInvalidMessage(input);
-        })
+        removeResetAssignWorkValidation();
 
         document.getElementById('orderId').value = undefined;
         // document.getElementById('staff').value = "---";
@@ -160,7 +154,6 @@ function AssignWork() {
             assignWorkButtons[0].disabled=false;
         }
         else{
-            // if(work !== undefined){
             if(work.status === 'completed'){
                 submitWorkInputs.forEach((input)=>{
                     input.disabled=true;
@@ -176,8 +169,6 @@ function AssignWork() {
     
                 assignWorkButtons[0].disabled=true;
             }
-            // }
-            
         }
     }
 
@@ -209,6 +200,14 @@ function AssignWork() {
         
     }
 
+    const changeOrderIdInputhandler=(target)=>{
+        clearAssignWorkErrorMessage(target.name);
+
+        if(target.value>0||target.value ===''){
+            setSelectOrderId(target.value);
+        }
+        
+    }
 
     useEffect(()=>{
         GetStaffNames();
@@ -234,11 +233,8 @@ function AssignWork() {
 
                     <div className=' d-flex flex-column gap-2'>
                         <section className='d-flex'>:
-                        
-                        {console.log("HERE")}
-                        {console.log(selectedOrderId)}
-                            <input type="number" id='orderId' min={1} value={(selectedOrderId=== undefined)?"":selectedOrderId} onChange={({target})=>{setSelectOrderId(target.value)}} className="form-control" disabled={(location.state !== undefined)?(location.state.staffWorkId !== undefined)? true: false : false} style={{ textAlign:'center', fontSize:'1rem', height:'1.6rem', width:'4rem', padding:'0rem', borderRadius:'0rem', boxShadow:'none', border:'none', borderBottom:'1px solid gray', backgroundColor:'rgba(255, 255, 255, 0)'}}/>
-                            <button onClick={(selectedOrderId>0)?(handleShowOrderProductModel):()=>{}} type="button" className="btn btn-primary search-btn" disabled={(location.state !== undefined)?(location.state.staffWorkId !== undefined)? true: false : false} style={{fontSize:'0.9rem',width:'1.6rem',height:'1.6rem', padding:'0rem', borderRadius:'0rem', boxShadow:'none'}}>
+                            <input type="number" id='orderId' pattern='^$|^[1-9]$' name='orderId' min={0} value={(selectedOrderId=== undefined)?"":selectedOrderId} onChange={({target})=>{changeOrderIdInputhandler(target) }} className="form-control" disabled={(location.state !== undefined)?(location.state.staffWorkId !== undefined)? true: false : false} style={{ textAlign:'center', fontSize:'1rem', height:'1.6rem', width:'4rem', padding:'0rem', borderRadius:'0rem', boxShadow:'none', border:'none', borderBottom:'1px solid gray', backgroundColor:'rgba(255, 255, 255, 0)'}}/>
+                            <button onClick={handleShowOrderProductModel} type="button" className="btn btn-primary search-btn" disabled={(location.state !== undefined)?(location.state.staffWorkId !== undefined)? true: false : false} style={{fontSize:'0.9rem',width:'1.6rem',height:'1.6rem', padding:'0rem', borderRadius:'0rem', boxShadow:'none'}}>
                                 <i style={{fontSize:'1rem',width:'2rem', height:'1.9rem', padding:'0rem', borderRadius:'0rem'}}><HiSearch/></i>
                             </button>
                         </section> 
@@ -262,6 +258,7 @@ function AssignWork() {
 
                             
                 <section className='d-flex gap-5' >
+                                    {/* ASSIGN WORK */}
                     <div className="card-body box--shadow" style={{backgroundColor:'rgba(255, 255, 255, 0.822)'}}>
                         <h5 className="card-title">Assign Work</h5>
 
@@ -272,14 +269,21 @@ function AssignWork() {
 
                                 <div className="col-sm-9">
                                     <input type="number" min={0} className="form-control" id="inputGivenWeight" name="givenWeight" value={(workDetail.givenWeight === null)?'':workDetail.givenWeight} onChange={inputChangeHandler}/>
+                                    <div id='invalid-tooltip' className={`givenWeight-tooltip`} hidden={true}>
+                                        <p>You missed me !</p> 
+                                    </div>
                                 </div>
+                                
                             </div>
 
                             <div className="row mb-3">
                                 <label htmlFor="inputKdmWeight" className="col-sm-3 col-form-label">KDM Weight</label>
 
                                 <div className="col-sm-9">
-                                    <input type="number" min={0} className="form-control" id="inputKdmWeight" name="KDMWeight" value={(workDetail.KDMWeight === null)?'':workDetail.KDMWeight} onChange={inputChangeHandler}/>
+                                    <input type="number" className="form-control" id="inputKdmWeight" name="KDMWeight" value={(workDetail.KDMWeight === null)?'':workDetail.KDMWeight} onChange={inputChangeHandler}/>
+                                    <div id='invalid-tooltip' className={`KDMWeight-tooltip`} hidden={true}>
+                                        <p>You missed me !</p> 
+                                    </div>
                                 </div>
                             </div>
 
@@ -288,6 +292,9 @@ function AssignWork() {
 
                                 <div className="col-sm-9">
                                     <input type="date" className="form-control" id="inputSubmittionDate" name="submittionDate" value={(workDetail.submittionDate === null)?'':workDetail.submittionDate} onChange={inputChangeHandler}/>
+                                    <div id='invalid-tooltip' className={`submittionDate-tooltip`} hidden={true}>
+                                        <p>You missed me !</p> 
+                                    </div>
                                 </div>
                             </div>
 
@@ -299,6 +306,8 @@ function AssignWork() {
                         {/* <!-- End Horizontal Form --> */}
                     </div>
 
+
+                                    {/* SUBMIT WORK */}
                     <aside className="card-body box--shadow" style={{backgroundColor:'rgba(255, 255, 255, 0.822)'}}>
                         <h5 className="card-title">Submit Work</h5>
 
@@ -308,7 +317,10 @@ function AssignWork() {
                                 <label htmlFor="inputProductWeight" className="col-sm-3 col-form-label">Product Weight</label>
 
                                 <div className="col-sm-9">
-                                    <input type="number" min={0} name='finalProductWeight' className="form-control" id="inputProductWeight" value={(workDetail.finalProductWeight === null)?'':workDetail.finalProductWeight} onChange={inputChangeHandler} />
+                                    <input type="number"  name='finalProductWeight' className="form-control" id="inputProductWeight" value={(workDetail.finalProductWeight === null)?'':workDetail.finalProductWeight} onChange={inputChangeHandler} />
+                                    <div id='invalid-tooltip' className={`finalProductWeight-tooltip`} hidden={true}>
+                                        <p>You missed me !</p> 
+                                    </div>
                                 </div>
                             </div>
 
@@ -317,6 +329,9 @@ function AssignWork() {
 
                                 <div className="col-sm-9">
                                     <input type="number" min={0} name='submittedWeight' className="form-control" id="inputSubmittedWeight" value={(workDetail.submittedWeight === null)?'':workDetail.submittedWeight} onChange={inputChangeHandler} />
+                                    <div id='invalid-tooltip' className={`submittedWeight-tooltip`} hidden={true}>
+                                        <p>You missed me !</p> 
+                                    </div>
                                 </div>
                             </div>
 
@@ -325,6 +340,9 @@ function AssignWork() {
 
                                 <div className="col-sm-9">
                                     <input type="number" name='lossWeight' className="form-control" id="inputLossWeight" value={(workDetail.lossWeight === null)?'':workDetail.lossWeight} onChange={inputChangeHandler} />
+                                    <div id='invalid-tooltip' className={`lossWeight-tooltip`} hidden={true}>
+                                        <p>You missed me !</p> 
+                                    </div>
                                 </div>
                             </div>
 
@@ -333,6 +351,9 @@ function AssignWork() {
 
                                 <div className="col-sm-9">
                                     <input type="date" name='submittedDate' className="form-control" id="inputSubmittedDate" value={(workDetail.submittedDate === null)?'':workDetail.submittedDate} onChange={inputChangeHandler} />
+                                    <div id='invalid-tooltip' className={`submittedDate-tooltip`} hidden={true}>
+                                        <p>You missed me !</p> 
+                                    </div>
                                 </div>
                             </div>
 

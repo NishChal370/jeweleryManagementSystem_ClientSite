@@ -32,12 +32,13 @@ function PlaceOrder() {
 
   const clearErrorMessage=(inputName)=>{
     document.getElementsByName(inputName)[0].style.color ='black';
+    document.getElementsByName(inputName)[0].style.borderColor ='black';
+    
     if(!['submittionDate', 'customerProductWeight', 'advanceAmount', 'remark'].includes(inputName)){ 
 
       document.getElementsByClassName(`${inputName}-tooltip`)[0].hidden = true;
+      document.getElementsByName(inputName)[0].style.borderColor ='rgb(206, 212, 218)';
     }
-
-    document.getElementsByName(inputName)[0].style.borderColor ='rgb(206, 212, 218)';
 
     if (inputName === 'netWeight' ||  inputName === 'totalWeight'){
       document.getElementsByName((inputName === 'netWeight')? 'totalWeight': 'netWeight')[0].style.color ='black';
@@ -51,7 +52,9 @@ function PlaceOrder() {
     let value = target.value;
     let inputName = target.name;
 
-    clearErrorMessage(inputName) 
+    if(inputName !== 'type'){
+      clearErrorMessage(inputName); 
+    }
 
     if(product.hasOwnProperty(inputName)){
       
