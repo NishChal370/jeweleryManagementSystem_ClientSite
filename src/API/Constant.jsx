@@ -20,7 +20,7 @@ const URL_GET_ORDER_BY_ID = 'order/';
 const URL_POST_ORDER = 'place-order/';
 const URL_POST_ORDER_UPDATE = 'order/update';
 const URL_GET_ORDERS_SUMMARY = 'orders/summary/';
-
+const URL_DELETE_PENDING_ORDER_BY_ID = 'order-delete/';
 const URL_GET_PENDING_ORDER_PRODUCT_BY_ID = 'orderProduct/pending/';
 
 
@@ -54,6 +54,7 @@ export {
     URL_GET_ORDER_BY_ID,
     URL_GET_ORDERS_SUMMARY,
     URL_POST_ORDER_UPDATE,
+    URL_DELETE_PENDING_ORDER_BY_ID,
     URL_GET_PENDING_ORDER_PRODUCT_BY_ID,
     URL_POST_STAFF,
     URL_GET_STAFF_DETAIL,

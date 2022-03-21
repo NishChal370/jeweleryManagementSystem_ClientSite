@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import { HiSearch } from 'react-icons/hi';
 import { FaFilter, FaSortAmountUpAlt } from 'react-icons/fa';
 import { SearchOrderTable } from '../../Components';
-import { Fetch_Bill_By_Id, Fetch_Orders_Summary, Fetch_Order_By_Id } from '../../API/UserServer';
+import { Delete_Pending_Order, Fetch_Bill_By_Id, Fetch_Orders_Summary, Fetch_Order_By_Id } from '../../API/UserServer';
 
 const Toast = Swal.mixin({
     toast: true,
@@ -22,6 +22,7 @@ function SearchOrder() {
     const location = useLocation();
     const [ordersSummary, setOrdersSummary] = useState();
     const [showSearchInput, setShowSearchInput] = useState(false);
+    const [needRender, setNeedRender] = useState(false);
     const page = (location.search !== '') ?parseInt(location.search.slice(-1)) :1;
     const [filter, setFilter] = useState({pageNumber: page, type: 'all', status:'all', customerInfo:{initial:'', confirm:''}, date:'None'});
 
@@ -51,10 +52,10 @@ function SearchOrder() {
         Fetch_Order_By_Id(orderId)
             .then(function(response){
 
-                if (action === 'edit'){
-                    history.push({pathname:'/order', state: response.data})
+                if (action === 'edit'){ // if order is pending and can be edited or deleted
+                    redirectPlaceOrderPageOrDelete(response);
                 }
-                else if(action === 'view'){
+                else if(action === 'view'){ // if order is completed and cannot be edited or deleted
                     // alert("view page")
                     history.push({pathname:'/order/view', state: response.data})
                 }
@@ -96,6 +97,64 @@ function SearchOrder() {
             })
     }
 
+    const DeleteOrderById=(orderId)=>{
+        Delete_Pending_Order(orderId)
+            .then(function(response){
+                setNeedRender(!needRender);
+
+                Toast.fire({
+                    icon: 'success',
+                    title: response.data,
+                });
+            })
+            .catch(function(error){
+                Toast.fire({
+                    icon: 'error',
+                    title: error.response.data[0]['message'],
+                });
+            })
+    }
+
+
+    const redirectPlaceOrderPageOrDelete=(response)=>{
+        Swal.fire({
+            title: 'Select action',
+            icon: 'info',
+            confirmButtonColor: '#3085d6',
+            denyButtonColor: '#d33',
+            showDenyButton: true,
+            confirmButtonText: 'Edit',
+            denyButtonText: 'Delete'
+
+        }).then((result) => {
+            if(result.isConfirmed){ //if edit button click
+                history.push({pathname:'/order', state: response.data})
+            }
+            else if(result.isDenied){ //if delete button click
+                const { orderId } = response.data.orders;
+                console.log(orderId);
+                Swal.fire({
+                    title: `Do you want to delete Order ${orderId}`,
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showDenyButton: true,
+                    confirmButtonText: 'Delete',
+                    denyButtonText: `Cancel`,
+    
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        DeleteOrderById(orderId);
+                    }
+                });
+            }
+        });
+    }
+
+
+
+
+
     const changePage= (orderId, response)=>{
         Swal.fire({
             title: 'Select action',
@@ -108,9 +167,8 @@ function SearchOrder() {
 
         }).then((result) => {
             if(result.isConfirmed){ //if edit button click
-                //alert("View page")
+
                 history.push({pathname:'/order/view', state: response.data})
-                // history.push({pathname:'/order', state: response.data})
             }
             else if(result.isDenied){ //if generate bill button click
                 let customer = response.data;
@@ -130,7 +188,6 @@ function SearchOrder() {
             FetchOrderById(orderId,'edit');
         }
         else if(status === 'inprogress'){
-            alert("view order")
             FetchOrderById(orderId,'view');
         }
         else if(status === 'completed' && billId === '-'){
@@ -223,7 +280,7 @@ function SearchOrder() {
         });
 
         FetchOrderSummary();
-    },[filter.pageNumber, filter.type, filter.status, filter.customerInfo.confirm, filter.date]);
+    },[filter.pageNumber, filter.type, filter.status, filter.customerInfo.confirm, filter.date, needRender]);
 
 
     return (
