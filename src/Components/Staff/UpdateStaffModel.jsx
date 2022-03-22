@@ -4,24 +4,39 @@ import Modal from 'react-bootstrap/Modal';
 import { HiSaveAs } from 'react-icons/hi';
 import { AiOutlineClear } from 'react-icons/ai';
 import { clearRegisterStaffErrorMessage, isRegisterStaffValid } from '../Common/validation';
+import { Update_Staff_By_Id } from '../../API/UserServer';
 
 
 
-function UpdateStaffModel({ showUpdateStaffModal, handlerShowUpdateStaffModal, selectedStaff} ) {
+function UpdateStaffModel({ showUpdateStaffModal, handlerShowUpdateStaffModal, selectedStaff, saveHandler} ) {
       const [staffDetail, setStaffDetail] = useState();
 
       const submitButtonHandler=(e)=>{
             e.preventDefault();
+            updateStaffInfo();
+            
+      }
 
+      const updateStaffInfo=()=>{
             if(isRegisterStaffValid(staffDetail)){
-                  alert("VALID")
+                  Update_Staff_By_Id(staffDetail.staffId, staffDetail)
+                        .then((response)=>{
+                            saveHandler(response.data); // it is save to render the this page (i.e staff detail)
+
+                            handlerShowUpdateStaffModal();
+                        })
+                        .catch((response)=>{
+                              console.log(response)
+                              alert("ERROR")
+                        })
             }
       }
 
       const inputChangeHandler=({target})=>{
+            const {name, value} = target;
+
             clearRegisterStaffErrorMessage(name);
 
-            const {name, value} = target;
             staffDetail[name] = value;
             setStaffDetail({...staffDetail});
       }

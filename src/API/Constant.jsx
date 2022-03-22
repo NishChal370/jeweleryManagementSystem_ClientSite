@@ -29,6 +29,7 @@ const URL_POST_STAFF = 'staff/register/';
 const URL_GET_STAFF_WORK = 'staff/work/';
 const URL_GET_STAFF_NAME_LIST = 'staff/name/';
 const URL_DELETE_STAFF_BY_ID = 'staff/delete/';
+const URL_UPDATE_STAFF_BY_ID = 'staff-update/';
 const URL_POST_ASSIGNED_WORK = 'staff/assign/work/';
 
 
@@ -59,6 +60,7 @@ export {
     URL_POST_STAFF,
     URL_GET_STAFF_DETAIL,
     URL_DELETE_STAFF_BY_ID,
+    URL_UPDATE_STAFF_BY_ID,
     URL_GET_STAFF_NAME_LIST,
     URL_POST_ASSIGNED_WORK,
     URL_GET_STAFF_WORK,

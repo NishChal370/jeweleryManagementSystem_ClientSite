@@ -76,7 +76,7 @@ function StaffTable({staffDetail, saveHandler}) {
         });
     }
 
-
+    
     const handlerShowUpdateStaffModal=(staffInfo)=>{
         setSelectedStaff(staffInfo);
         setShowUpdateStaffModal(!showUpdateStaffModal);
@@ -186,7 +186,7 @@ function StaffTable({staffDetail, saveHandler}) {
                 </tfoot>
             </table>
 
-            <UpdateStaffModel selectedStaff={selectedStaff} handlerShowUpdateStaffModal={handlerShowUpdateStaffModal} showUpdateStaffModal={showUpdateStaffModal}/>
+            <UpdateStaffModel selectedStaff={selectedStaff} handlerShowUpdateStaffModal={handlerShowUpdateStaffModal} showUpdateStaffModal={showUpdateStaffModal} saveHandler={saveHandler}/>
         </section>
     )
 }
