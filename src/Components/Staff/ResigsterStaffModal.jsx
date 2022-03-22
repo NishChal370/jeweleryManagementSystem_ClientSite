@@ -109,7 +109,7 @@ function ResigsterStaffModal({show, handleClose, saveHandler}) {
                                 <input type="file" name="" id="" className="form-control"/>
                             </span>
 
-                            <span style={{display:'flex', alignItems:'flex-end', justifyContent:'center'}}>
+                            <span style={{display:'flex', alignItems:'flex-end', justifyContent:'end'}}>
                                 <span className='d-flex gap-5'>
                                     <button type="submit" className="btn btn-success"> <HiSaveAs/>  Save </button>
                                     <button type="reset" className="btn btn-danger"> <AiOutlineClear/>  Clear </button>

@@ -10,13 +10,9 @@
 }
 
 .add-staff{
-    /* background-color: green; */
-        /* display: flex; */
     overflow: hidden;
     padding: 0rem; 
-    /* padding: 0.5rem 2rem;  */
     border-radius: 2rem;
-    /* justify-content: flex-end; */
     box-shadow: 0px 0 30px rgba(2, 27, 70, 0.247);
 }
 .add-staff:hover{
@@ -51,17 +47,19 @@
 .staff-info{
     text-align: start;
     padding-left: 6%;
-    /* background-color: green; */
 }
 .staff-info> aside{
-    /* background-color: green; */
     width: 100%;
     padding: 1.6rem 0rem 0rem 4rem;
 }
+
 .assignwork-btn, .resignwork-btn{
-    pointer-events:visibleFill;
     border-radius: 2rem;
     color: white;
+}
+
+.assignwork-btn, .resignwork-btn, .editProfile-btn{
+    pointer-events:visibleFill;
 }
 
 .assignwork-btn{
@@ -73,9 +71,9 @@
     margin-top: 0.5rem !important;
 }
 
-.assignwork-btn:hover, .resignwork-btn:hover{
+.assignwork-btn:hover, .resignwork-btn:hover, .editProfile-btn:hover{
     cursor: pointer;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0);
 }
 
 .assignwork-btn:hover{

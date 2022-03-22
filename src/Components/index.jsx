@@ -18,6 +18,7 @@ import WorkDetailTable from "./Staff/WorkDetailTable";
 import OrderProductTable from "./Staff/OrderProductTable";
 import OrderProductsModel from "./Staff/OrderProductsModel";
 import ResigsterStaffModal from "./Staff/ResigsterStaffModal";
+import UpdateStaffModel from "./Staff/UpdateStaffModel";
 
 import RateChart from "./Dasboard/RateChart";
 import DataTable from "./Dasboard/DataTable";
@@ -37,6 +38,7 @@ export {
         StaffTable,
         OrderProductsModel,
         ResigsterStaffModal,
+        UpdateStaffModel,
         OrderProductTable,
         WorkDetailTable,
         RateChart,

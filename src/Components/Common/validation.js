@@ -501,6 +501,7 @@ const clearAssignWorkErrorMessage=(inputName)=>{
 
 const isRegisterStaffValid=(newStaffDetail)=>{
     const { staffName, phone, address, email } = newStaffDetail;
+    console.log(newStaffDetail)
     if(staffName === '' || staffName === undefined){
         return invalidMessage({emptyFieldName: 'staffName', errorMessage: 'empty'});
     }
@@ -522,9 +523,10 @@ const isRegisterStaffValid=(newStaffDetail)=>{
         return invalidMessage({emptyFieldName: 'phone', errorMessage: 'Invalid ! phone number format'});
     }
 
-    else if((email !== '' || email !== undefined || email !== null) && (!EMAIL_REGEX.test(email)) ){
-
-        return invalidMessage({emptyFieldName: 'email', errorMessage: 'Invalid !! check email format'});
+    else if(email !== '' && email !== undefined && email !== null){
+        if((!EMAIL_REGEX.test(email)) ){
+            return invalidMessage({emptyFieldName: 'email', errorMessage: 'Invalid !! check email format'});
+        } 
     }
 
 

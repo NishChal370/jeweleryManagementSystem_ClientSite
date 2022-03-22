@@ -2,10 +2,12 @@ import Swal from 'sweetalert2';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { GiClick } from 'react-icons/gi';
+import { FiEdit } from 'react-icons/fi';
 import { BiFirstPage, BiLastPage } from 'react-icons/bi';
 import { Spinner } from '..';
 import { Delete_Staff_By_Id } from '../../API/UserServer';
 import { CompletedIcon, StaffAvtar, TotalWorkIcon, WorkProcessIcon } from '../../Assets/img';
+import UpdateStaffModel from './UpdateStaffModel';
 
 
 
@@ -21,6 +23,8 @@ const Toast = Swal.mixin({
 function StaffTable({staffDetail, saveHandler}) {
     const history = useHistory();
     const[isDetailShow, setIsDetailShow]= useState({index:-1, action:false});
+    const [showUpdateStaffModal, setShowUpdateStaffModal] = useState(false);
+    const [selectedStaff, setSelectedStaff] = useState();
 
     const showHandle=(selectedIndex)=>{
         (isDetailShow.index === selectedIndex)
@@ -70,6 +74,12 @@ function StaffTable({staffDetail, saveHandler}) {
                 deleteStaffById(staffId)
             }
         });
+    }
+
+
+    const handlerShowUpdateStaffModal=(staffInfo)=>{
+        setSelectedStaff(staffInfo);
+        setShowUpdateStaffModal(!showUpdateStaffModal);
     }
 
 
@@ -148,6 +158,12 @@ function StaffTable({staffDetail, saveHandler}) {
                                         </span>
                                         
                                     </aside>
+
+                                    <section>
+                                        <p className="editProfile-btn fs-4 fw-bolder px-1 m-0" onClick={()=>handlerShowUpdateStaffModal({staffId, staffName, phone, email, address})}><FiEdit/></p>
+                                        <p className="fw-bolder">edit</p>
+                                    </section>
+                                    
                                 </section>
                             </td>
 
@@ -169,6 +185,8 @@ function StaffTable({staffDetail, saveHandler}) {
                     </tr>
                 </tfoot>
             </table>
+
+            <UpdateStaffModel selectedStaff={selectedStaff} handlerShowUpdateStaffModal={handlerShowUpdateStaffModal} showUpdateStaffModal={showUpdateStaffModal}/>
         </section>
     )
 }

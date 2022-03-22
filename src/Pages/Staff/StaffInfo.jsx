@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 import React, { useState, useEffect } from 'react';
 import { Get_Staff_Detail } from '../../API/UserServer';
 import { VerifyInputs } from '../../Components/Common/validation';
-import { ResigsterStaffModal, StaffTable } from '../../Components';
+import { ResigsterStaffModal, StaffTable, UpdateStaffModel } from '../../Components';
 
 
 const Toast = Swal.mixin({
@@ -17,6 +17,7 @@ const Toast = Swal.mixin({
 function StaffInfo() {
     const [staffDetail, setStaffDetail] = useState([]);
     const [showAddStaff, setShowsAddStaff] = useState(false);
+    
 
     const saveHandler = (updatedStaffDetail)=>{
         setStaffDetail(updatedStaffDetail)
@@ -41,6 +42,7 @@ function StaffInfo() {
             ? setShowsAddStaff(false)
             : setShowsAddStaff(true)
     }
+    
     
 
     useEffect(()=>{
