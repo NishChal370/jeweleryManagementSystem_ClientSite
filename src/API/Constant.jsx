@@ -1,9 +1,45 @@
 import axios from "axios";
 
+
 const AXIOS = axios.create({
     baseURL: "http://127.0.0.1:8000/api/",
+    headers:{
+        Authorization: localStorage.getItem('access-token')
+            ?'Bearer '+ localStorage.getItem('access-token')
+            :null,
+        'Content-Type': 'application/json',
+        accept:'application/json',
+    },
 });
 
+
+/**const AXIOS = axios.create({
+    baseURL: "http://127.0.0.1:8000/api/",
+    headers:{
+        Authorization: localStorage.getItem('access-token')
+            ?'Bearer '+ localStorage.getItem('access-token')
+            :null,
+        'Content-Type': 'application/json',
+        accept:'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
+    },
+    withCredentials: true,
+    credentials: "include",
+});
+ */
+/***'Content-Type':'application/json',
+        access:'application/json',
+        withCredentials: true,
+        credentials:true,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Origin': '*',
+        'Accept': 'application/json', */
+
+const URL_LOGIN ='login/';
+const URL_LOGOUT ='logout/';
 
 const URL_SET_RATE = 'rate-set/';
 const URL_GET_ALL_RATES = 'rates/';
@@ -68,4 +104,7 @@ export {
     URL_CUSTOMER_ADDRESS_REPORT,
     URL_GET_BILL_PRODUCTS_REPORT_MONTHLY,
     URL_GET_SALES_REPORT,
+
+    URL_LOGIN,
+    URL_LOGOUT,
 }

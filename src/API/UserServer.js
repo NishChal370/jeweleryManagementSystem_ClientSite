@@ -1,4 +1,5 @@
-import { AXIOS, URL_CUSTOMER_ADDRESS_REPORT, URL_DELETE_BILL_BY_ID, URL_DELETE_PENDING_ORDER_BY_ID, URL_DELETE_STAFF_BY_ID, URL_GET_ALL_RATES, URL_GET_BILLS_SUMMARY, URL_GET_BILL_BY_ID, URL_GET_BILL_PRODUCTS_REPORT_MONTHLY, URL_GET_INCREMENT_REPORT, URL_GET_ORDERS_SUMMARY, URL_GET_ORDER_BY_ID, URL_GET_PENDING_ORDER_BY_ID, URL_GET_PENDING_ORDER_PRODUCT_BY_ID, URL_GET_RATE_BY_DATE, URL_GET_RATE_REPORT, URL_GET_SALES_REPORT, URL_GET_STAFF_DETAIL, URL_GET_STAFF_NAME_LIST, URL_GET_STAFF_WORK, URL_POST_ASSIGNED_WORK, URL_POST_BILL, URL_POST_ORDER, URL_POST_ORDER_UPDATE, URL_POST_SAVED_BILL, URL_POST_STAFF, URL_SET_RATE, URL_UPDATE_STAFF_BY_ID } from "./Constant"
+import { AXIOS, URL_CUSTOMER_ADDRESS_REPORT, URL_DELETE_BILL_BY_ID, URL_DELETE_PENDING_ORDER_BY_ID, URL_DELETE_STAFF_BY_ID, URL_GET_ALL_RATES, URL_GET_BILLS_SUMMARY, URL_GET_BILL_BY_ID, URL_GET_BILL_PRODUCTS_REPORT_MONTHLY, URL_GET_INCREMENT_REPORT, URL_GET_ORDERS_SUMMARY, URL_GET_ORDER_BY_ID, URL_GET_PENDING_ORDER_BY_ID, URL_GET_PENDING_ORDER_PRODUCT_BY_ID, URL_GET_RATE_BY_DATE, URL_GET_RATE_REPORT, URL_GET_SALES_REPORT, URL_GET_STAFF_DETAIL, URL_GET_STAFF_NAME_LIST, URL_GET_STAFF_WORK, URL_LOGIN, URL_LOGOUT, URL_POST_ASSIGNED_WORK, URL_POST_BILL, URL_POST_ORDER, URL_POST_ORDER_UPDATE, URL_POST_SAVED_BILL, URL_POST_STAFF, URL_SET_RATE, URL_UPDATE_STAFF_BY_ID } from "./Constant"
+
 
 
 export const Fetch_Rate_By_Date = async (date)=>{
@@ -107,6 +108,19 @@ export const Fetch_Bill_Product_Report_Monthly = async(date)=>{
 export const Fetch_Sales_Report = async(date)=>{
     return await AXIOS.get(URL_GET_SALES_REPORT+date)
 }
+
+
+
+export const Post_Login = async()=>{
+    return await AXIOS.post(URL_LOGIN, {username:'admin@gmail.com', password:'admin'})
+    // return await AXIOS.post(URL_login, {username:'', password:'',})
+}
+
+export const Post_Logout = async()=>{
+    return await AXIOS.post(URL_LOGOUT,{refresh_token:localStorage.getItem('refresh_token')})
+    // return await AXIOS.post(URL_login, {username:'', password:'',})
+}
+
 // tried to create sepreeate file for axios and this works
 // export const fetchTry = async ()=>{
 //     return await axios.get(`http://127.0.0.1:8000/api/rates/`)
