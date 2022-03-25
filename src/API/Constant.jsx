@@ -4,8 +4,8 @@ import axios from "axios";
 const AXIOS = axios.create({
     baseURL: "http://127.0.0.1:8000/api/",
     headers:{
-        Authorization: localStorage.getItem('access-token')
-            ?'Bearer '+ localStorage.getItem('access-token')
+        Authorization: localStorage.getItem('access_token')
+            ?'Bearer '+ localStorage.getItem('access_token')
             :null,
         'Content-Type': 'application/json',
         accept:'application/json',
@@ -13,33 +13,12 @@ const AXIOS = axios.create({
 });
 
 
-/**const AXIOS = axios.create({
-    baseURL: "http://127.0.0.1:8000/api/",
-    headers:{
-        Authorization: localStorage.getItem('access-token')
-            ?'Bearer '+ localStorage.getItem('access-token')
-            :null,
-        'Content-Type': 'application/json',
-        accept:'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
-    },
-    withCredentials: true,
-    credentials: "include",
-});
- */
-/***'Content-Type':'application/json',
-        access:'application/json',
-        withCredentials: true,
-        credentials:true,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Origin': '*',
-        'Accept': 'application/json', */
 
 const URL_LOGIN ='login/';
 const URL_LOGOUT ='logout/';
+
+const URL_RESET_PASSWORD ='password_reset/';
+const URL_RESET_PASSWORD_CONFIRM ='password_reset/confirm/';
 
 const URL_SET_RATE = 'rate-set/';
 const URL_GET_ALL_RATES = 'rates/';
@@ -107,4 +86,7 @@ export {
 
     URL_LOGIN,
     URL_LOGOUT,
+
+    URL_RESET_PASSWORD,
+    URL_RESET_PASSWORD_CONFIRM,
 }

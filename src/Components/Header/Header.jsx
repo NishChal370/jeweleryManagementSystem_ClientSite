@@ -3,10 +3,8 @@ import { useHistory } from 'react-router-dom';
 import React, { useEffect, useState } from 'react'
 import { setLatestRate } from '../../Redux/Action';
 import { useSelector, useDispatch } from 'react-redux';
-import { Fetch_All_Rates, Post_Logout } from '../../API/UserServer';
+import { Fetch_All_Rates } from '../../API/UserServer';
 import { ShopLogo, ProfileImage } from '../../Assets/img/index';
-import { RiSettings4Line } from 'react-icons/ri';
-import { AXIOS } from '../../API/Constant';
 
 
 const Toast = Swal.mixin({
@@ -18,7 +16,7 @@ const Toast = Swal.mixin({
 });
 
 
-function Header({isDisplayed, showSideBarHandler}) {
+function Header({isDisplayed, showSideBarHandler,logoutHandler}) {
 
     const history = useHistory();  
     const[todaysRate, setTodaysRate] = useState();  
@@ -46,23 +44,6 @@ function Header({isDisplayed, showSideBarHandler}) {
 
     };
 
-    const postLogout=()=>{
-        Post_Logout()
-            .then((response)=>{
-                localStorage.removeItem('access_token');
-                localStorage.removeItem('refresh_token');
-                AXIOS.defaults.headers['Authorization'] = null;
-                history.push('');
-            })
-            .catch((error)=>{
-
-            })
-    }
-
-    const logoutHandler=()=>{
-        postLogout();
-    }
-    
     useEffect(() => {
         fetchRate();  
     },[]);

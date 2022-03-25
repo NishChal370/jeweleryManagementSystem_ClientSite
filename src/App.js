@@ -1,37 +1,87 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import './Assets/css/style.css';
+import {Login} from './Pages/index';
 import { AXIOS } from './API/Constant';
-import { Post_Login } from './API/UserServer';
+import {Header, SideNav, Main} from './Components/index';
+import { Post_Login, Post_Logout } from './API/UserServer';
+import Swal from 'sweetalert2';
 
-import './Assets/css/style.css'
-import {Header, SideNav, Main} from './Components/index'
-
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 800,
+  timerProgressBar: false,
+});
 
 function App() {
   const [showSideBar, setShowSideBar]= useState(true);
-  const [islogin, setIslogin] = useState(false);
-
+  const [islogin, setIslogin] = useState(localStorage.getItem('access_token'));
   const showSideBarHandler=(isDisplay)=>{
     setShowSideBar(isDisplay);
   }
 
-  const loginHandler=()=>{
-    Post_Login()
+  const loginHandler=(loginDetail)=>{
+    Post_Login(loginDetail)
       .then(function(response){
         localStorage.setItem('access_token', response.data.access);
         localStorage.setItem('refresh_token', response.data.refresh);
+        localStorage.setItem('is_login', true);
         AXIOS.defaults.headers['Authorization'] = 'Bearer '+ localStorage.getItem('access_token')
 
-        setIslogin(true)
+        setIslogin(true);
 
       })
       .catch(function(error){
-        console.log("Error")
-        console.log(error.data)
-    
+        Toast.fire({
+          icon: 'error',
+          title: 'Invalid Info !!!'
+        });
+
+        //form login form
+        document.getElementById('login-email-input').style.borderColor='red';
+        document.getElementById('login-password-input').style.borderColor='red';
       })
   }
+
+
+  const logoutHandler=()=>{
+    Post_Logout()
+      .then((response)=>{
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        localStorage.removeItem('is_login');
+
+        AXIOS.defaults.headers['Authorization'] = null;
+
+        setIslogin(false);
+      })
+      .catch((error)=>{
+        console.log("ERROR while logout")
+      })
+  }
+
+  return (
+    (islogin)
+      ?(
+        <Router>
+          <Header isDisplayed={showSideBar} showSideBarHandler={(isDisplay)=>showSideBarHandler(isDisplay) } logoutHandler={logoutHandler}/>
+          <SideNav isDisplay={(showSideBar)? 'none': ''}/>
+          <Main isSideBarDisplayed={showSideBar}/>
+        </Router> 
+      )
+      :(<>
+        <Login loginHandler={loginHandler}/>
+        </>
+      )
+  );
+}
+
+export default App;
+
+
+
 
   // const loginHandler=()=>{
   //   axios.post(`http://127.0.0.1:8000/api/login/`,{
@@ -52,22 +102,3 @@ function App() {
   //       console.log("Error -> ",error);
   //     });
   // }
-
-  return (
-    (islogin)
-      ?(<Router>
-        <Header isDisplayed={showSideBar} showSideBarHandler={(isDisplay)=>showSideBarHandler(isDisplay)}/>
-        <SideNav isDisplay={(showSideBar)? 'none': ''}/>
-        <Main isSideBarDisplayed={showSideBar}/>
-      </Router> )
-      :(<button onClick={loginHandler}>Login</button>)
-    // <Router>
-    //   <Header isDisplayed={showSideBar} showSideBarHandler={(isDisplay)=>showSideBarHandler(isDisplay)}/>
-    //   <SideNav isDisplay={(showSideBar)? 'none': ''}/>
-    //   <Main isSideBarDisplayed={showSideBar}/>
-    // </Router>  
-  );
-}
-
-export default App;
-

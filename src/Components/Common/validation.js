@@ -551,11 +551,29 @@ const clearRegisterStaffErrorMessage=(inputName)=>{
 }
 
 
+/**
+ * FOR LOGIN PAGE [CHANGE PASSWORD]
+ */
 
+const validateChangePasswordEmail=(email)=>{
+    let isValid = true;
+
+    if(email === '' || email === undefined || email === null){
+        isValid = false;
+    }
+    else if(!EMAIL_REGEX.test(email)){
+        isValid = false;
+    }
+
+    document.getElementsByName('email')[0].style.borderColor =(isValid) ?'#012970' :'red';
+
+    return isValid;
+}
 
 export  {VerifyInputs, removeResetValidation, isNewOrderValid, isOrderProductAddValid, removeResetOrderValidation,
             isBillProductAddValid, isNewBillValid,  removeResetBillValidation, clearErrorMessage,
             isRateValid,removeResetRateValidation,
             isAssignWorkValid, removeResetAssignWorkValidation, clearAssignWorkErrorMessage,
             isRegisterStaffValid, resetRegisterStaffValidation, clearRegisterStaffErrorMessage,
+            validateChangePasswordEmail,
         }

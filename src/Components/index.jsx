@@ -29,6 +29,9 @@ import EditProfile from "./Admin/EditProfile";
 import ChangePassword from "./Admin/ChangePassword";
 
 
+import LoginForm from "./Login/LoginForm";
+import ChangePasswordForm from "./Login/ChangePasswordForm";
+
 export {
         Header, SideNav, Main, 
         InputField, TotalCard, InvoicePdf,
@@ -47,5 +50,8 @@ export {
         ProfileCard,
         EditProfile,
         ChangePassword,
+
+        LoginForm,
+        ChangePasswordForm,
         // Table,
 }
