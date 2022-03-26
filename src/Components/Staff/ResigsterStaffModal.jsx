@@ -103,11 +103,11 @@ function ResigsterStaffModal({show, handleClose, saveHandler}) {
                             </span> 
                         </section>
 
-                        <section className='d-flex'>
-                            <span>
+                        <section className='d-flex justify-content-end mt-3'>
+                            {/* <span> // removed image
                                 <p>Image:</p>
                                 <input type="file" name="" id="" className="form-control"/>
-                            </span>
+                            </span> */}
 
                             <span style={{display:'flex', alignItems:'flex-end', justifyContent:'end'}}>
                                 <span className='d-flex gap-5'>

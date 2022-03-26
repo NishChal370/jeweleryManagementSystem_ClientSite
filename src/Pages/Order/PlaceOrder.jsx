@@ -420,7 +420,8 @@ function PlaceOrder() {
             <div className="card">
               <div className='card-body col  justify-content-around d-flex product--input-card'>
               {
-                [['productName', 'quantity', 'size', 'design'], [  'netWeight', 'totalWeight', 'gemsName']].map((row, index)=>{
+                // [['productName', 'quantity', 'size', 'design'], [  'netWeight', 'totalWeight', 'gemsName']].map((row, index)=>{
+                  [['productName', 'quantity', 'size'], [  'netWeight', 'totalWeight', 'gemsName']].map((row, index)=>{ // design removed
 
                   return(
                     <div className='aside-inputs ' key={index+'bP'}>

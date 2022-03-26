@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import './Assets/css/style.css';
@@ -5,7 +6,8 @@ import {Login} from './Pages/index';
 import { AXIOS } from './API/Constant';
 import {Header, SideNav, Main} from './Components/index';
 import { Post_Login, Post_Logout } from './API/UserServer';
-import Swal from 'sweetalert2';
+import SoundWelcome from './Assets/sound/computer.mp3';
+
 
 const Toast = Swal.mixin({
   toast: true,
@@ -15,6 +17,8 @@ const Toast = Swal.mixin({
   timerProgressBar: false,
 });
 
+
+
 function App() {
   const [showSideBar, setShowSideBar]= useState(true);
   const [islogin, setIslogin] = useState(localStorage.getItem('access_token'));
@@ -22,7 +26,13 @@ function App() {
     setShowSideBar(isDisplay);
   }
 
+  const welcomePlay=()=> {
+    var audio = new Audio(SoundWelcome);
+    audio.play();
+  }
+
   const loginHandler=(loginDetail)=>{
+    
     Post_Login(loginDetail)
       .then(function(response){
         localStorage.setItem('access_token', response.data.access);
@@ -31,7 +41,7 @@ function App() {
         AXIOS.defaults.headers['Authorization'] = 'Bearer '+ localStorage.getItem('access_token')
 
         setIslogin(true);
-
+        welcomePlay();
       })
       .catch(function(error){
         Toast.fire({

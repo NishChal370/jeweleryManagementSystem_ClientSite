@@ -189,7 +189,7 @@ const isNewBillValid=(customer, bill, billProductList, location)=>{
         }
     }
 
-    return false;
+    return true;
 }
 
 const removeResetBillValidation=()=>{
@@ -453,7 +453,7 @@ const isAssignWorkValid=(workDetail, selectedOrderProductDetail, btnId)=>{
             else if(lossWeight === '' || lossWeight === null || lossWeight === NaN || lossWeight === undefined  ){
                 return invalidMessage({emptyFieldName: 'lossWeight', errorMessage: 'empty'});
             }
-            else if( (lossWeight<=0) || (!DECIMAL_REGEX.test(lossWeight)) ){
+            else if( (lossWeight<0) || (!DECIMAL_REGEX.test(lossWeight)) ){
                 return invalidMessage({emptyFieldName: 'lossWeight', errorMessage: 'Invalid ! should be number greater than 0'});
             }
         }

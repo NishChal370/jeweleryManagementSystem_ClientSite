@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-let initialOrderTableHeading = ['#', 'Product name', 'Net Weight', 'Total Weight', 'Size','Gems Name', 'Design', 'Action'];
+// let initialOrderTableHeading = ['#', 'Product name', 'Net Weight', 'Total Weight', 'Size','Gems Name', 'Design', 'Action'];
+let initialOrderTableHeading = ['#', 'Product name', 'Net Weight', 'Total Weight', 'Size','Gems Name', 'Action'];// deign removed
 let initialBillTableHeading =['#', 'Product name', 'Net Weight', 'loss Weight', 'Total Weight', 'M. Charge', 'Gems Name', 'Gems Price', 'Total Amount', 'Action'];
 
 /**
@@ -62,7 +63,7 @@ function ProductTable({productsList, editAddedProductHandler, deleteAddedProduct
                                 <td>{billProduct.totalAmountPerProduct}</td>
                             )}
 
-                            {(location.includes('order'))&&(
+                            {/* {(location.includes('order'))&&( /// remove design
                                 <td>
                                     <a href="#">
                                         <img 
@@ -72,7 +73,7 @@ function ProductTable({productsList, editAddedProductHandler, deleteAddedProduct
                                         alt="img"/>
                                     </a>
                                 </td>
-                            )}
+                            )} */}
 
                             {
                                 (calledBy == 'bill' || location.includes('order')) &&(
