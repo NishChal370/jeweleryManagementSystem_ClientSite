@@ -21,6 +21,7 @@ const URL_GET_ADMIN_DETAIL ='admin/';
 const URL_POST_ADMIN_DETAIL ='admin/update/';
 
 
+const URL_CHANGE_PASSWORD ='change-password/';
 const URL_RESET_PASSWORD ='password_reset/';
 const URL_RESET_PASSWORD_CONFIRM ='password_reset/confirm/';
 
@@ -91,6 +92,7 @@ export {
     URL_LOGIN,
     URL_LOGOUT,
 
+    URL_CHANGE_PASSWORD,
     URL_RESET_PASSWORD,
     URL_RESET_PASSWORD_CONFIRM,
 

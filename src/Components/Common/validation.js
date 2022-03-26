@@ -609,7 +609,7 @@ const validateAdminDetail=(adminDetail)=>{
         return invalidMessage({emptyFieldName: 'email', errorMessage: 'empty'});
     }
     else if(!EMAIL_REGEX.test(email)){
-        return invalidMessage({emptyFieldName: 'email', errorMessage: 'Invalid !! Should be only alphabet'});
+        return invalidMessage({emptyFieldName: 'email', errorMessage: 'Invalid !! Check email format'});
     }
     
     else if( panNumber ==='' || panNumber === undefined || panNumber === null){
@@ -633,6 +633,46 @@ const clearRegisterAdminErrorMessage=(inputName)=>{
     document.getElementsByName(inputName)[0].style.borderColor ='rgb(206, 212, 218)';
 }
 
+
+const validateChangePassword=(passwordDetail)=>{
+    let {oldPassword, newPassword1, newPassword2} = passwordDetail;
+    let isValid = true;
+
+    if(oldPassword === '' || oldPassword === undefined || oldPassword === null){
+        isValid = false;
+    }
+    else if(newPassword1 === '' || newPassword1 === undefined || newPassword1 === null){
+        isValid = false;
+    }
+    else if(newPassword2 === '' || newPassword2 === undefined || newPassword2 === null){
+        isValid = false;
+    }
+    else if (newPassword1 !== newPassword2){
+        isValid = false;
+    }
+
+    if(!isValid){
+        ['oldPassword', 'newPassword1', 'newPassword2'].forEach((name)=>{
+            document.getElementsByName(name)[0].style.color ='red';
+            document.getElementsByName(name)[0].style.borderColor ='red';
+        });
+        
+        Toast.fire({
+            icon: 'error',
+            title: 'Invalid Detail !!'
+        });
+    }
+
+    return isValid
+}
+
+const clearChangePasswordError=(passwordDetail)=>{
+    ['oldPassword', 'newPassword1', 'newPassword2'].forEach((name)=>{
+        document.getElementsByName(name)[0].style.color ='black';
+        document.getElementsByName(name)[0].style.borderColor ='rgb(206, 212, 218)';
+    });
+}
+
 export  {VerifyInputs, removeResetValidation, isNewOrderValid, isOrderProductAddValid, removeResetOrderValidation,
             isBillProductAddValid, isNewBillValid,  removeResetBillValidation, clearErrorMessage,
             isRateValid,removeResetRateValidation,
@@ -640,4 +680,5 @@ export  {VerifyInputs, removeResetValidation, isNewOrderValid, isOrderProductAdd
             isRegisterStaffValid, resetRegisterStaffValidation, clearRegisterStaffErrorMessage,
             validateChangePasswordEmail,
             validateAdminDetail, clearRegisterAdminErrorMessage,
+            validateChangePassword, clearChangePasswordError,
         }
