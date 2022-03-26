@@ -17,6 +17,10 @@ const AXIOS = axios.create({
 const URL_LOGIN ='login/';
 const URL_LOGOUT ='logout/';
 
+const URL_GET_ADMIN_DETAIL ='admin/';
+const URL_POST_ADMIN_DETAIL ='admin/update/';
+
+
 const URL_RESET_PASSWORD ='password_reset/';
 const URL_RESET_PASSWORD_CONFIRM ='password_reset/confirm/';
 
@@ -89,4 +93,7 @@ export {
 
     URL_RESET_PASSWORD,
     URL_RESET_PASSWORD_CONFIRM,
+
+    URL_GET_ADMIN_DETAIL,
+    URL_POST_ADMIN_DETAIL,
 }

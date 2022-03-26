@@ -570,10 +570,74 @@ const validateChangePasswordEmail=(email)=>{
     return isValid;
 }
 
+
+
+/**
+ * ADMIN
+ */
+
+const validateAdminDetail=(adminDetail)=>{
+    console.log(adminDetail)
+    const {name, firstName, lastName, phone, email, panNumber, registrationDate} = adminDetail;
+
+    if( name ==='' || name === undefined || name === null){
+        return invalidMessage({emptyFieldName: 'name', errorMessage: 'empty'});
+    }
+    else if(!NAME_REGEX.test(name)){
+        return invalidMessage({emptyFieldName: 'name', errorMessage: 'Invalid !! Should be only alphabet'});
+    }
+
+    else if( firstName ==='' || firstName === undefined || firstName === null){
+        return invalidMessage({emptyFieldName: 'firstName', errorMessage: 'empty'});
+    }
+    else if(!NAME_REGEX.test(firstName)){
+        return invalidMessage({emptyFieldName: 'firstName', errorMessage: 'Invalid !! Should be only alphabet'});
+    }
+
+    else if( lastName ==='' || lastName === undefined || lastName === null){
+        return invalidMessage({emptyFieldName: 'lastName', errorMessage: 'empty'});
+    }
+    else if(!NAME_REGEX.test(lastName)){
+        return invalidMessage({emptyFieldName: 'lastName', errorMessage: 'Invalid !! Should be only alphabet'});
+    }
+
+    else if(!PHONE_REGEX.test(phone)){
+        return invalidMessage({emptyFieldName: 'phone', errorMessage: 'Invalid !! check phone no. format'});
+    }
+
+    else if( email ==='' || email === undefined || email === null){
+        return invalidMessage({emptyFieldName: 'email', errorMessage: 'empty'});
+    }
+    else if(!EMAIL_REGEX.test(email)){
+        return invalidMessage({emptyFieldName: 'email', errorMessage: 'Invalid !! Should be only alphabet'});
+    }
+    
+    else if( panNumber ==='' || panNumber === undefined || panNumber === null){
+        console.log(panNumber)
+        return invalidMessage({emptyFieldName: 'panNumber', errorMessage: 'empty'});
+    }
+    else if(!NUMBER_REGEX.test(panNumber)){
+        return invalidMessage({emptyFieldName: 'panNumber', errorMessage: 'Invalid !! Should be only number'});
+    }
+
+    else if( registrationDate ==='' || registrationDate === undefined || registrationDate === null){
+        return invalidMessage({emptyFieldName: 'registrationDate', errorMessage: 'empty'});
+    }
+
+    return true;
+}
+
+const clearRegisterAdminErrorMessage=(inputName)=>{
+    document.getElementsByName(inputName)[0].style.color ='black';
+    document.getElementsByClassName(`${inputName}-tooltip`)[0].hidden = true;
+    document.getElementsByName(inputName)[0].style.borderColor ='rgb(206, 212, 218)';
+}
+
 export  {VerifyInputs, removeResetValidation, isNewOrderValid, isOrderProductAddValid, removeResetOrderValidation,
             isBillProductAddValid, isNewBillValid,  removeResetBillValidation, clearErrorMessage,
             isRateValid,removeResetRateValidation,
             isAssignWorkValid, removeResetAssignWorkValidation, clearAssignWorkErrorMessage,
             isRegisterStaffValid, resetRegisterStaffValidation, clearRegisterStaffErrorMessage,
             validateChangePasswordEmail,
+            validateAdminDetail, clearRegisterAdminErrorMessage,
         }

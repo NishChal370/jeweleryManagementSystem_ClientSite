@@ -1,17 +1,23 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom'
-import { useLocation } from 'react-router-dom'
-import { Route, Switch } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import {useHistory, useLocation,  Route, Switch } from 'react-router-dom'
 import { ChangePassword, EditProfile, ProfileCard } from '../../Components'
 
 
 function Admin() {
+    const [adminName, setAdminName]= useState('');
     const history = useHistory();
     const pathname = useLocation().pathname;
+
+    const adminNameSet=(firstName, lastName)=>{
+        const fullname = firstName+" "+lastName;
+        setAdminName(fullname);
+    }
+   
+
     return (
     <div className="card background--none" id='admin-card' style={{display:'flex', flexDirection:'row', justifyContent:'space-between' }}>
-
-            <ProfileCard/> 
+            
+            <ProfileCard adminName={adminName}/> 
 
             <div class="col-xl-8">
 
@@ -36,7 +42,7 @@ function Admin() {
                             </Route>
 
                             <Route path="/admin">
-                                <EditProfile/>
+                                <EditProfile adminNameSet={adminNameSet}/>
                             </Route>                
                         </Switch>
                             

@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ProfileImage, ProfileImage2 } from '../../Assets/img'
 
-function ProfileCard() {
-  return (
+function ProfileCard({adminName}) {
+    const [fulllName, setFullName] = useState(adminName);
+
+    useEffect(()=>{
+        if(adminName !== fulllName){
+            setFullName(adminName);
+        }
+    },[fulllName])
+
+    return (
     <section className="section profile" style={{width:'50%'}}>
         <div className="row">
             <div className="col-xl-10">
@@ -11,7 +19,7 @@ function ProfileCard() {
                     <div className="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
                     <img src={ProfileImage2} alt="Profile" className="rounded-circle"/>
-                    <h2>Nirmal Bishworkarma</h2>
+                    <h2>{adminName}</h2>
                     <h3>Owner</h3>
                     <div className="social-links mt-2">
                         <a href="#" className="twitter"><i className="bi bi-twitter"></i></a>
@@ -25,7 +33,7 @@ function ProfileCard() {
             </div>
         </div>
     </section>
-  )
+    )
 }
 
 export default ProfileCard
