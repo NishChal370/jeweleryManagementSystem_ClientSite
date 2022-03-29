@@ -4,9 +4,10 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import './Assets/css/style.css';
 import {Login} from './Pages/index';
 import { AXIOS } from './API/Constant';
+import SoundWelcome from './Assets/sound/computer.mp3';
 import {Header, SideNav, Main} from './Components/index';
 import { Post_Login, Post_Logout } from './API/UserServer';
-import SoundWelcome from './Assets/sound/computer.mp3';
+
 
 
 const Toast = Swal.mixin({
@@ -81,10 +82,7 @@ function App() {
           <Main isSideBarDisplayed={showSideBar}/>
         </Router> 
       )
-      :(<>
-        <Login loginHandler={loginHandler}/>
-        </>
-      )
+      :(<Login loginHandler={loginHandler}/> )
   );
 }
 

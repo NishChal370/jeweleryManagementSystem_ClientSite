@@ -1,28 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import './login.css'
+import React, { useState } from 'react';
+import './login.css';
 import { LoginImage } from '../../Assets/img';
-import { ChangePasswordForm, LoginForm } from '../../Components'
+import {  ChangePasswordForm, LoginForm, RequestTokenForm } from '../../Components';
 
 
 function Login({loginHandler}) {
-      const [isPasswordForget, setIsPasswordForget] = useState(false);
+      const [haveToken, setHaveToken] = useState(window.location.search.includes('?token='));
+      const [isPasswordForget, setIsPasswordForget] = useState((window.history.state === 'changepassword'));
+
 
       const pagechangeHandler=()=>{
-            setIsPasswordForget(!isPasswordForget);
+            haveToken 
+                  ? setIsPasswordForget(false)
+                  : setIsPasswordForget(!isPasswordForget);
 
-            (!isPasswordForget)
-                  ? window.history.pushState("changepassword", "changepassword", '/changepassword')
-                  : window.history.pushState("", "", '/')
+            haveToken && 
+                  window.history.pushState("", "", '/')
+
+            !haveToken &&(
+                  (!isPasswordForget)
+                        ? window.history.pushState("changepassword", "changepassword", '/changepassword')
+                        : window.history.pushState("", "", '/')
+            )
+                  
+
+            setHaveToken(false);
       }
-
-
-      // used when user refresh page
-      useEffect(()=>{
-            (window.history.state === 'changepassword')
-                  ? setIsPasswordForget(true)
-                  : setIsPasswordForget(false)
-      },[])
-
 
       return (
             <div className='login-body'>
@@ -36,15 +39,18 @@ function Login({loginHandler}) {
                               <h1>Welcome <br/>Gitanjai Jeweller</h1>
                               <p>Login to continue</p>
                         </header>
-                        {(! isPasswordForget)
-                              ? <LoginForm loginHandler={loginHandler} pagechangeHandler={pagechangeHandler}/>
-                              : <ChangePasswordForm pagechangeHandler={pagechangeHandler}/>
-                        }
                         
-                  </aside>
-                  
-            </div>
-            
+                        {haveToken&&(
+                              <ChangePasswordForm haveToken={haveToken} pagechangeHandler={pagechangeHandler}/>
+                        )}
+
+                        {!haveToken &&( 
+                              (! isPasswordForget)
+                                    ? <LoginForm loginHandler={loginHandler} pagechangeHandler={pagechangeHandler}/>
+                                    : <RequestTokenForm pagechangeHandler={pagechangeHandler}/>
+                        )} 
+                  </aside>  
+            </div> 
       )
 }
 
