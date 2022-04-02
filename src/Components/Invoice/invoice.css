@@ -131,13 +131,14 @@
     margin-top: 20%;
     display: flex;
     justify-content: flex-end;
+    margin-right: 2rem;
 }
 #print-me> main> div:nth-child(3) >aside >.signiture>span>hr{
     height: 0.2rem;
 }
 
 #print-me>footer{
-    padding: 4rem 4rem 2rem 4rem;
+    padding: 1rem 4rem 2rem 4rem;
     display: flex;
     justify-content: space-around;
 }

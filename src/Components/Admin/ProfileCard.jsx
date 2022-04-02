@@ -1,14 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { ProfileImage, ProfileImage2 } from '../../Assets/img'
+import React from 'react';
+import { useSelector } from 'react-redux';
 
-function ProfileCard({adminName}) {
-    const [fulllName, setFullName] = useState(adminName);
-
-    useEffect(()=>{
-        if(adminName !== fulllName){
-            setFullName(adminName);
-        }
-    },[fulllName])
+function ProfileCard() {
+    const adminInfo = useSelector(state => state.adminInfoReducer.data);
 
     return (
     <section className="section profile" style={{width:'50%'}}>
@@ -17,9 +11,12 @@ function ProfileCard({adminName}) {
 
                 <div className="card">
                     <div className="card-body profile-card pt-4 d-flex flex-column align-items-center">
-
-                    <img src={ProfileImage2} alt="Profile" className="rounded-circle"/>
-                    <h2>{adminName}</h2>
+                    {(adminInfo !== undefined) &&(
+                        <>
+                        <img src={`http://127.0.0.1:8000${adminInfo.profileImage}`} alt="Profile" className="rounded-circle"/>
+                        <h2>{adminInfo.name}</h2>
+                        </>
+                    )}
                     <h3>Owner</h3>
                     <div className="social-links mt-2">
                         <a href="#" className="twitter"><i className="bi bi-twitter"></i></a>

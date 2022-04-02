@@ -1,10 +1,10 @@
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom';
-import React, { useEffect, useState } from 'react'
-import { setLatestRate } from '../../Redux/Action';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Fetch_All_Rates } from '../../API/UserServer';
-import { ShopLogo, ProfileImage } from '../../Assets/img/index';
+import { ShopLogo } from '../../Assets/img/index';
+import { setAdminInfo, setLatestRate } from '../../Redux/Action';
+import { Fetch_All_Rates, GET_ADMIN_DETAIL } from '../../API/UserServer';
 
 
 const Toast = Swal.mixin({
@@ -19,11 +19,11 @@ const Toast = Swal.mixin({
 function Header({isDisplayed, showSideBarHandler,logoutHandler}) {
 
     const history = useHistory();  
-    const[todaysRate, setTodaysRate] = useState();  
-
     const dispatch = useDispatch();
+    const [todaysRate, setTodaysRate] = useState();  
+    const [adminDetail, setAdminDetail] = useState();
+    const adminInfo = useSelector(state => state.adminInfoReducer.data);
     const latestRate = useSelector(state => state.latestRateReducer.data);
-
     
     const fetchRate=()=>{
         Fetch_All_Rates()
@@ -44,19 +44,36 @@ function Header({isDisplayed, showSideBarHandler,logoutHandler}) {
 
     };
 
+    const GetAdminDetail=()=>{
+        GET_ADMIN_DETAIL()
+            .then((response)=>{
+                dispatch(setAdminInfo({profileImage: response.data.profileImage, name: response.data.first_name+" "+response.data.last_name}));
+            })
+            .catch((error)=>{
+                console.log(error.response.data);
+                alert("ERROR IN GET ADMIN DETAIL");
+            })
+    }
+
     useEffect(() => {
-        fetchRate();  
+        fetchRate(); 
+        GetAdminDetail(); 
     },[]);
 
     useEffect(() => {
+        console.log("INN");
         setTodaysRate(latestRate);
     }, [latestRate]);
+
+    useEffect(() => {
+        setAdminDetail(adminInfo);
+    }, [adminInfo]);
 
 
     return (
         <header id="header" className="header fixed-top d-flex align-items-center">
             <div className="d-flex align-items-center justify-content-between">
-
+                
                 <div className="logo d-flex align-items-center curser--on-hover" onClick={()=>{history.push('/')}}>
                     <img src={ShopLogo} alt="shop-logo"/>
                     <span className="d-none d-lg-block">Gitanjali Jewellers</span>
@@ -85,8 +102,12 @@ function Header({isDisplayed, showSideBarHandler,logoutHandler}) {
                     <li className="nav-item dropdown pe-3">
                         {/*  Profile Image Icon  */}
                         <a className="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                            <img src={ProfileImage} alt="Profile" className="rounded-circle"/>
-                            <span className="d-none d-md-block dropdown-toggle ps-2">Nirmal Bishwokarma</span>
+                            {(adminDetail !== undefined)&&(
+                                <>
+                                <img src={`http://127.0.0.1:8000${adminDetail.profileImage}`} alt="Profile" className="rounded-circle"/>
+                                <span className="d-none d-md-block dropdown-toggle ps-2">{adminDetail.name}</span>
+                                </>
+                            )}
                         </a>
 
                         {/*  Profile Dropdown Items */}

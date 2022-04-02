@@ -19,13 +19,14 @@ const Toast = Swal.mixin({
 function DataTable({name}) {
     const [summary, setSummary] = useState();
     const [heading, setHeading] = useState();
+    // const [filter, setFilter] = useState({type:'This Week',date: new Date().toJSON().slice(0,10)});
     const [filter, setFilter] = useState({type:'This Week',date: new Date().toJSON().slice(0,10)});
 
 
     const FetchOrderSummary=()=>{
         Fetch_Orders_Summary(`?customerInfo=None&type=all&status=all&date=${filter.date}&page=1`)
             .then(function(response){
-
+                console.log(response.data.results);
                 setSummary(response.data.results.slice(0,10))
             })
             .catch(function(error){
@@ -59,7 +60,7 @@ function DataTable({name}) {
     const FetchStaffWork =()=>{
         Fetch_Staff_Work(`?submittionDate=${filter.date}&staffInfo=${''}&orderId=${''}&type=${''}&workStatus=${''}&page=1`)
             .then(function(response){
-
+                console.log(response.data.results)
                 setSummary(response.data.results.slice(0,10))
             })
             .catch(function(error){
@@ -92,6 +93,9 @@ function DataTable({name}) {
         else if(btnName === 'month'){
             filter.type = 'This month'
             filter.date = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toJSON().slice(0,10);
+            // changed this cuz january index is 0
+            // filter.date = new Date(new Date().getFullYear(), new Date().getMonth()+1, 1).toJSON().slice(0,10);
+            // console.log(new Date(new Date().getFullYear(), new Date().getMonth()+1, 1).toJSON().slice(0,10));
         }
 
         setFilter({...filter})
@@ -120,6 +124,10 @@ function DataTable({name}) {
 
         setHeading(heading);
     },[filter])
+
+    useEffect(()=>{
+        setFilter({type:'This Week',date: getFirstDayOfThisWeek()})
+    },[])
 
 
 

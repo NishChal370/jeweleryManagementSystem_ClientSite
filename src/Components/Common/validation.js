@@ -628,9 +628,11 @@ const validateAdminDetail=(adminDetail)=>{
 }
 
 const clearRegisterAdminErrorMessage=(inputName)=>{
-    document.getElementsByName(inputName)[0].style.color ='black';
-    document.getElementsByClassName(`${inputName}-tooltip`)[0].hidden = true;
-    document.getElementsByName(inputName)[0].style.borderColor ='rgb(206, 212, 218)';
+    if(inputName !== 'image'){
+        document.getElementsByName(inputName)[0].style.color ='black';
+        document.getElementsByClassName(`${inputName}-tooltip`)[0].hidden = true;
+        document.getElementsByName(inputName)[0].style.borderColor ='rgb(206, 212, 218)';
+    }
 }
 
 

@@ -97,7 +97,9 @@ function GenerateBill() {
             .then(function (response) {
                 // handle success
                 if (saveAs !== 'Draft'){
-                    bill['billId'] = response.data.bills[0]['billId'];
+
+                    bill['billId'] = response.data.bills.reverse()[0]['billId'];
+                    bill['qr_code'] = response.data.bills.reverse()[0]['qr_code'];
                     setBill({...bill});
 
                     setSave(true);
@@ -109,7 +111,10 @@ function GenerateBill() {
             })
             .catch(function (error) {
                 // handle error
-                Swal.fire("Error occur in Post bill !", 'error')
+                (error.response.status === 404)
+                    ? Swal.fire(error.response.data, 'error')
+                    : Swal.fire("Error occur in Post bill !", 'error')
+                // Swal.fire("Error occur in Post bill !", 'error')
             });
     }
 
@@ -136,7 +141,9 @@ function GenerateBill() {
             })
             .catch(function(error){
                 // handle error
-                Swal.fire("error occure post edit bill", 'error')
+                (error.response.status === 404)
+                    ? Swal.fire(error.response.data, 'error')
+                    : Swal.fire("error occure post edit bill", 'error')
             });
     }
 
@@ -429,8 +436,6 @@ function GenerateBill() {
 
     /* verify inputs */
     useEffect(()=>{
-        // VerifyInputs();->>>>>>>>>>>>>>>>>>>>>
-        
         setUpdatingBill();
     },[]);
 

@@ -4,20 +4,13 @@ import { ChangePassword, EditProfile, ProfileCard } from '../../Components'
 
 
 function Admin() {
-    const [adminName, setAdminName]= useState('');
     const history = useHistory();
     const pathname = useLocation().pathname;
 
-    const adminNameSet=(firstName, lastName)=>{
-        const fullname = firstName+" "+lastName;
-        setAdminName(fullname);
-    }
-   
-
     return (
-    <div className="card background--none" id='admin-card' style={{display:'flex', flexDirection:'row', justifyContent:'space-between' }}>
+        <div className="card background--none" id='admin-card' style={{display:'flex', flexDirection:'row', justifyContent:'space-between' }}>
             
-            <ProfileCard adminName={adminName}/> 
+            <ProfileCard/> 
 
             <div class="col-xl-8">
 
@@ -42,7 +35,7 @@ function Admin() {
                             </Route>
 
                             <Route path="/admin">
-                                <EditProfile adminNameSet={adminNameSet}/>
+                                <EditProfile/>
                             </Route>                
                         </Switch>
                             

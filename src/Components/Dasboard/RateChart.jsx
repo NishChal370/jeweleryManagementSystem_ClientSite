@@ -25,17 +25,17 @@ function RateChart() {
   
   useEffect(()=>{getReport()},[filter])
   return (
-    <div className="col-12">
-      <div className="card rate">
+    <div className="col-12" >
+      <div className="card rate" style={{minHeight:'14rem'}}>
 
         <div className="filter">
           <a className="icon" data-bs-toggle="dropdown"><i className="bi bi-three-dots"></i></a>
           <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
             <li className="dropdown-header text-start">
-              <span className='d-flex justify-content-between'>
+              {/* <span className='d-flex justify-content-between'>
                 <h6>Filter</h6>
                 <p style={{textAlign:"start",  fontSize:'1.2rem', margin:'0rem', padding:'0rem',cursor:'pointer', top:'0',}}><FaFileExport/></p>
-              </span>
+              </span> */}
               
             </li>
 
@@ -46,9 +46,9 @@ function RateChart() {
         </div>
 
         <div className="card-body">
+          <h5 className="card-title">Rate <span>| This {(filter==='monthly')?'Month':(filter==='weekly')?"Week":"Year"}<p className='p-0 m-0'>Gold : in thousands</p> <p className='p-0 m-0'>Silve : in hundreds</p></span></h5>
           {(data !== undefined)
               ?(<>
-                <h5 className="card-title">Rate <span>| This {(filter==='monthly')?'Month':(filter==='weekly')?"Week":"Year"}<p className='p-0 m-0'>Gold : in thousands</p> <p className='p-0 m-0'>Silve : in hundreds</p></span></h5>
                 {(data.length>0)
                   ?(<>
                     

@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
 
 
+
+#video{
+  height: 20rem !important;
+}
+
 .back-button:hover{
       cursor: pointer;
       color: #012970;

@@ -1,11 +1,13 @@
 import React, { useEffect,useState } from 'react';
 import Swal from 'sweetalert2';
 import { HiSearch } from 'react-icons/hi';
+import { Spinner } from 'react-bootstrap';
 import { useLocation, useHistory } from 'react-router-dom';
 import { INITIAL_STAFF_WORK } from '../../Components/Staff/Constant';
 import { OrderProductsModel, OrderProductTable } from '../../Components';
 import { Get_Staff_Names, POST_Staff_Assign_Work } from '../../API/UserServer';
 import { clearAssignWorkErrorMessage, isAssignWorkValid, removeResetAssignWorkValidation } from '../../Components/Common/validation';
+
 
 const Toast = Swal.mixin({
     toast: true,
@@ -19,6 +21,7 @@ const Toast = Swal.mixin({
 function AssignWork() {
     const history = useHistory();
     const location = useLocation();
+    const [isLoading, setIsloading] = useState(false);
     const [stafffNameList, setStaffNameList] = useState();
     const [workDetail, setWorkDetail] = useState(INITIAL_STAFF_WORK);
     const [showOrderProductModel, setShowOrderProductModel] = useState(false);
@@ -40,8 +43,12 @@ function AssignWork() {
 
 
     const PostStaffAssignWork=(workDetail)=>{
+        setIsloading(true);
+
         POST_Staff_Assign_Work(workDetail)
             .then(function(response){
+                setIsloading(false);
+
                 Swal.fire('Work assigned!', '', 'success')
 
                 resetButtonHandler();
@@ -68,7 +75,7 @@ function AssignWork() {
 
 
     const handleShowOrderProductModel=()=>{
-        const NUMBER_REGEX = new RegExp('^$|^[1-9]*$');
+        const NUMBER_REGEX = new RegExp('^\\d*\\.?\\d+$');
 
         if( (selectedOrderId>0 && selectedOrderId !== '') && NUMBER_REGEX.test(selectedOrderId)){
             (showOrderProductModel)
@@ -358,7 +365,23 @@ function AssignWork() {
                             </div>
 
                             <div className="d-flex justify-content-end flex-cloumn gap-2">
-                                <button type="submit" className="btn btn-success">Submit</button>
+                                {isLoading
+                                    ?(
+                                        <button className="btn btn-success" disabled>
+                                            <Spinner
+                                                as="span"
+                                                animation="grow"
+                                                size="sm"
+                                                role="status"
+                                                aria-hidden="true"
+                                            />   Submitting....
+                                        </button>
+                                    )
+                                    :(
+                                        <button type="submit" className="btn btn-success">Submit</button>
+                                    )
+                                }
+                                
                             </div>
                         </form>
                         {/* <!-- End Horizontal Form --> */}

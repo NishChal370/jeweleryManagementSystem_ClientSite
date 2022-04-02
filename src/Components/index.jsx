@@ -30,8 +30,9 @@ import ChangePassword from "./Admin/ChangePassword";
 
 
 import LoginForm from "./Login/LoginForm";
-import ChangePasswordForm from "./Login/ChangePasswordForm";
+import LoginScanner from "./Login/LoginScanner";
 import RequestTokenForm from "./Login/RequestTokenForm";
+import ChangePasswordForm from "./Login/ChangePasswordForm";
 
 export {
         Header, SideNav, Main, 
@@ -53,6 +54,7 @@ export {
         ChangePassword,
 
         LoginForm,
+        LoginScanner,
         RequestTokenForm,
         ChangePasswordForm,
         // Table,

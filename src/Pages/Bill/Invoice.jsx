@@ -123,8 +123,12 @@ function Invoice(props) {
     optio, eaque rerum! Provident similique accusantium nemo autem.</p>
                         </section>
 
-                        <section className='signiture'>
+                        <section className='signiture d-flex gap-5'>
                             <span>
+                                <img style={{width:'7rem'}} src={`http://127.0.0.1:8000${billDetail.bill.qr_code}`} alt="qr-code" />
+                                <h5>Scan to view</h5>
+                            </span>
+                            <span className='signiture d-flex flex-column justify-content-end'>
                                 <img id='signiture-sample' src={SignitureSampleIcon} alt="owner-signiture" />
                                 <hr />
                                 <h5>Owner Name</h5>
