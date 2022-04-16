@@ -3,6 +3,7 @@ import { Spinner } from '..';
 import { BsEye } from 'react-icons/bs';
 import { FiEdit } from 'react-icons/fi';
 import { BiFirstPage, BiLastPage, BiSortAlt2 } from 'react-icons/bi';
+import { NotFound2 } from '../../Assets/img';
 
 
 
@@ -31,7 +32,10 @@ function SearchTable({ordersSummary, changePagehandler, buttonHandler, sortButto
                     </thead>
                     
                     <tbody>
-                    {
+                    {(ordersSummary.results.length === 0) &&(
+                        <tr><td colSpan={13}><h5 style={{color:'red', textAlign:'center', fontWeight:'bolder',}}><h5 style={{textAlign:'center'}}><img src={NotFound2} alt="not-found" /></h5>No data to show</h5></td></tr>
+                    )}
+                    {   
                         ordersSummary.results.map(({orderId, billId, customerName, phone, type, totalOrderedProduct, advanceAmount, customerProductWeight, date, submittionDate, submittedDate, status, billStatus, billRemainingAmt}, index)=>{
                             return(
                                 <tr key={`${index}SBTR`}>
@@ -51,9 +55,9 @@ function SearchTable({ordersSummary, changePagehandler, buttonHandler, sortButto
                                     <td>{submittedDate}</td>
                                     <td><span className={`badge bg-${(status === 'completed')?'success':( status === 'submitted')? 'primary':( status === 'inprogress')? 'secondary':'warning text-dark'}`}>{status}</span></td>
                                     <td onClick={()=>buttonHandler( orderId, billId, status, billStatus)}>
-                                        {(status === 'submitted' && billStatus === 'submitted' && billRemainingAmt <=0)
+                                        {(status === 'submitted' && billStatus === 'submitted' && billRemainingAmt <=0 && status==='progress')
                                             ? <BsEye/>
-                                            : <FiEdit/>
+                                            : ( status === 'inprogress')? <BsEye/> :<FiEdit/>
                                         }
                                     </td>
                                 </tr>

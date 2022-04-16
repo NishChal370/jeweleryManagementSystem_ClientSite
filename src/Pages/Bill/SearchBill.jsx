@@ -27,6 +27,7 @@ function SearchBill() {
     const [billType, setBillType] = useState('all');
     const [billStatus, setBillStatus] = useState('all');
     const [searchedDate, setSearchedDate] = useState(null);
+    const [paymentStatus, setPaymentStatus] = useState('all');
     const [initailReder, setInitialRender] = useState(true);
     const [showSearchInput, setShowSearchInput] = useState(false);
     const [isProductDeleted, setIsProductDeleted] = useState(false);
@@ -49,7 +50,9 @@ function SearchBill() {
                                          //if search by date
         searchFor = (searchedDate != null) ?`${searchFor}&billDate=${searchedDate}` : searchFor
 
-        Fetch_Bill_Summary(searchFor)
+        searchFor = (paymentStatus != 'all') ?`${searchFor}&paymentStatus=${paymentStatus}` : searchFor
+
+        Fetch_Bill_Summary(`${searchFor}`) //&paymentStatus=remain
             .then(function (response) {
                 // handle success
 
@@ -99,6 +102,10 @@ function SearchBill() {
 
     const changeBillStatusHandler = ({target})=> setBillStatus(target.value);
 
+    const changePaymentStatusHandler =({target})=>{
+        setPaymentStatus(target.value);
+    }
+
     const datePickerHandler = ({target})=>{
         let date = (target.value != null) ? format(target.value, 'yyyy-MM-dd') : target.value;
         
@@ -140,7 +147,7 @@ function SearchBill() {
         });
 
         fetchBillsSummary();
-    },[pageNumber, searchValue.confirm, billType, billStatus, searchedDate, isProductDeleted]);
+    },[pageNumber, searchValue.confirm, billType, billStatus, searchedDate, isProductDeleted, paymentStatus]);
 
     // it will be called if the filter input is empty
     useEffect(()=>{
@@ -186,12 +193,22 @@ function SearchBill() {
                                     <option value="draft">Draft</option>
                                 </select>
                             </span>
+
+                            <span>
+                                <p>Payment</p>
+                                <select name="billStatus" id="billType" className="dropdown-toggle" value={paymentStatus} onChange={changePaymentStatusHandler}>
+                                    <option value="all">All</option>
+                                    <option value="payed">Payed</option>
+                                    <option value="remain">Remain</option>
+                                </select>
+                            </span>
                         </section>
                         
                         <aside>
                             <DatePickerComponent 
                                 allowEdit={false}
                                 format="MMM dd, yyyy"
+
                                 onChange={datePickerHandler}
                                 style={{fontFamily:'Poppins sans-serif', fontSize:'1.4rem', width:'10rem', paddingTop:'0.3rem', textAlign:'center'}} 
                             ></DatePickerComponent>

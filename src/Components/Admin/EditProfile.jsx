@@ -30,7 +30,6 @@ function EditProfile() {
     const GetAdminDetail=()=>{
         GET_ADMIN_DETAIL()
             .then((response)=>{
-                console.log(response.data);
                 adminDetail.name = response.data.username;
                 adminDetail.firstName = response.data.first_name;
                 adminDetail.lastName = response.data.last_name;

@@ -42,14 +42,22 @@ function App() {
         AXIOS.defaults.headers['Authorization'] = 'Bearer '+ localStorage.getItem('access_token')
 
         setIslogin(true);
-        welcomePlay();
+        // welcomePlay();
       })
       .catch(function(error){
         Toast.fire({
           icon: 'error',
           title: 'Invalid Info !!!'
         });
-
+        const {email, password} = loginDetail;
+        if(email === ''){
+            document.getElementsByClassName('email-tooltip')[0].hidden = false;
+        }
+        else if( password ===''){
+          document.getElementsByClassName('password-tooltip')[0].hidden = false;
+        }
+        console.log(error.response)
+        console.log(error.response.status)
         //form login form
         document.getElementById('login-email-input').style.borderColor='red';
         document.getElementById('login-password-input').style.borderColor='red';

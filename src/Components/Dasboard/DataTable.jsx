@@ -24,9 +24,9 @@ function DataTable({name}) {
 
 
     const FetchOrderSummary=()=>{
-        Fetch_Orders_Summary(`?customerInfo=None&type=all&status=all&date=${filter.date}&page=1`)
+        Fetch_Orders_Summary(`?customerInfo=None&type=all&status=all&date=${filter.date}&report=${filter.type}&page=1`)
             .then(function(response){
-                console.log(response.data.results);
+
                 setSummary(response.data.results.slice(0,10))
             })
             .catch(function(error){
@@ -58,9 +58,9 @@ function DataTable({name}) {
 
 
     const FetchStaffWork =()=>{
-        Fetch_Staff_Work(`?submittionDate=${filter.date}&staffInfo=${''}&orderId=${''}&type=${''}&workStatus=${''}&page=1`)
+        Fetch_Staff_Work(`?submittionDate=${filter.date}&report=${filter.type}&staffInfo=${''}&orderId=${''}&type=${''}&workStatus=${''}&page=1`)
             .then(function(response){
-                console.log(response.data.results)
+
                 setSummary(response.data.results.slice(0,10))
             })
             .catch(function(error){
@@ -88,7 +88,16 @@ function DataTable({name}) {
         }
         else if(btnName === 'today'){
             filter.type = 'Today'
-            filter.date = new Date().toJSON().slice(0,10);
+            let today = new Date();
+            let dd = String(today.getDate()).padStart(2, '0');
+            let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            let yyyy = today.getFullYear();
+
+            filter.date = yyyy + '-' + mm + '-' + dd;
+            // filter.date = new Date().toJSON().slice(0,10);
+            // filter.date = new Date().toISOString().slice(0,10);
+            // console.log(new Date().toISOString());
+            // console.log(new Date().toISOString().slice(0,10))
         }
         else if(btnName === 'month'){
             filter.type = 'This month'

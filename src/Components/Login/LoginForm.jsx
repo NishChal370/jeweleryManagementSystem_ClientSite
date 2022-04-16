@@ -13,6 +13,8 @@ function LoginForm({loginHandler, pagechangeHandler}) {
             setLoginDetail({...loginDetail});
 
             //change color
+            document.getElementsByClassName('email-tooltip')[0].hidden = true;
+            document.getElementsByClassName('password-tooltip')[0].hidden = true;
             document.getElementById('login-email-input').style.borderColor='#012a70cb';
             document.getElementById('login-password-input').style.borderColor='#012a70cb';
       }
@@ -39,6 +41,9 @@ function LoginForm({loginHandler, pagechangeHandler}) {
                                           
                                           <span className="field__label">E-mail</span>
                                     </span>
+                                    <div id='invalid-tooltip' className={`email-tooltip`} hidden={true} style={{marginTop:'3rem'}}>
+                                          <p> Should not be empty !! </p> 
+                                    </div>
                               </label>
                               <label className="field field_v1">
                                     <input id='login-password-input' className="field__input" placeholder="insert password" name='password' type='password' value={loginDetail.password} onChange={changeInputHandler} required/>
@@ -46,7 +51,12 @@ function LoginForm({loginHandler, pagechangeHandler}) {
                                           
                                           <span className="field__label">Password</span>
                                     </span>
+                                    <div id='invalid-tooltip' className={`password-tooltip`} hidden={true} style={{marginTop:'3rem'}}>
+                                          <p> Should not be empty !! </p> 
+                                    </div>
+                                    
                               </label>  
+                              
                         </div>            
                   </main>
 

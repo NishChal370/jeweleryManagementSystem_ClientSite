@@ -104,7 +104,7 @@ function StaffTable({staffDetail, saveHandler}) {
                     ?(staffDetail.map(({staffId, staffName, phone, email, address, registrationDate, resignDate, totalWork, completed, inprogress}, index)=>{
                     return(
                         <>
-                        <tr onClick={()=> showHandle(index)}>
+                        <tr onClick={()=> showHandle(index)} key={`staffsRow${index}`}>
                             <th scope="row">{staffId}</th>
                             <td>{staffName}</td>
                             <td>{phone}</td>
@@ -114,10 +114,10 @@ function StaffTable({staffDetail, saveHandler}) {
                             {/* <td>{(resignDate === null)?'-':resignDate}</td> */}
                             <td style={{fontSize:'1.6rem', margin:'0rem', padding:'0rem' }}><GiClick/></td>  
                         </tr>
-                        <tr className={`staff-info--${(isDetailShow.index === index)?(isDetailShow)?'show':'hide':'hide'}`}>
+                        <tr className={`staff-info--${(isDetailShow.index === index)?(isDetailShow)?'show':'hide':'hide'}`} key={`staffsRow2${index}`}>
                             {/* <tr  className={`a staff-info--show`} > */}
                             {/* <tr className={`staff-info--show`}> */}
-                            <td  colspan="6">
+                            <td  colSpan="6">
                                 <section className='staff-info d-flex gap-5' >
                                     <section >
                                         <img className='staff-avtar' src={StaffAvtar} alt="avtar"/>
@@ -178,8 +178,8 @@ function StaffTable({staffDetail, saveHandler}) {
                         <td colSpan="12" className="border-top">
                             <>
                             <span>1 of 1 &emsp;</span>
-                            <i className='hover--curser'><BiFirstPage/></i> 
-                            <i className='hover--curser'><BiLastPage/></i>
+                            {/* <i className='hover--curser'><BiFirstPage/></i> 
+                            <i className='hover--curser'><BiLastPage/></i> */}
                             </>
                         </td>
                     </tr>

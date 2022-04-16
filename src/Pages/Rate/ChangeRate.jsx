@@ -34,6 +34,8 @@ function ChangeRate() {
 
 
     const inputChangeHandler=(e)=>{
+        removeResetRateValidation();
+        
         if(isFinite(e.target.value)){
             currentRate[e.target.name] = e.target.value;
 

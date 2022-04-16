@@ -116,11 +116,20 @@ const isBillProductAddValid=(product, billProduct)=>{
     else if(product.netWeight === '' || product.netWeight === null || product.netWeight === undefined){
         return invalidMessage({emptyFieldName: 'netWeight', errorMessage: 'empty'})
     }
+    else if(!NUMBER_REGEX.test(product['netWeight'])){
+        return invalidMessage({emptyFieldName: 'netWeight', errorMessage: 'Invalid ! should be number  gereater than 0'});
+    }
     else if(billProduct.lossWeight === '' || billProduct.lossWeight === null || billProduct.lossWeight === undefined){
         return invalidMessage({emptyFieldName: 'lossWeight', errorMessage: 'empty'})
     }
+    else if(!NUMBER_REGEX.test(billProduct['lossWeight'])){
+        return invalidMessage({emptyFieldName: 'lossWeight', errorMessage: 'Invalid ! should be number  gereater than 0'});
+    }
     else if(billProduct.makingCharge === '' || billProduct.makingCharge === null || billProduct.makingCharge === undefined){
         return invalidMessage({emptyFieldName: 'makingCharge', errorMessage: 'empty'})
+    }
+    else if(!NUMBER_REGEX.test(billProduct['makingCharge'])){
+        return invalidMessage({emptyFieldName: 'makingCharge', errorMessage: 'Invalid ! should be number  gereater than 0'});
     }
     else if( (product.gemsPrice !== '' && product.gemsPrice !== undefined && product.gemsPrice !== null) && (!NUMBER_REGEX.test(product.gemsPrice))  ){
         return invalidMessage({emptyFieldName: 'gemsPrice', errorMessage: 'Invalid ! should not be negative or alphabet'})
@@ -162,7 +171,7 @@ const isNewBillValid=(customer, bill, billProductList, location)=>{
 
         else if((customer.phone !== '' || customer.phone !== undefined || customer.phone !== null) && (!PHONE_REGEX.test(customer.phone)) ){
 
-            return invalidMessage({emptyFieldName: 'phone', errorMessage: 'Invalid !!'});
+            return invalidMessage({emptyFieldName: 'phone', errorMessage: 'Empty/Invalid !! Check phone number format'});
         }
 
         else if((customer.email !== '' || customer.email !== undefined || customer.email !== null) && (!EMAIL_REGEX.test(customer.email)) ){
@@ -268,7 +277,7 @@ const isNewOrderValid=(customer, order, orderProductList)=>{
 
         else if((customer.phone !== '' || customer.phone !== undefined || customer.phone !== null) && (!PHONE_REGEX.test(customer.phone)) ){
 
-            return invalidMessage({emptyFieldName: 'phone', errorMessage: 'Invalid !!'});
+            return invalidMessage({emptyFieldName: 'phone', errorMessage: 'Empty/Invalid !! Check phone number format'});
         }
 
         else if((customer.email !== '' || customer.email !== undefined || customer.email !== null) && (!EMAIL_REGEX.test(customer.email)) ){

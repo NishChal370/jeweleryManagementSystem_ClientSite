@@ -44,7 +44,7 @@ function AssignWork() {
 
     const PostStaffAssignWork=(workDetail)=>{
         setIsloading(true);
-
+        console.log(workDetail)
         POST_Staff_Assign_Work(workDetail)
             .then(function(response){
                 setIsloading(false);

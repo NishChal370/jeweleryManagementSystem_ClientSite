@@ -7,6 +7,14 @@ import { Post_Staff } from '../../API/UserServer';
 import { isRegisterStaffValid,resetRegisterStaffValidation,clearRegisterStaffErrorMessage } from '../Common/validation';
 
 
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 800,
+    timerProgressBar: false,
+});
+
 const INSTANCE_STAFF = {staffName:'', phone:'', address:'', email:''}
 
 function ResigsterStaffModal({show, handleClose, saveHandler}) {
@@ -28,10 +36,22 @@ function ResigsterStaffModal({show, handleClose, saveHandler}) {
 
                 resetHandler();
                 handleClose();
+
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Register sucessfully !! '
+                });
             })
-            .catch(function (error) {
+            .catch(function ({response}) {
                 // handle error
-                console.log(error);
+                console.log(response);
+                (response.status === 406) &&(
+                    Toast.fire({
+                        icon: 'error',
+                        title: response['data']
+                    })
+                )
+                
             });
     }
 

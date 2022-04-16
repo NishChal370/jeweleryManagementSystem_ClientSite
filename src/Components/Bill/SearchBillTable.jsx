@@ -6,6 +6,7 @@ import { FiEdit } from 'react-icons/fi';
 import { BiFirstPage, BiLastPage, BiSortAlt2 } from 'react-icons/bi';
 import { useHistory } from 'react-router-dom';
 import { Fetch_Bill_By_Id } from '../../API/UserServer';
+import { NotFound2 } from '../../Assets/img';
 
 
 /**
@@ -97,6 +98,9 @@ function SearchBillTable({billSummary, changePagehandler, DeleteBillById, sortBu
                     </thead>
 
                     <tbody>
+                    {(billSummary.results.length === 0) &&(
+                        <tr><td colSpan={13}><h5 style={{color:'red', textAlign:'center', fontWeight:'bolder',}}><h5 style={{textAlign:'center'}}><img src={NotFound2} alt="not-found" /></h5>No data to show</h5></td></tr>
+                    )}
                     {
                         billSummary.results.map(({billId, customerName, customerAddress, phone, type, totalProduct, productsWeight, customerProductWeight, status, payment, date}, index)=>{
                             return(

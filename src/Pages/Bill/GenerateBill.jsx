@@ -156,8 +156,9 @@ function GenerateBill() {
             : bill.status ='submitted'
 
         customer.bills = [bill];
+        console.log("I am here");
         console.log(customer);
-        (updatingBill === undefined||updatingBill['dataType'] === 'orderBill')
+        (updatingBill === undefined||updatingBill['dataType'] === 'orderBill') 
             ? PostBill(customer,saveAs) //alert("New bill")
             : PostEditedBill(customer,saveAs) //alert("Old bill update")
     }
@@ -507,8 +508,11 @@ function GenerateBill() {
                             )
                         })
                     }
-
+                {/* <form className="row g-4 pt-3" onSubmit={buttonClickHandler}> */}
                     <div className='scroll--table bill-product-table'>
+                        <div className='card-title p-0 m-0  d-flex justify-content-end'>
+                            <p className='px-2 py-0 m-0 text-muted'>Weight: in lal</p>
+                        </div>
                         <ProductTable
                             calledBy = 'bill'
                             productsList={billProductList}

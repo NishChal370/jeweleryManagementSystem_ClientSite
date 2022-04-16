@@ -193,15 +193,29 @@ function PlaceOrder() {
   
   const saveButtonHandler = ()=>{
     if(isNewOrderValid(customer, order, orderProductList)){
-      order.orderProducts = orderProductList;
+      
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "Please make sure all your information is correct!",
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#044a06',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirm'
+      }).then((result) => {
+        if (result.isConfirmed){
+          order.orderProducts = orderProductList;
 
-      (!isRateFixed)&&(order.rate = null);
+          (!isRateFixed)&&(order.rate = null);
 
-      customer.orders = [order];
-
-      (searchedOrder === undefined)
-        ? PostOrder(customer)
-        : PostOrderUpdate(customer); //old
+          customer.orders = [order];
+          
+          (searchedOrder === undefined)
+            ? PostOrder(customer)
+            : PostOrderUpdate(customer); //old
+            
+        }
+      });
                 
     }  
   }

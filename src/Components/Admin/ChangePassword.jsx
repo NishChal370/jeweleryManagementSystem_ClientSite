@@ -75,29 +75,29 @@ function ChangePassword() {
             {/* <!-- Change Password Form --> */}
                 <form onSubmit={submitHandler}>
 
-                    <div class="row mb-3">
-                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
-                    <div class="col-md-8 col-lg-9">
-                        <input name="oldPassword"  class="form-control" id="oldPassword" type='password' value={passwordDetail.oldPassword} onChange={inputChangeHandler}/>
+                    <div className="row mb-3">
+                    <label for="currentPassword" className="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                    <div className="col-md-8 col-lg-9">
+                        <input name="oldPassword"  className="form-control" id="oldPassword" type='password' value={passwordDetail.oldPassword} onChange={inputChangeHandler}/>
                     </div>
                     </div>
 
-                    <div class="row mb-3">
-                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
-                    <div class="col-md-8 col-lg-9">
-                        <input name="newPassword1"  class="form-control" id="newPassword1" type='password' value={passwordDetail.newPassword1} onChange={inputChangeHandler}/>
+                    <div className="row mb-3">
+                    <label for="newPassword" className="col-md-4 col-lg-3 col-form-label">New Password</label>
+                    <div className="col-md-8 col-lg-9">
+                        <input name="newPassword1"  className="form-control" id="newPassword1" type='password' value={passwordDetail.newPassword1} onChange={inputChangeHandler}/>
                     </div>
                     </div>
 
-                    <div class="row mb-3">
-                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
-                    <div class="col-md-8 col-lg-9">
-                        <input name="newPassword2"  class="form-control" id="newPassword2" type='password' value={passwordDetail.newPassword2} onChange={inputChangeHandler}/>
+                    <div className="row mb-3">
+                    <label for="renewPassword" className="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                    <div className="col-md-8 col-lg-9">
+                        <input name="newPassword2"  className="form-control" id="newPassword2" type='password' value={passwordDetail.newPassword2} onChange={inputChangeHandler}/>
                     </div>
                     </div>
 
-                    <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Change Password</button>
+                    <div className="text-center">
+                    <button type="submit" className="btn btn-primary">Change Password</button>
                     </div>
                 </form>
             {/* <!-- End Change Password Form --> */}

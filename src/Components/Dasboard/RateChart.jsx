@@ -32,10 +32,10 @@ function RateChart() {
           <a className="icon" data-bs-toggle="dropdown"><i className="bi bi-three-dots"></i></a>
           <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
             <li className="dropdown-header text-start">
-              {/* <span className='d-flex justify-content-between'>
+              <span className='d-flex justify-content-between'>
                 <h6>Filter</h6>
-                <p style={{textAlign:"start",  fontSize:'1.2rem', margin:'0rem', padding:'0rem',cursor:'pointer', top:'0',}}><FaFileExport/></p>
-              </span> */}
+                {/* <p style={{textAlign:"start",  fontSize:'1.2rem', margin:'0rem', padding:'0rem',cursor:'pointer', top:'0',}}><FaFileExport/></p> */}
+              </span>
               
             </li>
 
