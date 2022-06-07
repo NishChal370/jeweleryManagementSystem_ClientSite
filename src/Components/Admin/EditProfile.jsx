@@ -153,7 +153,6 @@ function EditProfile() {
 
     return (
         <div className="tab-pane fade  show active  profile-edit pt-3" id="profile-edit">
-            {console.log(adminDetail)}
             {/* <!-- Profile Edit Form --> */}
             <form onSubmit={saveButtonHandler}>
                 <div className="row mb-3">
