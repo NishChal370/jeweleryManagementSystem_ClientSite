@@ -45,6 +45,11 @@ function GenerateBill() {
         }
         
         if(product.hasOwnProperty(inputName)){
+            if(inputName === 'gemsPrice'){  
+                if(value === ''){
+                    value = null ;
+                }   
+            }
 
             setProduct((prevState) => ({ ...prevState, [inputName]: value }));
         }
@@ -114,7 +119,6 @@ function GenerateBill() {
                 (error.response.status === 404)
                     ? Swal.fire(error.response.data, 'error')
                     : Swal.fire("Error occur in Post bill !", 'error')
-                // Swal.fire("Error occur in Post bill !", 'error')
             });
     }
 
@@ -132,7 +136,10 @@ function GenerateBill() {
             .then(function(response){
                 // handle success
                 if (saveAs !== 'Draft'){
-                    handlePrint();
+                    bill['qr_code'] = response.data.bills.reverse()[0]['qr_code'];
+                    setBill({...bill});
+
+                    setSave(true);
                 }
                 else{
                     resetHandler(); 
@@ -156,8 +163,7 @@ function GenerateBill() {
             : bill.status ='submitted'
 
         customer.bills = [bill];
-        console.log("I am here");
-        console.log(customer);
+
         (updatingBill === undefined||updatingBill['dataType'] === 'orderBill') 
             ? PostBill(customer,saveAs) //alert("New bill")
             : PostEditedBill(customer,saveAs) //alert("Old bill update")
@@ -190,7 +196,6 @@ function GenerateBill() {
             Toast.fire({
                 icon: 'error',
                 title: 'Bill product is missing !!',
-                // text: 'click add to add first'
             })
         }
     };
@@ -241,7 +246,6 @@ function GenerateBill() {
         setProduct({...INITIAL_PRODUCT});
         setBillProduct(billProduct);
 
-        // removeResetValidation();
         removeResetBillValidation();
     }
     
@@ -287,8 +291,9 @@ function GenerateBill() {
             
         }
         else if(buttonName === 'Draft'){
-
-            saveButtonHandler(buttonName);
+            ( isNewBillValid(customer, bill, billProductList, location) ) && ( //TODO: yocheage garay xu
+                saveButtonHandler(buttonName)
+            )
         }
         else if(buttonName === 'Clear'){
 
@@ -470,8 +475,6 @@ function GenerateBill() {
                 </span>
 
 
-
-                {/* <form className="row g-4 pt-3 needs-validation" noValidate onSubmit={buttonClickHandler}> */}
                 <form className="row g-4 pt-3" onSubmit={buttonClickHandler}>
                     <section className='col mb-2'>
                         <div className="col-md-5 d-flex gap-3">
@@ -498,7 +501,8 @@ function GenerateBill() {
                                                     value={customer[key]}
                                                     changehandler={(e)=>inputHandler(e)}
                                                     isReadonly = {false}
-                                                    type={(key==='email') ? "email" : (key==='phone')? "number":"text"}
+                                                    // type={(key==='email') ? "email" : (key==='phone')? "number":"text"} //TODO: Uncomment if error
+                                                    type={"text"}
                                                 />
                                             )
                                         }
@@ -508,7 +512,7 @@ function GenerateBill() {
                             )
                         })
                     }
-                {/* <form className="row g-4 pt-3" onSubmit={buttonClickHandler}> */}
+
                     <div className='scroll--table bill-product-table'>
                         <div className='card-title p-0 m-0  d-flex justify-content-end'>
                             <p className='px-2 py-0 m-0 text-muted'>Weight: in lal</p>
@@ -538,7 +542,9 @@ function GenerateBill() {
                                                         min= {1}
                                                         name={ input }
                                                         changehandler={(e)=>inputHandler(e)}
-                                                        type={(!['productName', 'gemsName'].includes(input))? "number": "text"}
+                                                        // type={(!['productName', 'gemsName'].includes(input))? "number": "text"} //TODO: UNCOMMENt iF error
+                                                        // type={(!['productName', 'gemsName', 'gemsPrice'].includes(input))? "number": "text"}
+                                                        type= 'text'
                                                         value={(billProduct.hasOwnProperty(input)) ? billProduct[input] : product[input]}
                                                         
                                                     />

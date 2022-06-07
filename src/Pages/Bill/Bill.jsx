@@ -19,24 +19,6 @@ function Bill() {
 
     return (
         <div>
-            {/* <span className='d-flex justify-content-end'>
-                <div className='rate-datepicker card-title  m-0 p-0 pb-3'>                                                                                                                                                    
-                    <NavLink 
-                        to="/bill" 
-                        style={{color: (location === '/bill') ? '#899bbd' : ''}}
-                    >
-                        Generate
-                    </NavLink>
-                    &#160; / &#160;
-                    <NavLink 
-                        to="/bill/search"
-                        style={{color: (location === '/bill/search') ? '#899bbd' : ''}}
-                    >
-                        Search
-                    </NavLink>
-                </div>
-            </span> */}
-
             <Switch>   
                 <Route path="/bill/invoice">
                     <Invoice/>

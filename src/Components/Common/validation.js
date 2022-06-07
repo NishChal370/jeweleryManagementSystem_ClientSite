@@ -119,10 +119,16 @@ const isBillProductAddValid=(product, billProduct)=>{
     else if(!NUMBER_REGEX.test(product['netWeight'])){
         return invalidMessage({emptyFieldName: 'netWeight', errorMessage: 'Invalid ! should be number  gereater than 0'});
     }
+    else if(product['netWeight'] <= 0){
+        return invalidMessage({emptyFieldName: 'netWeight', errorMessage: 'Invalid ! should be number  gereater than 0'});
+    }
     else if(billProduct.lossWeight === '' || billProduct.lossWeight === null || billProduct.lossWeight === undefined){
         return invalidMessage({emptyFieldName: 'lossWeight', errorMessage: 'empty'})
     }
     else if(!NUMBER_REGEX.test(billProduct['lossWeight'])){
+        return invalidMessage({emptyFieldName: 'lossWeight', errorMessage: 'Invalid ! should be number  gereater than 0'});
+    }
+    else if(billProduct.lossWeight <= 0){
         return invalidMessage({emptyFieldName: 'lossWeight', errorMessage: 'Invalid ! should be number  gereater than 0'});
     }
     else if(billProduct.makingCharge === '' || billProduct.makingCharge === null || billProduct.makingCharge === undefined){
@@ -131,11 +137,20 @@ const isBillProductAddValid=(product, billProduct)=>{
     else if(!NUMBER_REGEX.test(billProduct['makingCharge'])){
         return invalidMessage({emptyFieldName: 'makingCharge', errorMessage: 'Invalid ! should be number  gereater than 0'});
     }
+    else if(billProduct['makingCharge'] < 1){
+        return invalidMessage({emptyFieldName: 'makingCharge', errorMessage: 'Invalid ! should be number  gereater than 0'});
+    }
     else if( (product.gemsPrice !== '' && product.gemsPrice !== undefined && product.gemsPrice !== null) && (!NUMBER_REGEX.test(product.gemsPrice))  ){
         return invalidMessage({emptyFieldName: 'gemsPrice', errorMessage: 'Invalid ! should not be negative or alphabet'})
     }
+    else if( (product.gemsPrice !== '' && product.gemsPrice !== undefined && product.gemsPrice !== null) && (product.gemsPrice<=0) ){
+        return invalidMessage({emptyFieldName: 'gemsPrice', errorMessage: 'Invalid ! should be number  gereater than 0'})
+    }
     else if((product.gemsPrice !== '' && product.gemsPrice !== undefined && product.gemsPrice !== null) && (product.gemsName === '' || product.gemsName === undefined || product.gemsName === null)){
         return invalidMessage({emptyFieldName: 'gemsName', errorMessage: 'empty'})
+    }
+    else if((product.gemsName !== '' && product.gemsName !== undefined && product.gemsName !== null) && (product.gemsPrice === '' || product.gemsPrice === undefined || product.gemsPrice === null)){
+        return invalidMessage({emptyFieldName: 'gemsPrice', errorMessage: 'empty'})
     }
 
     return true;
@@ -335,14 +350,26 @@ const isOrderProductAddValid=(product, orderProduct)=>{
 
             return invalidMessage({emptyFieldName: 'netWeight', errorMessage: 'Invalid ! should be number  gereater than 0'});
         }
+        else if(product['netWeight']<=0){
 
-        if( (orderProduct.totalWeight !== '' || orderProduct.totalWeight !== undefined || orderProduct.totalWeight !== null) && (!NUMBER_REGEX.test(orderProduct.totalWeight)) ){ // pick from here->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-            return invalidMessage({emptyFieldName: 'totalWeight', errorMessage: 'Invalid ! should not be negative'});
+            return invalidMessage({emptyFieldName: 'netWeight', errorMessage: 'Invalid ! should be number  gereater than 0'});
         }
-        else if( (product.size !== '' || product.size !== undefined || product.size !== null) && (!NUMBER_REGEX.test(product.size)) ){
 
-            return  invalidMessage({emptyFieldName: 'size', errorMessage: 'Invalid ! should not be negative'});
+        else if( (orderProduct.totalWeight !== '' || orderProduct.totalWeight !== undefined || orderProduct.totalWeight !== null) && (!NUMBER_REGEX.test(orderProduct.totalWeight)) ){ // pick from here->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+            return invalidMessage({emptyFieldName: 'totalWeight', errorMessage: 'Invalid ! should be number  gereater than 0'});
+        }
+        else if(orderProduct.totalWeight !== null && orderProduct.totalWeight <= 0){
+            return  invalidMessage({emptyFieldName: 'totalWeight', errorMessage: 'Invalid ! should be number  gereater than 0'});
+        }
+        
+        
+        else if((product.size !== '' || product.size !== undefined || product.size !== null) && (!NUMBER_REGEX.test(product.size)) ){ 
+            return  invalidMessage({emptyFieldName: 'size', errorMessage: 'Invalid ! should be positive number'});
+        }
+        else if(product.size !== null && product.size<=0 ){
+
+            return  invalidMessage({emptyFieldName: 'size', errorMessage: 'Invalid ! should be positive number'});
         }
 
     }
@@ -375,7 +402,7 @@ const isRateValid=(currentRate)=>{
     else if(silverRate === ''){
         return invalidMessage({emptyFieldName: 'silverRate', errorMessage: 'empty'});
     }
-    else if( (tajabiRate<=0) || (!DECIMAL_REGEX.test(silverRate)) ){
+    else if( (silverRate<=0) || (!DECIMAL_REGEX.test(silverRate)) ){
         return invalidMessage({emptyFieldName: 'silverRate', errorMessage: 'Invalid ! should be number greater than 0'});
     }
 
@@ -575,6 +602,10 @@ const validateChangePasswordEmail=(email)=>{
     }
 
     document.getElementsByName('email')[0].style.borderColor =(isValid) ?'#012970' :'red';
+    Toast.fire({
+        icon: 'error',
+        title: 'Invalid Email',
+  });
 
     return isValid;
 }
@@ -668,9 +699,9 @@ const validateChangePassword=(passwordDetail)=>{
             document.getElementsByName(name)[0].style.borderColor ='red';
         });
         
-        Toast.fire({
+        Swal.fire({
             icon: 'error',
-            title: 'Invalid Detail !!'
+            title: 'Password doesn\'n matched.'
         });
     }
 

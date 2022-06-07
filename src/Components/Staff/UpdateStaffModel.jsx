@@ -5,6 +5,7 @@ import { HiSaveAs } from 'react-icons/hi';
 import { AiOutlineClear } from 'react-icons/ai';
 import { clearRegisterStaffErrorMessage, isRegisterStaffValid } from '../Common/validation';
 import { Update_Staff_By_Id } from '../../API/UserServer';
+import Swal from 'sweetalert2';
 
 
 
@@ -24,6 +25,7 @@ function UpdateStaffModel({ showUpdateStaffModal, handlerShowUpdateStaffModal, s
                             saveHandler(response.data); // it is save to render the this page (i.e staff detail)
 
                             handlerShowUpdateStaffModal();
+                            Swal.fire('Updated sucessfully !!', '', 'success');
                         })
                         .catch((response)=>{
                               console.log(response)

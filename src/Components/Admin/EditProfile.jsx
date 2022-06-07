@@ -201,23 +201,3 @@ function EditProfile() {
 }
 
 export default EditProfile
-
-
-/**<div className='d-flex justify-content-start'>
-                    <label htmlFor="profileImage" className="col-md-4 col-lg-3 col-form-label">Profile Image</label>
-
-                    <div className="col-md-2 col-lg-2">
-                        <img src={ProfileImage2} alt="Profile"/>
-                        <div className="pt-2">
-                            <a href="#" className="btn btn-primary btn-sm" title="Upload new profile image"><i className="bi bi-upload"></i></a>
-                            <a href="#" className="btn btn-danger btn-sm" title="Remove my profile image"><i className="bi bi-trash"></i></a>
-                        </div>
-                    </div>
-                    <div className="col-md-8 col-lg-9">
-                        <img src={ProfileImage2} alt="QR-code"/>
-                        <div className="pt-2">
-                            <p>Get QR for login</p>
-                        </div>
-                    </div>
-                    </div>
-                </div> */

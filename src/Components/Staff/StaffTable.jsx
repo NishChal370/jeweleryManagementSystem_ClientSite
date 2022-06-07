@@ -39,7 +39,7 @@ function StaffTable({staffDetail, saveHandler}) {
                 saveHandler(response.data);
 
                 setIsDetailShow({index: -1, action:false});
-                Toast.fire({
+                Swal.fire({
                     icon: 'success',
                     title: 'Deleted!'
                 });

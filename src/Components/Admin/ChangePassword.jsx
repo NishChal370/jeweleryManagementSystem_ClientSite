@@ -43,7 +43,7 @@ function ChangePassword() {
             .catch((error)=>{
                 const messsage = Object.keys(error.response.data)[0] +" "+error.response.data[Object.keys(error.response.data)[0]]
 
-                Toast.fire({
+                Swal.fire({
                     icon: 'error',
                     title: messsage
                 });

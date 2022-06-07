@@ -7,6 +7,7 @@ import { INITIAL_STAFF_WORK } from '../../Components/Staff/Constant';
 import { OrderProductsModel, OrderProductTable } from '../../Components';
 import { Get_Staff_Names, POST_Staff_Assign_Work } from '../../API/UserServer';
 import { clearAssignWorkErrorMessage, isAssignWorkValid, removeResetAssignWorkValidation } from '../../Components/Common/validation';
+import LoadingModal from '../../Components/Common/LoadingModal';
 
 
 const Toast = Swal.mixin({
@@ -44,7 +45,7 @@ function AssignWork() {
 
     const PostStaffAssignWork=(workDetail)=>{
         setIsloading(true);
-        console.log(workDetail)
+
         POST_Staff_Assign_Work(workDetail)
             .then(function(response){
                 setIsloading(false);
@@ -61,8 +62,6 @@ function AssignWork() {
 
 
     const inputChangeHandler=({target})=>{
-        // removeInvalidMessage(target);->
-        console.log(target.name);
 
         clearAssignWorkErrorMessage(target.name);
 
@@ -102,7 +101,7 @@ function AssignWork() {
 
     const submitButtonHandler=(e)=>{
         e.preventDefault();
-        console.log("IN");
+
         let btnId = e.target.id;
         if(isAssignWorkValid(workDetail, selectedOrderProductDetail, btnId )){
             workDetail['totalWeight'] = workDetail['givenWeight'] + workDetail['KDMWeight'];
@@ -295,7 +294,7 @@ function AssignWork() {
                             </div>
 
                             <div className="row mb-3">
-                                <label htmlFor="inputSubmittionDate" className="col-sm-3 col-form-label">Submittion Date</label>
+                                <label htmlFor="inputSubmittionDate" className="col-sm-3 col-form-label">Submission Date</label>
 
                                 <div className="col-sm-9">
                                     <input type="date" className="form-control" id="inputSubmittionDate" name="submittionDate" value={(workDetail.submittionDate === null)?'':workDetail.submittionDate} onChange={inputChangeHandler}/>
@@ -381,6 +380,8 @@ function AssignWork() {
                                         <button type="submit" className="btn btn-success">Submit</button>
                                     )
                                 }
+                                
+                                {isLoading && <LoadingModal message={'Informing customer by mail...'}/>}
                                 
                             </div>
                         </form>

@@ -13,10 +13,7 @@ let INITIAL_ORDER = {
     advanceAmount : null,
     submittionDate : null,
     submittedDate : null,
-    // finalWeight: null,
     customerProductWeight : null,
-    // customerProductAmount : null,
-    // grandTotalWeight : null,
     status : 'pending',
     remark : '',
 }

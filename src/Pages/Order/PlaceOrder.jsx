@@ -124,7 +124,7 @@ function PlaceOrder() {
       }
       else{
 
-        console.log("EMPRY LINE 122")
+        console.log("EMPRY LINE 127")
       }
       
     }
@@ -406,7 +406,8 @@ function PlaceOrder() {
                           value={customer[key]}
                           changehandler={(e)=>inputChangeHandler(e)}
                           isReadonly = {false}
-                          type={(key==='email') ? "email" : (key==='phone')? "tel":"text"}
+                          // type={(key==='email') ? "email" : (key==='phone')? "tel":"text"} //TODO: yo change
+                          type={"text"}
                         />
                       )
                     }
@@ -418,8 +419,9 @@ function PlaceOrder() {
           }
 
           <div className='scroll--table bill-product-table'>
-            <div className='card-title p-0 m-0  d-flex justify-content-end'>
+            <div className='card-title p-0 m-0  d-flex flex-column justify-content-end text-end'>
               <p className='px-2 py-0 m-0 text-muted'>Weight: in lal</p>
+              <p className='px-2 py-0 m-0 text-muted'>Size: in inch</p>
             </div>
 
             <ProductTable
@@ -447,7 +449,8 @@ function PlaceOrder() {
                             min= {1}
                             name={ input }
                             changehandler={(e)=>inputChangeHandler(e)}
-                            type={(!['productName', 'gemsName'].includes(input))? (input === 'design')? 'file':"number": 'text'}
+                            // type={(!['productName', 'gemsName'].includes(input))? (input === 'design')? 'file':"number": 'text'}
+                            type={(input === 'design')? 'file':"text"}
                             value={(orderProduct.hasOwnProperty(input)) ? orderProduct[input] : product[input]}
                           />
                         )
@@ -496,22 +499,3 @@ function PlaceOrder() {
 }
 
 export default PlaceOrder;
-
-
-
-// console.log("latestRate ", latestRate);
-    // console.log("HAve ",!haveRate);
-    // if(latestRate !== undefined){
-    //   console.log("in");
-    //   if(searchedOrder !== undefined){
-    //     if(!haveRate){
-    //       console.log(order);
-    //       console.log('dont have rate');
-    //       let rate = (order.type === 'gold') ? latestRate.hallmarkRate : latestRate.silverRate;
-          
-    //       setOrder((prevState) => ({ ...prevState, 'rate': rate}));
-    //       setHaveRate(false);
-    //     }
-    //   }
-      
-    // }

@@ -3,6 +3,7 @@ import { BiFirstPage, BiLastPage, BiSortAlt2 } from 'react-icons/bi';
 import { BsEye } from 'react-icons/bs';
 import { FiEdit } from 'react-icons/fi';
 import { Spinner } from '..';
+import { NotFound2 } from '../../Assets/img';
 
 function WorkDetailTable({staffWorkDetail, directToAssignWork, sortButtonHandler, changePagehandler}) {
     return (
@@ -65,6 +66,9 @@ function WorkDetailTable({staffWorkDetail, directToAssignWork, sortButtonHandler
                             </td>
                         </tr>
                     </tfoot>
+                    {(staffWorkDetail.results.length === 0) &&(
+                        <tr><td colSpan={15}><h5 style={{color:'red', textAlign:'center', fontWeight:'bolder',}}><h5 style={{textAlign:'center'}}><img src={NotFound2} alt="not-found" /></h5>No data to show</h5></td></tr>
+                    )}
                     </>)
                     :(<Spinner/>)}
             </table>

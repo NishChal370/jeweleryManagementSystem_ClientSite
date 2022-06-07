@@ -59,12 +59,6 @@ function SearchBill() {
                 setBillSummary(response.data);
             })
             .catch(function (error) {
-                // handle error
-                // billSummary['results'] = [];
-                // billSummary['pageIndex'] = `${pageNumber} of 1`;
-
-                // setBillSummary({...billSummary});
-
                 Toast.fire({
                     icon: 'error',
                     title: 'Not found!!',

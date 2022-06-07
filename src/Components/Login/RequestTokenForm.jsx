@@ -5,6 +5,7 @@ import { GrLinkNext } from 'react-icons/gr';
 import { BiArrowBack } from 'react-icons/bi';
 import { POST_RESET_PASSWORD } from '../../API/UserServer';
 import { validateChangePasswordEmail } from '../Common/validation';
+import LoadingModal from '../Common/LoadingModal';
 
 
 
@@ -97,6 +98,8 @@ function RequestTokenForm({pagechangeHandler}) {
                                     )
                               }
 
+                              {isLoading && <LoadingModal message={'Validating email....'}/>}
+
                         </footer>
                         </>
                   )
@@ -117,46 +120,3 @@ function RequestTokenForm({pagechangeHandler}) {
 }
 
 export default RequestTokenForm
-
-
-
-
-
-
-            /* <main>
-                  <div class="page">
-                        <p className='back-button' style={{fontSize:'2rem', padding:'0rem', margin:'0rem'}} onClick={pagechangeHandler} ><BiArrowBack/></p>
-                        <label style={{ margin:'0rem'}} class="field field_v1">
-                              <input class="field__input" placeholder="email"/>
-                              <span class="field__label-wrap">
-                                    
-                                    <span class="field__label">Email</span>
-                              </span>
-                        </label>
-                        <label class="field field_v1">
-                              <input class="field__input" placeholder="new password"/>
-                              <span class="field__label-wrap">
-                                    
-                                    <span class="field__label">New Password</span>
-                              </span>
-                        </label>  
-                        <label class="field field_v1">
-                              <input class="field__input" placeholder="new password"/>
-                              <span class="field__label-wrap">
-                                    
-                                    <span class="field__label">Re-enter Password</span>
-                              </span>
-                        </label>  
-                  </div>            
-            </main>
-            
-            <footer className='d-flex justify-content-end mx-4'>
-                  <label class="field field_v1" style={{marginRight:'4rem'}} hidden={showTokenInput}>
-                        <input class="field__input" placeholder="insert token"/>
-                        <span class="field__label-wrap">
-                              
-                              <span class="field__label">token</span>
-                        </span>
-                  </label> 
-                  <button class="login-button" role="button" onClick={confirmChangeHandler}>{(showTokenInput) ?"Change Password" :"Confirm"}</button>
-            </footer> */

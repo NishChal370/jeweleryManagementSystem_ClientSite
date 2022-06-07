@@ -47,7 +47,24 @@ function ChangeRate() {
         e.preventDefault();
 
         if( isRateValid(currentRate) ){
-            setCurrentRateHandler();
+            Swal.fire({
+                title: 'Do you want to save the changes?',
+                text:'Make sure you are confirm',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'Save',
+                denyButtonText: `Don't save`,
+
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    setCurrentRateHandler();   
+
+                } else if (result.isDenied) {
+
+                    Swal.fire('Changes are not saved', '', 'info')
+                }
+            });
         }
     };
 
@@ -63,27 +80,9 @@ function ChangeRate() {
         Post_Rate(currentRate)
             .then(function (response) {
                 // handle success;  
-                Swal.fire({
-                    title: 'Do you want to save the changes?',
-                    text:'Make sure you are confirm',
-                    showDenyButton: true,
-                    showCancelButton: true,
-                    confirmButtonText: 'Save',
-                    denyButtonText: `Don't save`,
+                Swal.fire('Saved!', '', 'success')
 
-                }).then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
-                    if (result.isConfirmed) {
-                        Swal.fire('Saved!', '', 'success')
-
-                        dispatch(setLatestRate(response.data));
-                    } else if (result.isDenied) {
-
-                        Swal.fire('Changes are not saved', '', 'info')
-                    }
-                });
-
-                
+                dispatch(setLatestRate(response.data));                
             })
             .catch(function (error) {
                 // handle error

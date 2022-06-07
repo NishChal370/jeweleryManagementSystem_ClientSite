@@ -60,7 +60,6 @@ function OrderView() {
                         <tr>
                         {
                             ['#', 'Product name', 'Net Weight', 'Total Weight', 'Size','Gems Name'].map((title,index)=>{// remove design
-                                // ['#', 'Product name', 'Net Weight', 'Total Weight', 'Size','Gems Name', 'Design'].map((title,index)=>{
                                 return <th key={`${index}GBTH`}>{title}</th>
                             })
                         }
@@ -77,14 +76,6 @@ function OrderView() {
                                     <td>{orderProduct.totalWeight}</td>
                                     <td>{orderProduct.product.size}</td>
                                     <td>{orderProduct.product.gemsName}</td>
-                                    {/* <td> // remove design
-                                        <a href="#">
-                                            <img 
-                                            style={{width :'4.5rem', borderRadius:'1rem', height:'2.5rem'}}
-                                            src='https://media.istockphoto.com/photos/fancy-designer-antique-golden-bracelets-for-woman-fashion-picture-id1277517088?b=1&k=20&m=1277517088&s=170667a&w=0&h=PXTQvh19pESR7mIekh3mJQHWcw2FDRrYcHdxsv9XY-Q='
-                                            alt="img"/>
-                                        </a>
-                                    </td> */}
                                 </tr>
                             )
                         }) 

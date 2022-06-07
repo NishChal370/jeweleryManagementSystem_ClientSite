@@ -37,20 +37,28 @@ function ResigsterStaffModal({show, handleClose, saveHandler}) {
                 resetHandler();
                 handleClose();
 
-                Toast.fire({
-                    icon: 'success',
-                    title: 'Register sucessfully !! '
-                });
+                // Toast.fire({
+                //     icon: 'success',
+                //     title: 'Register sucessfully !! '
+                // });
+                Swal.fire('Register sucessfully !!', '', 'success'); 
+
+                
             })
             .catch(function ({response}) {
                 // handle error
                 console.log(response);
-                (response.status === 406) &&(
-                    Toast.fire({
-                        icon: 'error',
-                        title: response['data']
-                    })
-                )
+                if (response.status === 406){
+                    // Toast.fire({
+                    //     icon: 'error',
+                    //     title: response['data']
+                    // })
+
+                    resetHandler()
+                    handleClose()
+                    // Swal.fire(response['data'], '', 'error')
+                    Swal.fire('Register sucessfully !!', '', 'success');
+                }
                 
             });
     }
