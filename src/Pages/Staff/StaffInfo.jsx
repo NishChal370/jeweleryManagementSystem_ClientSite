@@ -71,32 +71,3 @@ function StaffInfo() {
 }
 
 export default StaffInfo
-
-
-
-/***<aside className='d-flex flex-column'>
-                                            <span>
-                                                <h5 className="fs-3 fw-bolder">Total Work </h5>
-                                                
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-striped" role="progressbar" style={{width: '40%', ariaValuenow:"1", ariaValuemin:"0", ariaValuemax:"100"}}></div>
-                                                </div>
-                                            </span>
-                                            
-                                            <span>
-                                                <h5 className="fs-3 fw-bolder">Inprogress </h5>
-                                                
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-striped" role="progressbar" style={{width: '10%', ariaValuenow:"1", ariaValuemin:"0", ariaValuemax:"100"}}></div>
-                                                </div>
-                                            </span>
-
-                                            <span>
-                                                <h5 className="fs-3 fw-bolder">Complated </h5>
-                                                
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-striped" role="progressbar" style={{width: '20%', ariaValuenow:"1", ariaValuemin:"0", ariaValuemax:"100"}}></div>
-                                                </div>
-                                            </span>
-                                            //<p className="fs-4 fw-bolder">: 25</p> 
-                                            </aside> */

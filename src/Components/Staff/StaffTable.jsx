@@ -95,7 +95,6 @@ function StaffTable({staffDetail, saveHandler}) {
                         <th scope="col">Email</th>
                         <th scope="col">Address</th>
                         <th scope="col">Registration date</th>
-                        {/* <th scope="col">Resign date</th> */}
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -111,12 +110,9 @@ function StaffTable({staffDetail, saveHandler}) {
                             <td>{(email === null || email === '' )?'-':email}</td>
                             <td>{address}</td>
                             <td>{registrationDate}</td>
-                            {/* <td>{(resignDate === null)?'-':resignDate}</td> */}
                             <td style={{fontSize:'1.6rem', margin:'0rem', padding:'0rem' }}><GiClick/></td>  
                         </tr>
                         <tr className={`staff-info--${(isDetailShow.index === index)?(isDetailShow)?'show':'hide':'hide'}`} key={`staffsRow2${index}`}>
-                            {/* <tr  className={`a staff-info--show`} > */}
-                            {/* <tr className={`staff-info--show`}> */}
                             <td  colSpan="6">
                                 <section className='staff-info d-flex gap-5' >
                                     <section >
@@ -124,11 +120,6 @@ function StaffTable({staffDetail, saveHandler}) {
                                         <p className="assignwork-btn fw-bolder text-center " onClick={()=>history.push({pathname:"/staff/assign", state:{staffId:staffId, staffName:staffName}})} >Assign work</p>
                                         <p className="resignwork-btn fw-bolder text-center " onClick={()=>{deleteHandler(staffId)}}>Resign</p>
                                     </section >
-                                    {/* <section >
-                                        <img className='staff-avtar' src={ResignIcon} alt="avtar"/>
-                                        <p className="resignwork-btn fw-bolder text-center " >Resign</p>
-                                    </section >
-                                     */}
                                     <aside className='d-flex justify-content-between'>
                                         <span className='d-flex'>
                                             <h5 className="fw-bolder pt-4" style={{fontSize:'6rem'}}>{(totalWork).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}</h5>
@@ -178,8 +169,6 @@ function StaffTable({staffDetail, saveHandler}) {
                         <td colSpan="12" className="border-top">
                             <>
                             <span>1 of 1 &emsp;</span>
-                            {/* <i className='hover--curser'><BiFirstPage/></i> 
-                            <i className='hover--curser'><BiLastPage/></i> */}
                             </>
                         </td>
                     </tr>

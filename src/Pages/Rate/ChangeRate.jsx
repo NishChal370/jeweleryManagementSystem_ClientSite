@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { Post_Rate } from '../../API/UserServer';
 import { setLatestRate } from '../../Redux/Action';
-import { isRateValid, rateValidation, removeResetRateValidation, VerifyInputs } from '../../Components/Common/validation';
+import { isRateValid, removeResetRateValidation } from '../../Components/Common/validation';
 
 let rate = {
     'hallmarkRate': 0,
@@ -112,16 +112,10 @@ function ChangeRate() {
         
     }, [latestRate]);
 
-    // useEffect(() => {
-    //     VerifyInputs();
-    // }, []);
-
-
     return (
         <div className="card">
             <div className="card-body">
                 <form className='mt-5 ms-5 fs-3' onSubmit={submitHandler}>
-                {/* <form className='mt-5 ms-5 fs-3 needs-validation' onSubmit={submitHandler} noValidate> */}
                     {
                         Object.keys(currentRate).map((rateTitle,index) => 
                             <div className="row mb-3" key={index+'rateInput'}>

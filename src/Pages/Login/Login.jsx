@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './login.css';
 import { LoginImage } from '../../Assets/img';
-import {  ChangePasswordForm, LoginForm, LoginScanner, RequestTokenForm } from '../../Components';
+import {  ChangePasswordForm, LoginForm, RequestTokenForm } from '../../Components';
 
 
 function Login({loginHandler}) {

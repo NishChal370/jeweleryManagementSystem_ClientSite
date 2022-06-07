@@ -29,12 +29,12 @@ function WorkDetailTable({staffWorkDetail, directToAssignWork, sortButtonHandler
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
+
                 {(staffWorkDetail !== undefined)
                     ?(<><tbody>
                         {staffWorkDetail.results.map((data, index)=>{
                             return(
                                 <tr key={`${index}SWD`}>
-                                    {/* <th scope="row">{data.date}</th> */}
                                     <th scope="row">{data.staff.staffId}</th>
                                     <td>{data.staff.staffName}</td>
                                     <td>{data.staff.phone}</td>
@@ -49,12 +49,12 @@ function WorkDetailTable({staffWorkDetail, directToAssignWork, sortButtonHandler
                                     <td>{(data.submittedWeight === null || data.submittedWeight === '') ?"-" :data.submittedWeight}</td>
                                     <td>{(data.submittedDate === null || data.submittedDate === '') ?"-" :data.submittedDate}</td>
                                     <td><span className={`badge bg-${(data.status === 'completed')?'success':( data.status === 'submitted')? 'primary':( data.status === 'inprogress')? 'secondary':'warning text-dark'}`}>{data.status}</span></td>
-                                    {/* <td><span className='badge bg-info'>inprogress</span></td> */}
                                     <td onClick={()=>directToAssignWork(data)}>{(data.status === 'completed')? <BsEye/> :<FiEdit/> }</td>
                                 </tr>
                             )
                         })}   
                     </tbody>
+
                     <tfoot>
                         <tr className="text-end">
                             <td colSpan="15" className="border-top">
@@ -70,6 +70,7 @@ function WorkDetailTable({staffWorkDetail, directToAssignWork, sortButtonHandler
                         <tr><td colSpan={15}><h5 style={{color:'red', textAlign:'center', fontWeight:'bolder',}}><h5 style={{textAlign:'center'}}><img src={NotFound2} alt="not-found" /></h5>No data to show</h5></td></tr>
                     )}
                     </>)
+                    
                     :(<Spinner/>)}
             </table>
         </section>

@@ -39,7 +39,7 @@ function Header({isDisplayed, showSideBarHandler,logoutHandler}) {
                 });
 
                 dispatch(setLatestRate({rateId: undefined, date: undefined, hallmarkRate: 0, tajabiRate: 0 , silverRate: 0}));
-                console.log(error);
+                console.error(error);
             })
 
     };
@@ -50,7 +50,7 @@ function Header({isDisplayed, showSideBarHandler,logoutHandler}) {
                 dispatch(setAdminInfo({profileImage: response.data.profileImage, name: response.data.first_name+" "+response.data.last_name}));
             })
             .catch((error)=>{
-                console.log(error.response.data);
+                console.error(error.response.data);
                 alert("ERROR IN GET ADMIN DETAIL");
             })
     }
@@ -61,7 +61,6 @@ function Header({isDisplayed, showSideBarHandler,logoutHandler}) {
     },[]);
 
     useEffect(() => {
-        console.log("INN");
         setTodaysRate(latestRate);
     }, [latestRate]);
 

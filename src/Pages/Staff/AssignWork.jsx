@@ -120,8 +120,6 @@ function AssignWork() {
         removeResetAssignWorkValidation();
 
         document.getElementById('orderId').value = undefined;
-        // document.getElementById('staff').value = "---";
-        // document.getElementById('staff').value = "---";
 
         // to clear location state
         location.state = undefined;

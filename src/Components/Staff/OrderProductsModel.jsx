@@ -7,6 +7,7 @@ import {  Fetch_Pending_Order_Product_By_Id } from '../../API/UserServer'
 function OrderProductsModel({show, handleClose, selectedOrderId, handlerOrderProductSelect}) {
     const [orderProducts, setOrderProducts] = useState();
     const [errorMessage, setErrorMessage] = useState("");
+    
     const FetchOrderById=()=>{
         Fetch_Pending_Order_Product_By_Id(selectedOrderId)
             .then(({data}) => {
@@ -35,9 +36,6 @@ function OrderProductsModel({show, handleClose, selectedOrderId, handlerOrderPro
             centered
             fullscreen={'lg-down'}
             size='xl'
-            // size="lg"
-            // dialogClassName="modal-90w"
-            // aria-labelledby="example-custom-modal-styling-title"
         >
             <Modal.Header closeButton>
                 <h2 style={{color:'#012970', fontWeight:'bold'}}>Order Products'</h2>
@@ -75,85 +73,6 @@ function OrderProductsModel({show, handleClose, selectedOrderId, handlerOrderPro
                                     })
                                     : <tr><td colSpan={7}><h5 style={{color:'red'}}>{errorMessage}</h5></td></tr>
                                 }
-                                {/* <tr>
-                                    <td>1</td>
-                                    <td>Ring</td>
-                                    <td>22</td>
-                                    <td>0</td>
-                                    <td>Muga</td>
-                                    <td>01</td>
-                                    <td>-</td>
-                                </tr>
-
-                                <tr>
-                                    <td>1</td>
-                                    <td>Ring</td>
-                                    <td>22</td>
-                                    <td>0</td>
-                                    <td>Muga</td>
-                                    <td>01</td>
-                                    <td>-</td>
-                                </tr>
-
-                                <tr>
-                                    <td>1</td>
-                                    <td>Ring</td>
-                                    <td>22</td>
-                                    <td>0</td>
-                                    <td>Muga</td>
-                                    <td>01</td>
-                                    <td>-</td>
-                                </tr>
-
-                                <tr>
-                                    <td>1</td>
-                                    <td>Ring</td>
-                                    <td>22</td>
-                                    <td>0</td>
-                                    <td>Muga</td>
-                                    <td>01</td>
-                                    <td>-</td>
-                                </tr>
-
-                                <tr>
-                                    <td>1</td>
-                                    <td>Ring</td>
-                                    <td>22</td>
-                                    <td>0</td>
-                                    <td>Muga</td>
-                                    <td>01</td>
-                                    <td>-</td>
-                                </tr>
-
-                                <tr>
-                                    <td>1</td>
-                                    <td>Ring</td>
-                                    <td>22</td>
-                                    <td>0</td>
-                                    <td>Muga</td>
-                                    <td>01</td>
-                                    <td>-</td>
-                                </tr>
-
-                                <tr>
-                                    <td>1</td>
-                                    <td>Ring</td>
-                                    <td>22</td>
-                                    <td>0</td>
-                                    <td>Muga</td>
-                                    <td>01</td>
-                                    <td>-</td>
-                                </tr>
-
-                                <tr>
-                                    <td>1</td>
-                                    <td>Ring</td>
-                                    <td>22</td>
-                                    <td>0</td>
-                                    <td>Muga</td>
-                                    <td>01</td>
-                                    <td>-</td>
-                                </tr> */}
                             </tbody>
                         </table>
                     </section>

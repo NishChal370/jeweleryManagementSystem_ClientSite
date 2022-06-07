@@ -93,7 +93,6 @@ function Invoice(props) {
                             <span>
                                 <p>:{billDetail.bill.billId}</p>
                                 <p>:{billDetail.bill.orderId}</p>
-                                {/* <p>:{`${date.toLocaleDateString()}`}</p> */}
                                 <p>{billDetail.bill.date}</p>
                                 <p>:{billDetail.bill.billType}</p>
                                 <p>:{billDetail.bill.rate}</p>

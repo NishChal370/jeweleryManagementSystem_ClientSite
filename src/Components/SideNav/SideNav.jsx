@@ -9,8 +9,9 @@ import { HiOutlineUserGroup } from 'react-icons/hi';
 function SideNav({isDisplay}) {
 
     const history  = useHistory();
-    const [currentLocation, setCurrentLocation] = useState('');
     const [fullLocation, setFullLocation] = useState('');
+    const [currentLocation, setCurrentLocation] = useState('');
+    
 
 
     useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import {useHistory, useLocation,  Route, Switch } from 'react-router-dom'
 import { ChangePassword, EditProfile, ProfileCard } from '../../Components'
 

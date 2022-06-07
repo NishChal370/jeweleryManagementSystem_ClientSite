@@ -57,5 +57,4 @@ export {
         LoginScanner,
         RequestTokenForm,
         ChangePasswordForm,
-        // Table,
 }

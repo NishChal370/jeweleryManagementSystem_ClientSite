@@ -67,13 +67,6 @@ function PlaceOrder() {
       setProduct((prevState) => ({ ...prevState, [inputName]: value }));
     }
     else if(orderProduct.hasOwnProperty(inputName)){
-      
-      if(inputName === 'design'){
-        console.log(target.files[0]);
-        // for image not working
-        // setOrderProduct((prevState) => ({ ...prevState, [inputName]: target.files[0] }));
-      }
-      else{
         if(['totalWeight', 'quantity'].includes(inputName)){
           if(value === ''){
             value = null;
@@ -81,8 +74,6 @@ function PlaceOrder() {
         }
         
         setOrderProduct((prevState) => ({ ...prevState, [inputName]: value }));
-      }
-      
     }
     else if(customer.hasOwnProperty(inputName)){
 
@@ -406,7 +397,6 @@ function PlaceOrder() {
                           value={customer[key]}
                           changehandler={(e)=>inputChangeHandler(e)}
                           isReadonly = {false}
-                          // type={(key==='email') ? "email" : (key==='phone')? "tel":"text"} //TODO: yo change
                           type={"text"}
                         />
                       )
@@ -436,8 +426,7 @@ function PlaceOrder() {
             <div className="card">
               <div className='card-body col  justify-content-around d-flex product--input-card'>
               {
-                // [['productName', 'quantity', 'size', 'design'], [  'netWeight', 'totalWeight', 'gemsName']].map((row, index)=>{
-                  [['productName', 'quantity', 'size'], [  'netWeight', 'totalWeight', 'gemsName']].map((row, index)=>{ // design removed
+                  [['productName', 'quantity', 'size'], [  'netWeight', 'totalWeight', 'gemsName']].map((row, index)=>{
 
                   return(
                     <div className='aside-inputs ' key={index+'bP'}>
@@ -449,8 +438,7 @@ function PlaceOrder() {
                             min= {1}
                             name={ input }
                             changehandler={(e)=>inputChangeHandler(e)}
-                            // type={(!['productName', 'gemsName'].includes(input))? (input === 'design')? 'file':"number": 'text'}
-                            type={(input === 'design')? 'file':"text"}
+                            type="text"
                             value={(orderProduct.hasOwnProperty(input)) ? orderProduct[input] : product[input]}
                           />
                         )

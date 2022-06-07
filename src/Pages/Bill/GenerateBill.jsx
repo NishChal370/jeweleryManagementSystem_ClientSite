@@ -284,14 +284,13 @@ function GenerateBill() {
         }
         else if (buttonName === 'Add' || e.type === 'submit'){
 
-            //VerifyInputs();-->>>>>>>>>>>>>>>>>>>>>>>>>>>
             (isBillProductAddValid(product, billProduct)) && ( 
                 addButtonHandler() 
             );
             
         }
         else if(buttonName === 'Draft'){
-            ( isNewBillValid(customer, bill, billProductList, location) ) && ( //TODO: yocheage garay xu
+            ( isNewBillValid(customer, bill, billProductList, location) ) && ( 
                 saveButtonHandler(buttonName)
             )
         }
@@ -501,7 +500,6 @@ function GenerateBill() {
                                                     value={customer[key]}
                                                     changehandler={(e)=>inputHandler(e)}
                                                     isReadonly = {false}
-                                                    // type={(key==='email') ? "email" : (key==='phone')? "number":"text"} //TODO: Uncomment if error
                                                     type={"text"}
                                                 />
                                             )
@@ -542,8 +540,6 @@ function GenerateBill() {
                                                         min= {1}
                                                         name={ input }
                                                         changehandler={(e)=>inputHandler(e)}
-                                                        // type={(!['productName', 'gemsName'].includes(input))? "number": "text"} //TODO: UNCOMMENt iF error
-                                                        // type={(!['productName', 'gemsName', 'gemsPrice'].includes(input))? "number": "text"}
                                                         type= 'text'
                                                         value={(billProduct.hasOwnProperty(input)) ? billProduct[input] : product[input]}
                                                         
@@ -595,40 +591,3 @@ function GenerateBill() {
 
 
 export default GenerateBill
-
-
-
-
-
-
-
-
-
- 
-    //-> const FetchBillById =()=>{
-    //     Fetch_Bill_By_Id(billId)
-    //         .then(function (response) {
-    //             // handle success
-    //             let bill = response.data;
-    //             // seperating response data
-    //             const customer = bill.customer;
-    //             const billProductList = bill.billProduct;
-    //             delete bill.customer;
-    //             delete bill.billProduct;
-
-    //             setBill(bill);
-    //             setCustomer(customer);
-    //             setBillProductList(billProductList);            
-    //         })
-    //         .catch(function (error) {
-    //             // handle error
-    //             console.log("error");
-    //         });
-    // }
-
-
-
-
-            // (updatingBill === undefined)
-        //     ? PostBill(customer,saveAs)
-        //     : PostEditedBill(customer,saveAs)

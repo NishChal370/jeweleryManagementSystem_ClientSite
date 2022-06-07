@@ -6,9 +6,10 @@ import {QrReader} from 'react-qr-reader';
 
 function LoginScanner() {
       const history = useHistory();
+      
       const handleError=(error)=>{
-            console.log("CALLED ERROR");
-            console.log(error);
+            console.error("CALLED ERROR");
+            console.error(error);
       }
       const handleSuccess=(result)=>{
             console.log("CALLED SUCCESS");

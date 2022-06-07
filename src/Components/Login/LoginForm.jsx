@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import { BiQrScan } from 'react-icons/bi';
-import { useHistory } from 'react-router-dom';
 
 function LoginForm({loginHandler, pagechangeHandler}) {
-      const history = useHistory();
       const [loginDetail, setLoginDetail] =  useState({email:'', password:''})
 
       const changeInputHandler=({target})=>{
@@ -27,12 +24,6 @@ function LoginForm({loginHandler, pagechangeHandler}) {
       return (
             <>
             <form>
-                  {/* <span className='d-flex justify-content-end text-center p-0 m-0'>
-                        <span className='p-0 m-0 '>
-                              <p className='p-0 m-0 fs-2' type='submit' role="button" onClick={()=> history.push('/scan')}><BiQrScan/></p>
-                              <p className='p-0 m-0' >Scan to login</p>
-                        </span>
-                  </span> */}
                   <main>
                         <div className="page"> 
                               <label className="field field_v1">
@@ -70,11 +61,3 @@ function LoginForm({loginHandler, pagechangeHandler}) {
 }
 
 export default LoginForm
-
-/**                  <span className='d-flex justify-content-end text-center p-0 m-0'>
-                        <span className='p-0 m-0 '>
-                              <p className='p-0 m-0 fs-2' type='submit' role="button" onClick={()=> history.push('/scan')}><BiQrScan/></p>
-                              <p className='p-0 m-0' >Scan to login</p>
-                        </span>
-                        
-                  </span> */

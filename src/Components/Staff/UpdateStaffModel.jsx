@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { HiSaveAs } from 'react-icons/hi';
-import { AiOutlineClear } from 'react-icons/ai';
-import { clearRegisterStaffErrorMessage, isRegisterStaffValid } from '../Common/validation';
 import { Update_Staff_By_Id } from '../../API/UserServer';
+import { clearRegisterStaffErrorMessage, isRegisterStaffValid } from '../Common/validation';
+
 import Swal from 'sweetalert2';
 
 
@@ -60,7 +60,7 @@ function UpdateStaffModel({ showUpdateStaffModal, handlerShowUpdateStaffModal, s
             <Modal.Header closeButton>
                   <h1 className='fw-bolder' style={{color:'#012970'}}>Update staff info</h1>
             </Modal.Header>
-                  <Modal.Body closeButton>
+            <Modal.Body closeButton>
                   <form name='staff-registration' className='register-staff needs-validation' noValidate onSubmit={submitButtonHandler} >  
                         <main>
                               {(staffDetail !== undefined) && (
@@ -106,9 +106,7 @@ function UpdateStaffModel({ showUpdateStaffModal, handlerShowUpdateStaffModal, s
 
                                           <span style={{display:'flex', alignItems:'flex-end', justifyContent:'end'}}>
                                                 <span className='d-flex gap-5'>
-                                                {/* <span> */}
                                                       <button type="submit" className="btn btn-success"> <HiSaveAs/>  Save </button>
-                                                      {/* <button type="reset" className="btn btn-danger"> <AiOutlineClear/>  Clear </button> */}
                                                 </span>
                                           </span>
                                     </section>
@@ -117,9 +115,9 @@ function UpdateStaffModel({ showUpdateStaffModal, handlerShowUpdateStaffModal, s
                               
                         </main>
                   </form>
-                  </Modal.Body>
+            </Modal.Body>
             </Modal>
-  )
+      )
 }
 
 export default UpdateStaffModel

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 
 let initialTableHeading = ['#', 'Product name', 'Net Weight', 'Total Weight', 'Size','Gems Name', 'Design', 'Action'];
 
@@ -32,7 +32,6 @@ function OrderTable({orderProductList, editAddedProductHandler, deleteAddedProdu
                             <td>{billProduct.totalWeight}</td>
                             <td>{billProduct.product.size}</td>
                             <td>{billProduct.product.gemsName}</td>
-                            {/* <td>{billProduct.product.gemsPrice}</td> */}
                             <td>
                                 <a href="#">
                                     <img 

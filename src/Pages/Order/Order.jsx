@@ -6,9 +6,10 @@ import PlaceOrder from './PlaceOrder';
 import SearchOrder from './SearchOrder';
 
 function Order() {
+  
   useEffect(() => {
     VerifyInputs();
-}, []);
+  }, []);
 
   return(
         <Switch> 

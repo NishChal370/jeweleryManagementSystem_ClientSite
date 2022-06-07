@@ -9,14 +9,12 @@
 .back-button:hover{
       cursor: pointer;
       color: #012970;
-      /* justify-content: center; */
 }
 
 .login-body{
       background-color: white;
       background-image: url('../../Assets/img/flowerIcon.png');
       background-position: 130% -3rem;
-      /* background-attachment: fixed; */
       background-repeat: no-repeat;
       background-size: cover;
       background-size: 900px 123%;
@@ -48,28 +46,22 @@
 
 /* CSS */
 .login-button {
-      /* margin-right: 1rem; */
       position: fixed;
       align-items: center;
       background-color: #FFFFFF;
-      /* border: 1px solid rgba(0, 0, 0, 0.1); */
       border: none;
       border-radius: .25rem;
       box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
       box-sizing: border-box;
       color: #012970;
-      /* color: rgba(0, 0, 0, 0.85); */
       cursor: pointer;
       display: inline-flex;
       font-family: 'Cinzel', serif;
-      /* font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif; */
       font-size: 20px;
       font-weight: 800;
       justify-content: center;
       line-height: 1.25;
-      /* margin: 0; */
       min-height: 3rem;
-      /* padding: calc(.875rem - 1px) calc(1.5rem - 1px); */
       padding: 0rem 2rem;
       margin: 0rem;
       position: relative;
